@@ -1,0 +1,464 @@
+<title>Everything for Nuvio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Big+Shoulders+Display:wght@800;900&family=Geist:wght@400..700&family=Inter+Tight:wght@500..800&display=swap">
+<style>
+/* Layout: a dark screening-room page. Big real-scale Nuvio mockups carry the colour; the page around them stays quiet. */
+:root {
+  color-scheme: dark;
+  --void: #000;
+  --room: #08080a;
+  --panel: #111114;
+  --rule: #24242b;
+  --fg: #f2f2f4;
+  --mute: #9b9ba6;
+  --dim: #6a6a75;
+  --pick: #ffcf5a;
+  --ui: "Geist", -apple-system, "Helvetica Neue", sans-serif;
+  --nuvio: "Inter Tight", -apple-system, "Helvetica Neue", sans-serif;
+  --depth: "Big Shoulders Display", "Anton", "Impact", sans-serif;
+  --sig: "Archivo", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body { background: var(--room); color: var(--fg); font-family: var(--ui); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1320px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.top { padding-block: 56px 28px; }
+.eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); display: flex; flex-wrap: wrap; gap: 6px 18px; }
+h1 { font-family: var(--depth); font-weight: 900; font-size: clamp(56px, 9vw, 120px); line-height: .88; letter-spacing: -.01em; text-transform: uppercase; margin: 18px 0 18px; text-wrap: balance; }
+.lead { max-width: 62ch; color: #c9c9d1; font-size: 17px; margin: 0; }
+h2 { font-size: 26px; letter-spacing: -.01em; margin: 0 0 6px; text-wrap: balance; }
+.sub { color: var(--mute); margin: 0 0 22px; max-width: 70ch; }
+section { padding-block: 34px; border-top: 1px solid var(--rule); }
+
+/* ---------- compare strip ---------- */
+.compare { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.opt { background: var(--panel); border: 1px solid var(--rule); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px; min-width: 0; transition: border-color .2s; }
+.opt.on { border-color: var(--pick); }
+.opt h3 { margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px; }
+.opt h3 b { font-family: var(--depth); font-size: 30px; color: var(--pick); line-height: 1; }
+.opt p { margin: 0; color: var(--mute); font-size: 14px; }
+.opt .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.opt button { margin-top: auto; }
+button.btn { font: 600 14px var(--ui); color: #000; background: var(--fg); border: 0; border-radius: 999px; padding: 10px 16px; cursor: pointer; }
+button.btn:focus-visible, .seg button:focus-visible, .switch input:focus-visible + span { outline: 2px solid var(--pick); outline-offset: 2px; }
+.opt.on button.btn { background: var(--pick); }
+
+/* ---------- controls ---------- */
+.controls { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(8,8,10,.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding-block: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; border-bottom: 1px solid var(--rule); margin-bottom: 22px; }
+.seg { display: inline-flex; background: var(--panel); border: 1px solid var(--rule); border-radius: 999px; padding: 3px; }
+.seg button { font: 600 14px var(--ui); color: var(--mute); background: none; border: 0; border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--fg); color: #000; }
+.switch { display: inline-flex; align-items: center; gap: 10px; color: var(--mute); font-size: 14px; cursor: pointer; }
+.switch input { position: absolute; opacity: 0; }
+.switch span { width: 38px; height: 22px; border-radius: 99px; background: var(--rule); position: relative; transition: background .2s; flex: none; }
+.switch span::after { content: ""; position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--fg); transition: transform .2s; }
+.switch input:checked + span { background: var(--pick); }
+.switch input:checked + span::after { transform: translateX(16px); background: #000; }
+.cap { font-size: 13px; color: var(--dim); margin: 10px 0 0; }
+
+/* ---------- Nuvio desktop window ---------- */
+.win { position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 10; background: var(--void); border-radius: 14px; overflow: hidden; container-type: inline-size; box-shadow: 0 0 0 1px #1c1c22, 0 40px 80px -30px rgba(0,0,0,.9); font-family: var(--nuvio); color: #fff; }
+.win .bar { position: absolute; top: 1.4cqw; left: 50%; transform: translateX(-50%); display: flex; gap: .3cqw; padding: .35cqw; border-radius: 99px; background: rgba(40,40,46,.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); z-index: 3; }
+.win .bar i { font-style: normal; font-weight: 600; font-size: 1.02cqw; padding: .55cqw 1.25cqw; border-radius: 99px; color: rgba(255,255,255,.72); }
+.win .bar i.on { background: #fff; color: #000; }
+.win .me { position: absolute; top: 1.6cqw; right: 2.2cqw; width: 2.6cqw; height: 2.6cqw; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #c94040, #3a0b0b 70%); box-shadow: 0 0 0 .15cqw rgba(255,255,255,.18); z-index: 3; display: grid; place-items: center; font-weight: 700; font-size: 1.1cqw; }
+.home { position: absolute; inset: 0; padding-top: 6.4cqw; overflow: hidden; }
+.shelf { margin-bottom: 1.95cqw; }
+.shelf h4 { margin: 0 0 .75cqw 3.24cqw; font-weight: 700; font-size: 1.32cqw; letter-spacing: -.01em; display: flex; align-items: center; gap: .5cqw; }
+.shelf h4 small { font-weight: 600; color: rgba(255,255,255,.45); font-size: 1cqw; }
+.track { display: flex; gap: .82cqw; padding-left: 3.24cqw; }
+.track > .tile { flex: none; width: 16.67cqw; }
+.win .fade { position: absolute; left: 0; right: 0; bottom: 0; height: 7cqw; background: linear-gradient(transparent, #000); pointer-events: none; z-index: 2; }
+
+/* folder page, desktop */
+.fold-bg { position: absolute; inset: -4%; filter: blur(2.2cqw); opacity: .72; transform: scale(1.06); }
+.fold-bg .tile { width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; }
+.fold-shade { position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.72) 42%, rgba(0,0,0,.88)); }
+.fold { position: absolute; inset: 0; padding-top: 3.6cqw; }
+.fold-h { display: flex; align-items: center; gap: 1.1cqw; margin: 0 0 1.9cqw 3.24cqw; }
+.fold-h .back { width: 2.6cqw; height: 2.6cqw; border-radius: 50%; background: rgba(255,255,255,.1); display: grid; place-items: center; font-size: 1.3cqw; }
+.fold-h b { font-size: 2.3cqw; font-weight: 800; letter-spacing: -.02em; }
+.card { flex: none; width: 16.67cqw; display: flex; flex-direction: column; gap: .45cqw; }
+.card .art { position: relative; aspect-ratio: 16 / 9; border-radius: .46cqw; overflow: hidden; background: #111 center / cover no-repeat; }
+.card .art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 45%, rgba(0,0,0,.7)); }
+.card .art img { position: absolute; left: 6%; bottom: 8%; max-width: 56%; max-height: 34%; object-fit: contain; object-position: left bottom; z-index: 1; filter: drop-shadow(0 1px 3px rgba(0,0,0,.6)); }
+.card span { font-size: 1cqw; color: rgba(255,255,255,.86); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- phones ---------- */
+.devices { display: grid; grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr) minmax(0, 1fr); gap: 22px; align-items: start; margin-top: 22px; }
+.devices > div { min-width: 0; }
+.phone { position: relative; width: 100%; max-width: 330px; margin: 0 auto; aspect-ratio: 430 / 932; border-radius: 13% / 6%; background: #000; overflow: hidden; container-type: inline-size; box-shadow: 0 0 0 2px #2a2a31, 0 0 0 7px #0d0d10, 0 30px 60px -20px rgba(0,0,0,.9); font-family: var(--nuvio); color: #fff; }
+.phone .island { position: absolute; top: 2.6cqw; left: 50%; transform: translateX(-50%); width: 29cqw; height: 8.4cqw; border-radius: 99px; background: #000; z-index: 4; box-shadow: 0 0 0 1px #111; }
+.phone .status { position: absolute; top: 3.4cqw; left: 9cqw; right: 8cqw; display: flex; justify-content: space-between; font-weight: 700; font-size: 3.9cqw; z-index: 4; }
+.phone .ph-home { position: absolute; inset: 0; padding-top: 17cqw; }
+.phone .ph-title { font-weight: 800; font-size: 7.4cqw; margin: 0 0 4cqw 4.6cqw; letter-spacing: -.02em; }
+.phone .shelf h4 { margin: 0 0 2.4cqw 4.6cqw; font-size: 4.6cqw; }
+.phone .shelf { margin-bottom: 5.6cqw; }
+.phone .track { gap: 2.4cqw; padding-left: 4.6cqw; }
+.phone .track > .tile, .phone .card { width: 47.9cqw; }
+.phone .card span { font-size: 3.4cqw; }
+.phone .card .art { border-radius: 1.9cqw; }
+.phone .tabbar { position: absolute; left: 6cqw; right: 6cqw; bottom: 5cqw; height: 15cqw; border-radius: 99px; background: rgba(38,38,44,.62); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.09); display: flex; justify-content: space-around; align-items: center; z-index: 4; }
+.phone .tabbar i { font-style: normal; font-size: 3cqw; font-weight: 600; color: rgba(255,255,255,.6); display: flex; flex-direction: column; align-items: center; gap: .6cqw; }
+.phone .tabbar i::before { content: ""; width: 5.6cqw; height: 5.6cqw; border-radius: 1.6cqw; background: currentColor; opacity: .85; }
+.phone .tabbar i.on { color: #fff; }
+.phone .ph-fold { position: absolute; inset: 0; }
+.phone .ph-hero { position: relative; height: 62cqw; }
+.phone .ph-hero .tile { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; }
+.phone .ph-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 55%, #000); }
+.phone .ph-fold .fold-h { margin: 3cqw 0 4cqw 4.6cqw; }
+.phone .ph-fold .fold-h .back { width: 8cqw; height: 8cqw; font-size: 4cqw; }
+.phone .ph-fold .fold-h b { font-size: 6.6cqw; }
+.dev-cap { text-align: center; font-size: 13px; color: var(--dim); margin-top: 10px; }
+
+/* ---------- gallery ---------- */
+.gal { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px 12px; }
+.gal figure { margin: 0; min-width: 0; }
+.gal figcaption { font-size: 12px; color: var(--dim); margin-top: 6px; }
+
+/* ---------- structure ---------- */
+.rows { display: grid; gap: 12px; }
+.row { display: grid; grid-template-columns: minmax(0, 250px) minmax(0, 1fr); gap: 18px; background: var(--panel); border: 1px solid var(--rule); border-radius: 14px; padding: 18px; }
+.row .n { font-family: var(--depth); font-weight: 900; font-size: 22px; letter-spacing: .01em; text-transform: uppercase; line-height: 1.05; }
+.row .meta { font-size: 13px; color: var(--mute); margin-top: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.chips span { font-size: 13px; padding: 4px 10px; border-radius: 99px; background: #1b1b20; color: #dcdce2; }
+.chips span.nat { box-shadow: inset 0 0 0 1px #3a3a44; background: none; color: var(--mute); }
+.inside { font-size: 13.5px; color: var(--mute); margin: 0; }
+.inside b { color: var(--fg); font-weight: 600; }
+.feat { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-top: 18px; }
+.feat div { border-left: 2px solid var(--rule); padding: 2px 0 2px 14px; font-size: 14px; color: var(--mute); }
+.feat b { display: block; color: var(--fg); font-weight: 600; margin-bottom: 2px; }
+footer { padding-block: 34px 70px; border-top: 1px solid var(--rule); color: var(--mute); }
+footer strong { color: var(--fg); }
+
+/* =================================================================
+   COVER TILES. Every size inside a tile is in cqw of the tile, so a
+   cover reads the same at 288pt desktop, 206pt phone and full screen.
+   ================================================================= */
+.tile { position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; border-radius: .46cqw; overflow: hidden; container-type: inline-size; isolation: isolate; background: #0b0b0d; color: #fff; }
+.phone .tile { border-radius: 1.9cqw; }
+.opt .tile, .gal .tile { border-radius: 10px; }
+.tile > * { position: absolute; }
+.tile .bg, .tile .img, .tile .cut, .tile .tint, .tile .vig { inset: 0; background-size: cover; background-position: center; }
+.tile img.logo { object-fit: contain; }
+.tile .fit { white-space: nowrap; line-height: .9; }
+
+/* A · Aurora Glass */
+.dA .bg { background-image: var(--img); filter: blur(5cqw) saturate(1.7) brightness(.78); transform: scale(1.35); }
+.dA .img { background-image: var(--img); -webkit-mask-image: linear-gradient(90deg, transparent 18%, #000 64%); mask-image: linear-gradient(90deg, transparent 18%, #000 64%); }
+.dA .glass { left: 5.5%; top: 11%; bottom: 11%; width: 47%; border-radius: 6cqw; background: linear-gradient(160deg, rgba(255,255,255,.2), rgba(255,255,255,.05) 45%, rgba(255,255,255,.08)); backdrop-filter: blur(3cqw) saturate(1.6); -webkit-backdrop-filter: blur(3cqw) saturate(1.6); box-shadow: inset 0 .25cqw 0 rgba(255,255,255,.4), inset 0 0 0 .22cqw rgba(255,255,255,.16), 0 2cqw 5cqw rgba(0,0,0,.35); display: flex; align-items: center; justify-content: center; padding: 0 3.5cqw; }
+.dA .glass .fit { position: static; font-family: var(--nuvio); font-weight: 750; letter-spacing: -.035em; text-shadow: 0 .4cqw 2cqw rgba(0,0,0,.35); text-align: center; }
+.dA .glass img.logo { position: static; max-width: 82%; max-height: 46%; filter: brightness(0) invert(1) drop-shadow(0 .4cqw 1.6cqw rgba(0,0,0,.35)); }
+.dA .glass img.logo.keep { filter: drop-shadow(0 .4cqw 1.6cqw rgba(0,0,0,.4)); }
+.dA.k-top .bg { background: radial-gradient(60% 90% at 78% 40%, var(--c1), transparent 70%), radial-gradient(70% 80% at 20% 90%, var(--c2), transparent 70%), #050507; filter: blur(1cqw) saturate(1.2); transform: none; }
+.dA.k-top .num { right: 7%; top: 50%; transform: translateY(-50%); font: 800 35cqw/.8 var(--nuvio); letter-spacing: -.07em; background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.18)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.dA.k-top .glass { flex-direction: column; gap: 2.6cqw; }
+.dA.k-top .glass .lbl { position: static; font: 700 6.6cqw/1 var(--nuvio); letter-spacing: .02em; color: rgba(255,255,255,.9); }
+
+/* B · Depth */
+.dB .img { background-image: var(--bimg, var(--img)); filter: saturate(.85) contrast(1.08) brightness(.6); }
+.dB .tint { background: linear-gradient(180deg, transparent 30%, var(--c2)); mix-blend-mode: multiply; opacity: .85; }
+.dB .tint2 { inset: 0; background: var(--c1); mix-blend-mode: color; opacity: .28; }
+.dB .fit { left: 50%; top: 37%; transform: translate(-50%, -50%); font-family: var(--depth); font-weight: 900; text-transform: uppercase; letter-spacing: -.005em; text-align: center; color: #fff; text-shadow: 0 .6cqw 3cqw rgba(0,0,0,.35); }
+.dB img.logo { left: 50%; top: 35%; transform: translate(-50%, -50%); width: 76%; height: 40%; filter: brightness(0) invert(1); }
+.dB img.logo.keep { filter: none; }
+.dB .cut { background-image: var(--bcut, var(--cut)); filter: drop-shadow(0 0 1.6cqw rgba(0,0,0,.55)); }
+.dB .vig { background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgba(0,0,0,.55)); }
+.dB.k-top .img { background: radial-gradient(70% 120% at 30% 50%, var(--c1), transparent 70%), #000; filter: none; opacity: .55; }
+.dB.k-top .num { left: 4%; top: 50%; transform: translateY(-48%); font: 900 62cqw/.78 var(--depth); letter-spacing: -.03em; color: var(--c1); -webkit-text-stroke: .5cqw rgba(255,255,255,.85); text-shadow: 1.2cqw 1.2cqw 0 rgba(0,0,0,.6), 2.4cqw 2.4cqw 0 rgba(0,0,0,.35); }
+.dB.k-top img.logo { left: auto; right: 6%; width: 40%; height: 30%; transform: translateY(-50%); top: 40%; }
+.dB.k-top .lbl { right: 6%; bottom: 13%; width: 40%; text-align: center; font: 900 8cqw/1 var(--depth); letter-spacing: .06em; text-transform: uppercase; }
+
+/* C · Signature Colour */
+.dC .bg { background: radial-gradient(90% 120% at 100% 0%, color-mix(in srgb, var(--c1) 80%, #fff 20%), transparent 60%), linear-gradient(135deg, var(--c1), var(--c2)); }
+.dC .img { left: auto; right: -6%; top: -10%; bottom: auto; width: 62%; aspect-ratio: 1; border-radius: 50%; background-image: var(--img); filter: grayscale(1) contrast(1.25) brightness(1.05); mix-blend-mode: multiply; opacity: .92; }
+.dC .ring { right: -6%; top: -10%; width: 62%; aspect-ratio: 1; border-radius: 50%; box-shadow: inset 0 0 0 .6cqw color-mix(in srgb, var(--c1) 60%, #fff 40%); opacity: .55; }
+.dC .fit { left: 5.5%; bottom: 7%; font-family: var(--sig); font-weight: 900; font-stretch: 125%; font-variation-settings: "wdth" 125; letter-spacing: -.045em; line-height: .86; color: var(--ink, #fff); text-transform: uppercase; }
+.dC img.logo { left: 6%; top: 11%; width: 46%; height: 30%; object-position: left center; filter: brightness(0) invert(1); }
+.dC.ink-dark img.logo { filter: brightness(0); }
+.dC img.logo.keep { filter: none; }
+.dC.k-svc .fit { display: none; }
+.dC.k-svc img.logo { top: auto; bottom: 10%; height: 34%; width: 52%; }
+.dC.k-top .num { right: -4%; bottom: -18%; font: 900 52cqw/.8 var(--sig); font-stretch: 125%; font-variation-settings: "wdth" 125; letter-spacing: -.08em; color: rgba(0,0,0,.28); }
+.dC.k-top .num::after { content: attr(data-n); position: absolute; left: -1.6cqw; top: -1.6cqw; color: var(--ink, #fff); }
+.dC.k-top .lbl { left: 6%; top: 37%; font: 900 7.4cqw/.9 var(--sig); font-stretch: 125%; font-variation-settings: "wdth" 125; letter-spacing: -.04em; text-transform: uppercase; color: var(--ink, #fff); }
+.dC.k-top img.logo { top: 11%; width: 38%; height: 20%; }
+
+/* Kenya flag stripe on the Kenya Top 10 tile */
+.k-ke .flag { left: 0; right: 0; bottom: 0; height: 3.2cqw; background: linear-gradient(#000 0 30%, #fff 30% 35%, #bb0000 35% 65%, #fff 65% 70%, #006600 70%); z-index: 5; }
+
+/* optional motion for the Top 10 row */
+.motion .dA.k-top .glass::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.35) 50%, transparent 65%); background-size: 260% 100%; animation: sheen 3.6s ease-in-out infinite; }
+.motion .dB.k-top .num { animation: drift 4s ease-in-out infinite alternate; }
+.motion .dC.k-top .num { animation: slide 3.2s cubic-bezier(.6,0,.2,1) infinite alternate; }
+@keyframes sheen { from { background-position: 130% 0; } to { background-position: -30% 0; } }
+@keyframes drift { from { transform: translate(0, -48%); } to { transform: translate(4cqw, -50%); } }
+@keyframes slide { from { transform: translateX(0); } to { transform: translateX(-6cqw); } }
+@media (prefers-reduced-motion: reduce) { .motion * { animation: none !important; } }
+
+@media (max-width: 1000px) {
+  .compare { grid-template-columns: minmax(0, 1fr); }
+  .devices { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .devices > div:first-child { grid-column: 1 / -1; }
+  .row { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+}
+@media (max-width: 560px) {
+  .devices { grid-template-columns: minmax(0, 1fr); }
+  .opt .tiles { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow"><span>Elmarco Jr. · profile 1</span><span>Nuvio 0.1.30 desktop</span><span>Everything Metadata · AIOMetadata 3.5.1 · 184 catalogs</span></div>
+    <h1>Everything<br>for Nuvio</h1>
+    <p class="lead">Three cover styles for the new collection, drawn the way Nuvio draws your home: black AMOLED, landscape tiles, the folder name baked into the cover. The rows and everything inside them stay the same whichever style you pick. Pick one, or mix them row by row.</p>
+  </header>
+
+  <section aria-labelledby="h-compare">
+    <h2 id="h-compare">The three styles</h2>
+    <p class="sub">Same four folders in each: Kenya's Netflix Top 10, Netflix, Horror and K-Drama.</p>
+    <div class="compare" id="compare"></div>
+  </section>
+
+  <section aria-labelledby="h-home">
+    <div class="controls" role="group" aria-label="Preview controls">
+      <div class="seg" id="seg" role="group" aria-label="Cover style">
+        <button type="button" data-d="A" aria-pressed="true">A · Aurora Glass</button>
+        <button type="button" data-d="B" aria-pressed="false">B · Depth</button>
+        <button type="button" data-d="C" aria-pressed="false">C · Signature Colour</button>
+      </div>
+      <label class="switch"><input type="checkbox" id="motion"><span></span>Animated Top 10 covers</label>
+    </div>
+    <h2 id="h-home">On your home</h2>
+    <p class="sub">The pinned rows, scrolled past the hero. Tiles are drawn at Nuvio's real size: about 288&nbsp;pt wide on the Mac, six to a row.</p>
+    <div class="win" id="win-home"></div>
+    <div class="devices">
+      <div>
+        <div class="win" id="win-fold"></div>
+        <p class="dev-cap">Opening Netflix on the Mac. Nuvio blurs the cover behind the page, and each row is one catalog from Everything Metadata, named the way Nuvio will name it.</p>
+      </div>
+      <div><div class="phone" id="ph-home"></div><p class="dev-cap">iPhone home, tiles at 206&nbsp;pt</p></div>
+      <div><div class="phone" id="ph-fold"></div><p class="dev-cap">iPhone folder, cover as the header</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-gal">
+    <h2 id="h-gal">More rows in this style</h2>
+    <p class="sub">Moods &amp; Themes, The Canon and Decades, at the size you would see on a large screen.</p>
+    <div class="gal" id="gal"></div>
+  </section>
+
+  <section aria-labelledby="h-struct">
+    <h2 id="h-struct">What's inside</h2>
+    <p class="sub">Seven rows pinned to the top of Home, 78 folders, every source served by the one Everything Metadata addon except the five small Indian services, which Nuvio reads from TMDB itself. Importing replaces the two collections you have now (Streaming Services and Genres) on this profile.</p>
+    <div class="rows" id="rows"></div>
+    <div class="feat">
+      <div><b>Two ways to open a folder</b>Services, genres and world cinema open as stacked rows, like a mini home. Top 10, moods, the canon and decades open as a grid with an All tab.</div>
+      <div><b>Covers carry the name</b>Every folder hides Nuvio's text label and puts the name in the art, at sizes that still read at 206&nbsp;pt on the phone.</div>
+      <div><b>Rows named by the addon</b>Nuvio titles each row from the catalog name, so Everything Metadata's catalogs were renamed to read cleanly, for example "New on Netflix (Series)".</div>
+      <div><b>Optional motion</b>Nuvio can play an animated cover for a folder. The switch above shows what that would look like on the Top 10 row; the rest stay still so Home loads fast.</div>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Tell me A, B or C</strong>, or a mix such as "B for genres and world, C for services and Top 10". After that I render all 78 covers at 1600×900, build the import file, and check every row resolves against your new addon before you import anything.</p>
+  </footer>
+</div>
+
+<script>
+const S = 'assets/web/';
+const still = k => `url(${S}still/${k}.jpg)`;
+const cutu = k => `url(${S}cut/${k}.webp)`;
+
+// name, kind, colours, art. ink:'dark' flips type to black on light colours.
+const F = {
+  'top-ke':     { name: 'Kenya', kind: 'top', logo: 'netflix', c1: '#bb0000', c2: '#006600', label: 'Kenya', ke: true },
+  'top-netflix':{ name: 'Netflix', kind: 'top', logo: 'netflix', c1: '#e50914', c2: '#2a0003', label: 'Top 10' },
+  'top-prime':  { name: 'Prime Video', kind: 'top', logo: 'prime-video', c1: '#1a98ff', c2: '#03142e', label: 'Top 10' },
+  'top-disney': { name: 'Disney+', kind: 'top', logo: 'disney-plus', c1: '#1b47e0', c2: '#050d2e', label: 'Top 10' },
+  'top-hbo':    { name: 'HBO Max', kind: 'top', logo: 'hbo-max', c1: '#8a2bff', c2: '#14002e', label: 'Top 10' },
+  'top-apple':  { name: 'Apple TV+', kind: 'top', logo: 'apple-tv', c1: '#9a9aa6', c2: '#0b0b0d', label: 'Top 10', keep: true },
+  'top-crunchy':{ name: 'Crunchyroll', kind: 'top', logo: 'crunchyroll', c1: '#f47521', c2: '#2b1000', label: 'Top 10' },
+
+  netflix:      { name: 'Netflix', kind: 'svc', logo: 'netflix', img: 'svc-netflix', bimg: 'b-netflix', c1: '#e50914', c2: '#2a0003', keepC: false },
+  prime:        { name: 'Prime Video', kind: 'svc', logo: 'prime-video', img: 'svc-prime-video', c1: '#1a98ff', c2: '#03142e' },
+  disney:       { name: 'Disney+', kind: 'svc', logo: 'disney-plus', img: 'svc-disney-plus', c1: '#1b47e0', c2: '#050d2e' },
+  hbo:          { name: 'HBO Max', kind: 'svc', logo: 'hbo-max', img: 'svc-hbo-max', c1: '#8a2bff', c2: '#14002e' },
+  apple:        { name: 'Apple TV+', kind: 'svc', logo: 'apple-tv', img: 'svc-apple-tv', c1: '#8d8d99', c2: '#0b0b0d', keep: true },
+  crunchy:      { name: 'Crunchyroll', kind: 'svc', logo: 'crunchyroll', img: 'svc-crunchyroll', c1: '#f47521', c2: '#2b1000' },
+  hulu:         { name: 'Hulu', kind: 'svc', logo: 'hulu', img: 'svc-hulu', c1: '#1ce783', c2: '#002a17', ink: 'dark' },
+
+  action:   { name: 'Action', kind: 'gen', img: 'gen-action', c1: '#ff5a1f', c2: '#2b0b00' },
+  horror:   { name: 'Horror', kind: 'gen', img: 'gen-horror', c1: '#c1121f', c2: '#120002' },
+  scifi:    { name: 'Sci-Fi', kind: 'gen', img: 'gen-sci-fi', c1: '#00a6ff', c2: '#00131f' },
+  comedy:   { name: 'Comedy', kind: 'gen', img: 'gen-comedy', c1: '#ffc53d', c2: '#3a2600', ink: 'dark' },
+  thriller: { name: 'Thriller', kind: 'gen', img: 'gen-thriller', c1: '#3d5afe', c2: '#050a24' },
+  romance:  { name: 'Romance', kind: 'gen', img: 'gen-romance', c1: '#ff4f81', c2: '#2b0010' },
+  drama:    { name: 'Drama', kind: 'gen', img: 'gen-drama', c1: '#d08c4a', c2: '#1c0f05' },
+
+  kdrama:   { name: 'K-Drama', kind: 'world', img: 'world-k-drama', c1: '#20c4b0', c2: '#00221e' },
+  anime:    { name: 'Anime', kind: 'world', img: 'world-anime', c1: '#ff3d6e', c2: '#22000a' },
+  indian:   { name: 'Indian', kind: 'world', img: 'world-indian', c1: '#ff9933', c2: '#2a1300' },
+  african:  { name: 'African', kind: 'world', img: 'world-african', c1: '#e2b714', c2: '#231b00', ink: 'dark' },
+  spanish:  { name: 'Spanish', kind: 'world', img: 'world-spanish', c1: '#d7263d', c2: '#200006' },
+  french:   { name: 'French', kind: 'world', img: 'world-french', c1: '#2b59c3', c2: '#040c22' },
+
+  spooky:   { name: 'Spooky Season', kind: 'mood', img: 'mood-spooky', c1: '#ff7518', c2: '#1f0a00' },
+  truecrime:{ name: 'True Crime', kind: 'mood', img: 'mood-true-crime', c1: '#ffd60a', c2: '#2a2300', ink: 'dark' },
+  heists:   { name: 'Heists', kind: 'mood', img: 'mood-heists', c1: '#d4af37', c2: '#1f1700' },
+  timetravel:{ name: 'Time Travel', kind: 'mood', img: 'mood-time-travel', c1: '#7b61ff', c2: '#0d0626', nocut: true },
+  heroes:   { name: 'Superheroes', kind: 'mood', img: 'mood-superheroes', c1: '#e10600', c2: '#1a0000' },
+  dystopia: { name: 'Dystopia', kind: 'mood', img: 'mood-dystopia', c1: '#ff8a00', c2: '#241000' },
+  imdb:     { name: 'IMDb Top 250', kind: 'canon', img: 'canon-imdb', c1: '#f5c518', c2: '#2a2000', ink: 'dark' },
+  oscar:    { name: 'Best Picture', kind: 'canon', img: 'canon-oscar', c1: '#c9a646', c2: '#1d1606' },
+  lbxd:     { name: 'Letterboxd 250', kind: 'canon', img: 'canon-letterboxd', c1: '#00c853', c2: '#00210d' },
+  a24:      { name: 'A24', kind: 'canon', img: 'canon-a24', c1: '#e8e8ea', c2: '#151517', ink: 'dark' },
+  d70:      { name: '70s', kind: 'dec', img: 'dec-70s', c1: '#e07a1f', c2: '#241000', nocut: true },
+  d80:      { name: '80s', kind: 'dec', img: 'dec-80s', c1: '#ff2e88', c2: '#22001a' },
+  d90:      { name: '90s', kind: 'dec', img: 'dec-90s', c1: '#19a7ce', c2: '#011a22' },
+  d00:      { name: '2000s', kind: 'dec', img: 'dec-2000s', c1: '#9aa3ad', c2: '#0e1013' },
+};
+
+function esc(s) { return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+function tile(key, d) {
+  const f = F[key];
+  const st = [`--c1:${f.c1}`, `--c2:${f.c2}`];
+  if (f.img) st.push(`--img:${still(f.img)}`);
+  if (f.img && !f.nocut) st.push(`--cut:${cutu(f.img)}`);
+  if (f.bimg) st.push(`--bimg:${still(f.bimg)}`, `--bcut:${cutu(f.bimg)}`);
+  if (f.ink === 'dark') st.push('--ink:#0b0b0d');
+  const cls = ['tile', 'd' + d, 'k-' + f.kind, f.ink === 'dark' ? 'ink-dark' : '', f.ke ? 'k-ke' : ''].join(' ');
+  const logo = f.logo ? `<img class="logo${f.keep ? ' keep' : ''}" src="${S}logo/${f.logo}.png" alt="">` : '';
+  const word = `<div class="fit" data-text="${esc(f.name)}">${esc(f.name)}</div>`;
+  const flag = f.ke ? '<i class="flag"></i>' : '';
+  let inner = '';
+  if (d === 'A') {
+    if (f.kind === 'top') inner = `<div class="bg"></div><div class="num">10</div><div class="glass">${logo}<div class="lbl">${esc(f.label)}</div></div>`;
+    else inner = `<div class="bg"></div><div class="img"></div><div class="glass">${f.logo ? logo : word}</div>`;
+  } else if (d === 'B') {
+    if (f.kind === 'top') inner = `<div class="img"></div><div class="num">10</div>${logo}<div class="lbl">${esc(f.label)}</div>`;
+    else inner = `<div class="img"></div><div class="tint2"></div><div class="tint"></div>${f.logo ? logo : word}${f.img && !f.nocut ? '<div class="cut"></div>' : ''}<div class="vig"></div>`;
+  } else {
+    if (f.kind === 'top') inner = `<div class="bg"></div><div class="num" data-n="10">10</div>${logo}<div class="lbl">${f.ke ? 'Kenya' : 'Top'}</div>`;
+    else inner = `<div class="bg"></div><div class="img"></div><div class="ring"></div>${f.logo ? logo : ''}${word}`;
+  }
+  return `<div class="${cls}" style="${st.join(';')}" role="img" aria-label="${esc(f.name)}">${inner}${flag}</div>`;
+}
+
+const ROWS_HOME = [
+  ['Top 10 Today', ['top-ke', 'top-netflix', 'top-prime', 'top-disney', 'top-hbo', 'top-apple', 'top-crunchy']],
+  ['Streaming Services', ['netflix', 'prime', 'disney', 'hbo', 'apple', 'crunchy', 'hulu']],
+  ['Genres', ['action', 'horror', 'scifi', 'comedy', 'thriller', 'romance', 'drama']],
+  ['Around the World', ['kdrama', 'anime', 'indian', 'african', 'spanish', 'french']],
+];
+const NF_SERIES = [['nf-2', 'East of Eden'], ['nf-1', 'Below'], ['nf-3', 'The Gentlemen'], ['nf-5', 'Stranger Things'], ['nf-6', 'The Diplomat'], ['nf-8', 'Wednesday'], ['nf-4', 'Haunted Hotel'], ['nf-7', 'The Haunting of Hill House']];
+const NF_MOVIES = [['nfm-2', 'Wake Up Dead Man'], ['nfm-1', 'Animals'], ['nfm-3', 'The Whisper Man'], ['nfm-4', 'The Last House'], ['nfm-5', 'Remarkably Bright Creatures'], ['nfm-6', 'UNABOMBER'], ['nfm-7', 'Doing Life'], ['nfm-8', 'Reporting Live']];
+
+const card = ([k, t]) => `<div class="card"><div class="art" style="background-image:url(${S}card/${k}.jpg)"><img src="${S}tlogo/${k}.png" alt=""></div><span>${esc(t)}</span></div>`;
+const shelf = (title, keys, d, small) => `<div class="shelf"><h4>${esc(title)}${small ? ` <small>${small}</small>` : ''}</h4><div class="track">${keys.map(k => tile(k, d)).join('')}</div></div>`;
+const cshelf = (title, cards) => `<div class="shelf"><h4>${esc(title)}</h4><div class="track">${cards.map(card).join('')}</div></div>`;
+
+function render(d) {
+  document.getElementById('win-home').innerHTML =
+    `<div class="bar"><i class="on">Home</i><i>Search</i><i>Library</i><i>Settings</i></div><div class="me">E</div>` +
+    `<div class="home">${ROWS_HOME.map(([t, ks]) => shelf(t, ks, d)).join('')}</div><div class="fade"></div>`;
+  document.getElementById('win-fold').innerHTML =
+    `<div class="fold-bg">${tile('netflix', d)}</div><div class="fold-shade"></div>` +
+    `<div class="fold"><div class="fold-h"><span class="back">←</span><b>Netflix</b></div>` +
+    cshelf('Netflix Top 10 · US (Series)', NF_SERIES) + cshelf('New on Netflix (Movies)', NF_MOVIES) + cshelf('Netflix (Series)', NF_SERIES.slice().reverse()) + `</div><div class="fade"></div>`;
+  document.getElementById('ph-home').innerHTML =
+    `<div class="island"></div><div class="status"><span>9:41</span><span>5G</span></div>` +
+    `<div class="ph-home"><div class="ph-title">Home</div>${ROWS_HOME.map(([t, ks]) => shelf(t, ks, d)).join('')}</div>` +
+    `<div class="tabbar"><i class="on">Home</i><i>Search</i><i>Library</i><i>Settings</i></div>`;
+  document.getElementById('ph-fold').innerHTML =
+    `<div class="island"></div><div class="status"><span>9:41</span><span>5G</span></div>` +
+    `<div class="ph-fold"><div class="ph-hero">${tile('horror', d)}</div><div class="fold-h"><span class="back">←</span><b>Horror</b></div>` +
+    cshelf('Popular Horror (Movies)', [['h-weapons', 'Weapons'], ['h-sinners', 'Sinners'], ['h-hillhouse', 'The Haunting of Hill House']]) +
+    `<div class="shelf"><h4>Top Rated Horror (Series)</h4><div class="track">${NF_SERIES.slice(5).map(card).join('')}</div></div></div>`;
+  document.getElementById('gal').innerHTML = [
+    ['Moods & Themes', ['spooky', 'truecrime', 'heists', 'timetravel', 'heroes', 'dystopia']],
+    ['The Canon', ['imdb', 'oscar', 'lbxd', 'a24']],
+    ['Decades', ['d70', 'd80', 'd90', 'd00']],
+  ].flatMap(([row, ks]) => ks.map(k => `<figure>${tile(k, d)}<figcaption>${esc(row)} · ${esc(F[k].name)}</figcaption></figure>`)).join('');
+  fitAll();
+}
+
+const STYLES = {
+  A: ['Aurora Glass', 'The film\'s own colours blurred into light, with a frosted glass panel carrying the name. Calm and premium, closest to the Apple TV app.'],
+  B: ['Depth', 'Huge type set behind the main character, like a magazine cover. The most cinematic of the three; each folder gets a still chosen for a big, clear subject.'],
+  C: ['Signature Colour', 'One bold colour per folder, a duotone window into the film and oversized type. The easiest to read on the phone and the fastest to scan.'],
+};
+document.getElementById('compare').innerHTML = Object.entries(STYLES).map(([d, [n, p]]) =>
+  `<div class="opt" data-d="${d}"><h3><b>${d}</b>${n}</h3><p>${p}</p><div class="tiles">${['top-ke', 'netflix', 'horror', 'kdrama'].map(k => tile(k, d)).join('')}</div><button type="button" class="btn" data-d="${d}">Show ${d} on my home</button></div>`).join('');
+
+// Structure of the collection
+const STRUCT = [
+  ['Top 10 Today', 'Grid with All tab · 12 folders', ['Kenya (Netflix)', 'Netflix', 'Prime Video', 'Disney+', 'HBO Max', 'Apple TV+', 'Paramount+', 'Hulu', 'Peacock', 'Crunchyroll', 'JioHotstar', 'ZEE5'], [], 'Today\'s Top 10 <b>movies</b> and <b>series</b> from FlixPatrol. Kenya where FlixPatrol charts it (Netflix), the US for the other global services, India for JioHotstar and ZEE5.'],
+  ['Streaming Services', 'Rows · 21 folders', ['Netflix', 'Prime Video', 'Disney+', 'HBO Max', 'Apple TV+', 'Paramount+', 'Hulu', 'Peacock', 'Crunchyroll', 'JioHotstar', 'SonyLIV', 'ZEE5', 'Sun NXT', 'aha', 'Hoichoi', 'Amazon MX Player'], ['ManoramaMAX', 'ShemarooMe', 'EPIC ON', 'Hungama Play', 'Lionsgate Play'], 'Each opens as rows: <b>Top 10</b>, the full <b>catalog</b> and <b>New on …</b>, for movies and series. Outlined names come from TMDB directly.'],
+  ['Genres', 'Rows · 11 folders', ['Action', 'Comedy', 'Drama', 'Thriller', 'Horror', 'Sci-Fi', 'Romance', 'Mystery', 'Family', 'Animation', 'Documentary'], [], '<b>Popular</b>, <b>Top Rated</b> and <b>New</b>, each for movies and series.'],
+  ['Around the World', 'Rows · 9 folders', ['K-Drama', 'Anime', 'Indian', 'African', 'Japanese', 'Spanish', 'French', 'Turkish', 'Chinese'], [], 'K-Drama and Korean cinema; Anime airing now, top, seasonal and upcoming; Indian rows by language (Hindi, Telugu, Tamil, Malayalam, Kannada, Bengali); African cinema, African series, Nollywood and <b>Made in Kenya</b>; the rest by original language.'],
+  ['Moods & Themes', 'Grid with All tab · 14 folders', ['Spooky Season', 'True Crime', 'Heists', 'Time Travel', 'Superheroes', 'Dystopian Futures', 'Zombies', 'Serial Killers', 'Spies', 'Martial Arts', 'True Stories', 'Space & Cyberpunk', 'Coming of Age', 'Christmas'], [], 'Built from TMDB keywords, each with a vote floor so filler stays out. Spooky Season leads in October; Christmas moves to the front in December.'],
+  ['The Canon', 'Grid with All tab · 5 folders', ['IMDb Top 250', 'Best Picture', 'Letterboxd 250', 'A24', 'Top Rated'], [], 'IMDb Top 250 movies and series, Oscar Best Picture winners and nominees, Letterboxd Top 250, A24, and TMDB\'s all-time top rated. All auto-updating lists.'],
+  ['Decades', 'Grid with All tab · 6 folders', ['70s', '80s', '90s', '2000s', '2010s', '2020s'], [], 'The most-watched films of each decade.'],
+];
+document.getElementById('rows').innerHTML = STRUCT.map(([n, m, chips, native, inside]) =>
+  `<div class="row"><div><div class="n">${esc(n)}</div><div class="meta">${esc(m)}</div></div><div><div class="chips">${chips.map(c => `<span>${esc(c)}</span>`).join('')}${native.map(c => `<span class="nat">${esc(c)}</span>`).join('')}</div><p class="inside">${inside}</p></div></div>`).join('');
+
+// Fit each folder name to its tile. Width grows linearly with font size, so one
+// measurement at 100px gives the size in cqw; long names break onto two lines.
+const meas = document.createElement('div');
+meas.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:nowrap;font-size:100px;line-height:1';
+document.body.appendChild(meas);
+const FIT = { A: { w: 32, cap: 9.5 }, B: { w: 84, cap: 34 }, C: { w: 78, cap: 17 } };
+function widthAt100(el, text) {
+  const cs = getComputedStyle(el);
+  meas.style.fontFamily = cs.fontFamily; meas.style.fontWeight = cs.fontWeight; meas.style.letterSpacing = '0';
+  meas.style.fontStretch = cs.fontStretch; meas.style.fontVariationSettings = cs.fontVariationSettings; meas.style.textTransform = cs.textTransform;
+  meas.textContent = text;
+  const ls = parseFloat(cs.letterSpacing) / parseFloat(cs.fontSize) || 0;
+  return meas.getBoundingClientRect().width + ls * 100 * text.length;
+}
+function fitAll() {
+  document.querySelectorAll('.tile .fit').forEach(el => {
+    const d = el.closest('.tile').classList.contains('dA') ? 'A' : el.closest('.tile').classList.contains('dB') ? 'B' : 'C';
+    const { w, cap } = FIT[d];
+    const text = el.dataset.text;
+    el.textContent = text;
+    let size = Math.min(cap, w * 100 / widthAt100(el, text));
+    const words = text.split(' ');
+    if (words.length > 1 && size < cap * (d === 'A' ? 0.8 : 0.62)) {
+      let best = null;
+      for (let i = 1; i < words.length; i++) {
+        const l1 = words.slice(0, i).join(' '), l2 = words.slice(i).join(' ');
+        const s = Math.min(cap * (d === 'A' ? 0.95 : 0.78), w * 100 / Math.max(widthAt100(el, l1), widthAt100(el, l2)));
+        if (!best || s > best.s) best = { s, l1, l2 };
+      }
+      if (best.s > size) { el.innerHTML = `${esc(best.l1)}<br>${esc(best.l2)}`; size = best.s; }
+    }
+    el.style.fontSize = size.toFixed(2) + 'cqw';
+  });
+}
+
+let current = 'A';
+try { current = localStorage.getItem('evn-style') || 'A'; } catch (e) {}
+function choose(d) {
+  current = d;
+  document.querySelectorAll('#seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.d === d)));
+  document.querySelectorAll('.opt').forEach(o => o.classList.toggle('on', o.dataset.d === d));
+  try { localStorage.setItem('evn-style', d); } catch (e) {}
+  render(d);
+}
+document.getElementById('seg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) choose(b.dataset.d); });
+document.getElementById('compare').addEventListener('click', e => {
+  const b = e.target.closest('button.btn'); if (!b) return;
+  choose(b.dataset.d);
+  document.getElementById('h-home').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+document.getElementById('motion').addEventListener('change', e => document.body.classList.toggle('motion', e.target.checked));
+choose(current);
+(document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => render(current));
+</script>

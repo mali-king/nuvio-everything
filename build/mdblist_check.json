@@ -1,0 +1,904 @@
+{
+ "42822": {
+  "name": "TMDB Popular Movies",
+  "user_name": "cb2131",
+  "items": 399,
+  "dynamic": true,
+  "updated": "2026-10-16T01:10:07.000Z",
+  "mediatype": "movie"
+ },
+ "42836": {
+  "name": "TMDB Popular Shows",
+  "user_name": "cb2131",
+  "items": 419,
+  "dynamic": true,
+  "updated": "2026-10-16T01:09:04.000Z",
+  "mediatype": "show"
+ },
+ "87667": {
+  "name": "Trakt's Trending Movies",
+  "user_name": "snoak",
+  "items": 124,
+  "dynamic": true,
+  "updated": "2026-10-15T19:16:36.000Z",
+  "mediatype": "movie"
+ },
+ "88434": {
+  "name": "Trakt's Trending Shows",
+  "user_name": "snoak",
+  "items": 250,
+  "dynamic": true,
+  "updated": "2026-10-15T19:10:46.000Z",
+  "mediatype": "show"
+ },
+ "88328": {
+  "name": "Netflix Movies",
+  "user_name": "tvgeniekodi",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T18:17:17.000Z",
+  "mediatype": "movie"
+ },
+ "88329": {
+  "name": "Netflix Shows",
+  "user_name": "tvgeniekodi",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T15:45:07.000Z",
+  "mediatype": "show"
+ },
+ "86752": {
+  "name": "Latest Netflix Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T05:30:36.000Z",
+  "mediatype": "movie"
+ },
+ "86751": {
+  "name": "Latest Netflix Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-14T16:01:01.000Z",
+  "mediatype": "show"
+ },
+ "88332": {
+  "name": "Prime Movies",
+  "user_name": "tvgeniekodi",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T22:44:18.000Z",
+  "mediatype": "movie"
+ },
+ "88333": {
+  "name": "Prime Shows",
+  "user_name": "tvgeniekodi",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T13:12:18.000Z",
+  "mediatype": "show"
+ },
+ "86755": {
+  "name": "Latest Amazon Prime Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T18:45:18.000Z",
+  "mediatype": "movie"
+ },
+ "86753": {
+  "name": "Latest Amazon Prime Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-13T16:00:42.000Z",
+  "mediatype": "show"
+ },
+ "88322": {
+  "name": "Disney+ Movies",
+  "user_name": "tvgeniekodi",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-13T21:14:15.000Z",
+  "mediatype": "movie"
+ },
+ "88323": {
+  "name": "Disney+ Shows",
+  "user_name": "tvgeniekodi",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T14:14:31.000Z",
+  "mediatype": "show"
+ },
+ "86759": {
+  "name": "Latest Disney+ Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T18:25:24.000Z",
+  "mediatype": "movie"
+ },
+ "86758": {
+  "name": "Latest Disney+ Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-13T16:00:48.000Z",
+  "mediatype": "show"
+ },
+ "88324": {
+  "name": "Max Movies",
+  "user_name": "tvgeniekodi",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-14T12:40:58.000Z",
+  "mediatype": "movie"
+ },
+ "88325": {
+  "name": "Max Shows",
+  "user_name": "tvgeniekodi",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T12:56:27.000Z",
+  "mediatype": "show"
+ },
+ "89647": {
+  "name": "Latest HBO Max Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-14T16:01:34.000Z",
+  "mediatype": "movie"
+ },
+ "89649": {
+  "name": "Latest HBO Max Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-14T16:01:35.000Z",
+  "mediatype": "show"
+ },
+ "88317": {
+  "name": "Apple+ Movies",
+  "user_name": "tvgeniekodi",
+  "items": 83,
+  "dynamic": true,
+  "updated": "2026-10-15T13:56:33.000Z",
+  "mediatype": "movie"
+ },
+ "88319": {
+  "name": "Apple+ Shows",
+  "user_name": "tvgeniekodi",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T19:48:21.000Z",
+  "mediatype": "show"
+ },
+ "86757": {
+  "name": "Latest Apple TV+ Movies",
+  "user_name": "snoak",
+  "items": 99,
+  "dynamic": true,
+  "updated": "2026-10-13T16:00:47.000Z",
+  "mediatype": "movie"
+ },
+ "86756": {
+  "name": "Latest Apple TV+ Shows",
+  "user_name": "snoak",
+  "items": 155,
+  "dynamic": true,
+  "updated": "2026-10-13T16:00:45.000Z",
+  "mediatype": "show"
+ },
+ "88330": {
+  "name": "Paramount+ Movies",
+  "user_name": "tvgeniekodi",
+  "items": 85,
+  "dynamic": true,
+  "updated": "2026-10-15T16:20:54.000Z",
+  "mediatype": "movie"
+ },
+ "88331": {
+  "name": "Paramount+ Shows",
+  "user_name": "tvgeniekodi",
+  "items": 133,
+  "dynamic": true,
+  "updated": "2026-10-15T14:32:24.000Z",
+  "mediatype": "show"
+ },
+ "86762": {
+  "name": "Latest Paramount+ Movies",
+  "user_name": "snoak",
+  "items": 197,
+  "dynamic": true,
+  "updated": "2026-10-15T19:08:48.000Z",
+  "mediatype": "movie"
+ },
+ "86761": {
+  "name": "Latest Paramount+ Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-13T16:00:52.000Z",
+  "mediatype": "show"
+ },
+ "88326": {
+  "name": "Hulu Movies",
+  "user_name": "tvgeniekodi",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T23:24:17.000Z",
+  "mediatype": "movie"
+ },
+ "88327": {
+  "name": "Hulu Shows",
+  "user_name": "tvgeniekodi",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T14:06:27.000Z",
+  "mediatype": "show"
+ },
+ "127955": {
+  "error": "HTTP Error 404: Not Found"
+ },
+ "127954": {
+  "error": "HTTP Error 404: Not Found"
+ },
+ "84239": {
+  "name": "Peacock Movies",
+  "user_name": "alaxkouad",
+  "items": 500,
+  "dynamic": true,
+  "updated": "2026-10-15T15:26:16.000Z",
+  "mediatype": "movie"
+ },
+ "84240": {
+  "name": "Peacock TV Shows",
+  "user_name": "alaxkouad",
+  "items": 500,
+  "dynamic": true,
+  "updated": "2026-10-14T00:21:38.000Z",
+  "mediatype": "show"
+ },
+ "98862": {
+  "name": "Crunchyroll - Movies",
+  "user_name": "frostypolicia",
+  "items": 354,
+  "dynamic": true,
+  "updated": "2026-10-15T15:02:11.000Z",
+  "mediatype": "movie"
+ },
+ "99202": {
+  "name": "Crunchyroll - Shows",
+  "user_name": "frostypolicia",
+  "items": 1955,
+  "dynamic": true,
+  "updated": "2026-10-15T11:46:18.000Z",
+  "mediatype": "show"
+ },
+ "91211": {
+  "name": "Popular Action Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:20:41.000Z",
+  "mediatype": "movie"
+ },
+ "91213": {
+  "name": "Popular Action Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:32:29.000Z",
+  "mediatype": "show"
+ },
+ "2407": {
+  "name": "Action Movies (Top Rated From 1980 to Today)",
+  "user_name": "hdlists",
+  "items": 521,
+  "dynamic": true,
+  "updated": "2026-10-15T18:16:13.000Z",
+  "mediatype": "movie"
+ },
+ "45762": {
+  "name": "Top Action Shows",
+  "user_name": "binkatl",
+  "items": 145,
+  "dynamic": true,
+  "updated": "2026-10-15T12:23:04.000Z",
+  "mediatype": "show"
+ },
+ "128037": {
+  "name": "Latest Action Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T20:56:11.000Z",
+  "mediatype": "movie"
+ },
+ "128029": {
+  "name": "Latest Action Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T20:28:29.000Z",
+  "mediatype": "show"
+ },
+ "116037": {
+  "name": "Popular Animated Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:44:32.000Z",
+  "mediatype": "movie"
+ },
+ "116038": {
+  "name": "Popular Animated Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T20:54:27.000Z",
+  "mediatype": "show"
+ },
+ "69018": {
+  "name": "Top Animated from 50s",
+  "user_name": "moooh_gx",
+  "items": 632,
+  "dynamic": true,
+  "updated": "2026-10-15T02:58:37.000Z",
+  "mediatype": "movie"
+ },
+ "153462": {
+  "error": "HTTP Error 404: Not Found"
+ },
+ "128035": {
+  "name": "Latest Animated Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-14T17:58:24.000Z",
+  "mediatype": "movie"
+ },
+ "128034": {
+  "name": "Latest Animated Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-14T17:58:23.000Z",
+  "mediatype": "show"
+ },
+ "104289": {
+  "name": "Popular Anime Movies",
+  "user_name": "wblandtv",
+  "items": 250,
+  "dynamic": true,
+  "updated": "2026-10-15T20:21:05.000Z",
+  "mediatype": "movie"
+ },
+ "105461": {
+  "name": "Popular Anime Series",
+  "user_name": "wblandtv",
+  "items": 250,
+  "dynamic": true,
+  "updated": "2026-10-15T08:16:06.000Z",
+  "mediatype": "show"
+ },
+ "88468": {
+  "name": "Trending Anime Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T18:33:24.000Z",
+  "mediatype": "movie"
+ },
+ "88469": {
+  "name": "Trending Anime Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T18:58:37.000Z",
+  "mediatype": "show"
+ },
+ "2483": {
+  "name": "Latest Anime Movies",
+  "user_name": "iamscallywag",
+  "items": 89,
+  "dynamic": true,
+  "updated": "2026-10-15T23:50:06.000Z",
+  "mediatype": "movie"
+ },
+ "2472": {
+  "name": "Latest Anime",
+  "user_name": "iamscallywag",
+  "items": 203,
+  "dynamic": true,
+  "updated": "2026-10-15T23:26:09.000Z",
+  "mediatype": "show"
+ },
+ "91223": {
+  "name": "Popular Comedy Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:58:33.000Z",
+  "mediatype": "movie"
+ },
+ "91224": {
+  "name": "Popular Comedy Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:52:23.000Z",
+  "mediatype": "show"
+ },
+ "2195": {
+  "name": "Comedy Movies (Top Rated From 1960 To Today)",
+  "user_name": "hdlists",
+  "items": 4359,
+  "dynamic": true,
+  "updated": "2026-10-15T12:26:09.000Z",
+  "mediatype": "movie"
+ },
+ "45764": {
+  "name": "Top Comedy Shows",
+  "user_name": "binkatl",
+  "items": 185,
+  "dynamic": true,
+  "updated": "2026-10-15T20:52:05.000Z",
+  "mediatype": "show"
+ },
+ "128040": {
+  "name": "Latest Comedy Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T07:06:39.000Z",
+  "mediatype": "movie"
+ },
+ "128041": {
+  "name": "Latest Comedy Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-14T18:02:29.000Z",
+  "mediatype": "show"
+ },
+ "128051": {
+  "name": "Popular Documentary Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:26:31.000Z",
+  "mediatype": "movie"
+ },
+ "128052": {
+  "name": "Popular Documentary Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:06:27.000Z",
+  "mediatype": "show"
+ },
+ "2406": {
+  "name": "Documentary Movies (Top Rated From 1980 to Today)",
+  "user_name": "hdlists",
+  "items": 2000,
+  "dynamic": true,
+  "updated": "2026-10-15T20:32:11.000Z",
+  "mediatype": "movie"
+ },
+ "78412": {
+  "name": "Top Documentary Shows",
+  "user_name": "bobnimbo",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-13T20:47:05.000Z",
+  "mediatype": "show"
+ },
+ "128027": {
+  "name": "Latest Documentary Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-12T16:02:26.000Z",
+  "mediatype": "movie"
+ },
+ "128028": {
+  "name": "Latest Documentary Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:14:28.000Z",
+  "mediatype": "show"
+ },
+ "91296": {
+  "name": "Popular Drama Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:22:24.000Z",
+  "mediatype": "movie"
+ },
+ "91297": {
+  "name": "Popular Drama Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:08:24.000Z",
+  "mediatype": "show"
+ },
+ "2408": {
+  "name": "Drama Movies (Top Rated From 1980 to Today)",
+  "user_name": "hdlists",
+  "items": 3872,
+  "dynamic": true,
+  "updated": "2026-10-15T20:12:11.000Z",
+  "mediatype": "movie"
+ },
+ "45766": {
+  "name": "Top Drama Shows",
+  "user_name": "binkatl",
+  "items": 158,
+  "dynamic": true,
+  "updated": "2026-10-15T14:24:07.000Z",
+  "mediatype": "show"
+ },
+ "128043": {
+  "name": "Latest Drama Movies",
+  "user_name": "snoak",
+  "items": 500,
+  "dynamic": true,
+  "updated": "2026-10-15T18:48:57.000Z",
+  "mediatype": "movie"
+ },
+ "128044": {
+  "name": "Latest Drama Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:44:35.000Z",
+  "mediatype": "show"
+ },
+ "24262": {
+  "name": "Popular Family Movies",
+  "user_name": "ranrandwk",
+  "items": 500,
+  "dynamic": true,
+  "updated": "2026-10-13T07:14:45.000Z",
+  "mediatype": "movie"
+ },
+ "147641": {
+  "name": "Popular Family Series",
+  "user_name": "jefland",
+  "items": 250,
+  "dynamic": true,
+  "updated": "2026-10-15T16:58:29.000Z",
+  "mediatype": "show"
+ },
+ "2415": {
+  "name": "Family Movies (Top Rated From 1980 to Today)",
+  "user_name": "hdlists",
+  "items": 970,
+  "dynamic": true,
+  "updated": "2026-10-15T07:22:05.000Z",
+  "mediatype": "movie"
+ },
+ "157286": {
+  "name": "Family Shows",
+  "user_name": "pilgrimofhaqq",
+  "items": 195,
+  "dynamic": true,
+  "updated": "2026-10-14T13:06:07.000Z",
+  "mediatype": "show"
+ },
+ "76113": {
+  "name": "Latest Family Movies",
+  "user_name": "eshep404kp",
+  "items": 500,
+  "dynamic": true,
+  "updated": "2026-10-15T04:38:44.000Z",
+  "mediatype": "movie"
+ },
+ "59967": {
+  "name": "New Family Shows",
+  "user_name": "barfam",
+  "items": 1000,
+  "dynamic": true,
+  "updated": "2026-10-15T13:08:48.000Z",
+  "mediatype": "show"
+ },
+ "2416": {
+  "name": "Mystery Movies (Top Rated From 1980 to Today)",
+  "user_name": "hdlists",
+  "items": 1866,
+  "dynamic": true,
+  "updated": "2026-10-15T13:26:12.000Z",
+  "mediatype": "movie"
+ },
+ "45183": {
+  "name": "Top mystery shows",
+  "user_name": "spatler",
+  "items": 197,
+  "dynamic": true,
+  "updated": "2026-10-15T01:40:38.000Z",
+  "mediatype": "show"
+ },
+ "128262": {
+  "name": "Popular Romance Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:38:27.000Z",
+  "mediatype": "movie"
+ },
+ "128265": {
+  "name": "Popular Romance Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T22:42:34.000Z",
+  "mediatype": "show"
+ },
+ "128261": {
+  "name": "Latest Romance Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T07:14:22.000Z",
+  "mediatype": "movie"
+ },
+ "128264": {
+  "name": "Latest Romance Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T08:34:25.000Z",
+  "mediatype": "show"
+ },
+ "91220": {
+  "name": "Popular Sci-Fi Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:46:30.000Z",
+  "mediatype": "movie"
+ },
+ "91221": {
+  "name": "Popular Sci-Fi Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:40:33.000Z",
+  "mediatype": "show"
+ },
+ "2412": {
+  "name": "Fantasy/Sci-Fi Movies (Top Rated From 1980 to Today)",
+  "user_name": "hdlists",
+  "items": 871,
+  "dynamic": true,
+  "updated": "2026-10-15T22:18:10.000Z",
+  "mediatype": "movie"
+ },
+ "79476": {
+  "name": "Top Sci-Fi Shows",
+  "user_name": "darthdobber",
+  "items": 131,
+  "dynamic": true,
+  "updated": "2026-10-13T09:09:05.000Z",
+  "mediatype": "show"
+ },
+ "128047": {
+  "name": "Latest Sci-Fi Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-14T18:10:39.000Z",
+  "mediatype": "movie"
+ },
+ "128048": {
+  "name": "Latest Sci-Fi Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:18:28.000Z",
+  "mediatype": "show"
+ },
+ "91893": {
+  "name": "Popular Thriller Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:46:31.000Z",
+  "mediatype": "movie"
+ },
+ "91894": {
+  "name": "Popular Thriller Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:50:35.000Z",
+  "mediatype": "show"
+ },
+ "128049": {
+  "name": "Latest Thriller Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T07:46:26.000Z",
+  "mediatype": "movie"
+ },
+ "128050": {
+  "name": "Latest Thriller Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-14T18:14:27.000Z",
+  "mediatype": "show"
+ },
+ "91215": {
+  "name": "Popular Horror Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:26:30.000Z",
+  "mediatype": "movie"
+ },
+ "91217": {
+  "name": "Popular Horror Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:52:25.000Z",
+  "mediatype": "show"
+ },
+ "2410": {
+  "name": "Horror Movies (Top Rated From 1960 to Today)",
+  "user_name": "hdlists",
+  "items": 900,
+  "dynamic": true,
+  "updated": "2026-10-15T14:44:08.000Z",
+  "mediatype": "movie"
+ },
+ "10665": {
+  "name": "Top Horror Shows",
+  "user_name": "toothmaniac",
+  "items": 341,
+  "dynamic": true,
+  "updated": "2026-10-15T15:52:41.000Z",
+  "mediatype": "show"
+ },
+ "128045": {
+  "name": "Latest Horror Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T07:36:33.000Z",
+  "mediatype": "movie"
+ },
+ "128046": {
+  "name": "Latest Horror Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T07:14:17.000Z",
+  "mediatype": "show"
+ },
+ "130778": {
+  "name": "Popular KDrama Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:58:36.000Z",
+  "mediatype": "movie"
+ },
+ "130775": {
+  "name": "Popular KDrama Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T21:22:20.000Z",
+  "mediatype": "show"
+ },
+ "150310": {
+  "name": "Top korean movies (168)",
+  "user_name": "epicnick356",
+  "items": 166,
+  "dynamic": true,
+  "updated": "2026-10-12T04:41:02.000Z",
+  "mediatype": "movie"
+ },
+ "3584": {
+  "name": "Top Rated Korean TV Shows",
+  "user_name": "saltydude",
+  "items": 1029,
+  "dynamic": true,
+  "updated": "2026-10-15T04:22:12.000Z",
+  "mediatype": "show"
+ },
+ "130779": {
+  "name": "Latest KDrama Movies",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-14T18:04:24.000Z",
+  "mediatype": "movie"
+ },
+ "130777": {
+  "name": "Latest KDrama Shows",
+  "user_name": "snoak",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T08:04:27.000Z",
+  "mediatype": "show"
+ },
+ "12306": {
+  "name": "IMDB TOP 250",
+  "user_name": "aramil89",
+  "items": 250,
+  "dynamic": true,
+  "updated": "2026-10-15T21:44:05.000Z",
+  "mediatype": "movie"
+ },
+ "94576": {
+  "name": "IMDB Top 250 TV Shows",
+  "user_name": "treeman183",
+  "items": 250,
+  "dynamic": true,
+  "updated": "2026-10-08T17:06:13.000Z",
+  "mediatype": "show"
+ },
+ "110942": {
+  "name": "Oscar Best Picture Winners",
+  "user_name": "apg2886",
+  "items": 99,
+  "dynamic": true,
+  "updated": "2026-10-15T14:06:06.000Z",
+  "mediatype": "movie"
+ },
+ "84226": {
+  "name": "Oscar Best Picture Nominees (2000 - )",
+  "user_name": "alaxkouad",
+  "items": 189,
+  "dynamic": true,
+  "updated": "2026-10-15T14:24:52.000Z",
+  "mediatype": "movie"
+ },
+ "10526": {
+  "name": "Letterboxd Top 250",
+  "user_name": "slugfest201",
+  "items": 250,
+  "dynamic": true,
+  "updated": "2026-10-15T14:28:26.000Z",
+  "mediatype": "movie"
+ },
+ "6395": {
+  "name": "A24",
+  "user_name": "mdatum",
+  "items": 173,
+  "dynamic": true,
+  "updated": "2026-10-15T12:32:10.000Z",
+  "mediatype": "movie"
+ },
+ "216816": {
+  "name": "Latest Hulu Movies",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-14T01:14:05.000Z",
+  "mediatype": "movie"
+ },
+ "216834": {
+  "name": "Latest Hulu Shows",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-14T02:18:05.000Z",
+  "mediatype": "show"
+ },
+ "56500": {
+  "name": "Top Animated shows",
+  "items": 200,
+  "dynamic": true,
+  "updated": "2026-10-15T14:39:07.000Z",
+  "mediatype": "show"
+ }
+}

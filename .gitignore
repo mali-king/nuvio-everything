@@ -1,0 +1,10 @@
+cache/
+board/assets/
+.tmdbkey
+__pycache__/
+dist/
+build/cutout
+build/stills.json
+board/*.jpg
+board/*.png
+.DS_Store

@@ -1,0 +1,144 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Everything Covers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500..800&display=swap">
+<style>
+/* Production covers for the Everything collection: Aurora Glass, A4 Glass Type, Top 10 with
+   T2 Aurora Flow. Styles copied from the lab (aurora.html) so the export matches what was picked.
+   covers.html#r-<folder key> draws one tile full-window for the exporter; plain covers.html is a sheet. */
+@property --t { syntax: "<number>"; inherits: true; initial-value: 0; }
+:root { color-scheme: dark; --nuvio: "Inter Tight", -apple-system, "Helvetica Neue", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #000; color: #f2f2f4; font: 14px/1.4 var(--nuvio); }
+
+.tile { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; container-type: inline-size; isolation: isolate; background: #0b0b0d; color: #fff; font-family: var(--nuvio); }
+.tile > * { position: absolute; }
+.tile .img, .tile .glow, .tile .bg, .tile .grain { inset: 0; background-size: cover; background-position: center; }
+.tile .grain { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 18cqw; opacity: .07; mix-blend-mode: overlay; z-index: 9; pointer-events: none; }
+.tile img.logo { object-fit: contain; filter: brightness(0) invert(1) drop-shadow(0 .3cqw 1.2cqw rgba(0,0,0,.3)); }
+.tile img.logo.keep { filter: drop-shadow(0 .3cqw 1.2cqw rgba(0,0,0,.35)); }
+
+/* A4 · Glass Type: no panel, the letters are polished glass over the film */
+.v4 .img { background-image: var(--img); filter: brightness(.7) saturate(1.1); }
+.v4 .glow { background-image: var(--img); filter: blur(5cqw) saturate(2) brightness(.9); transform: scale(1.35); -webkit-mask-image: linear-gradient(90deg, #000 30%, transparent 70%); mask-image: linear-gradient(90deg, #000 30%, transparent 70%); }
+.svc .glow::after { content: ""; position: absolute; inset: 0; background: radial-gradient(80% 90% at 15% 70%, var(--c1), transparent 70%); mix-blend-mode: screen; opacity: .55; }
+.v4 .shade { inset: 0; background: radial-gradient(95% 85% at 0% 100%, rgba(0,0,0,.52), rgba(0,0,0,.2) 48%, transparent 76%); } /* keeps the lettering readable on bright stills */
+.v4 .side { left: 6cqw; bottom: 6cqw; }
+.v4 .name { font-weight: 800; letter-spacing: -.045em; line-height: .95; white-space: nowrap; background: linear-gradient(172deg, #fff 8%, rgba(255,255,255,.62) 46%, rgba(255,255,255,.28) 58%, rgba(255,255,255,.8) 96%); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 .25cqw .1cqw rgba(255,255,255,.18)) drop-shadow(0 .6cqw 1.6cqw rgba(0,0,0,.45)); }
+.v4 .side img.logo { position: static; display: block; height: 12cqw; max-width: 46cqw; object-position: left bottom; }
+
+/* Top 10: glass panel over moving brand light */
+.glass { border-radius: 5.6cqw; background: linear-gradient(155deg, rgba(255,255,255,.24), rgba(255,255,255,.05) 48%, rgba(255,255,255,.11)); backdrop-filter: blur(2.4cqw) saturate(1.8) brightness(1.12); -webkit-backdrop-filter: blur(2.4cqw) saturate(1.8) brightness(1.12); box-shadow: inset 0 .28cqw .18cqw -.08cqw rgba(255,255,255,.6), inset 0 -.5cqw 1.2cqw rgba(0,0,0,.2), 0 2.2cqw 5cqw rgba(0,0,0,.42); display: flex; align-items: center; }
+.glass::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: .26cqw; background: linear-gradient(135deg, rgba(255,255,255,.85), rgba(255,255,255,.1) 38%, rgba(255,255,255,0) 62%, rgba(255,255,255,.4)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); pointer-events: none; }
+.top .bg { background: radial-gradient(55% 85% at calc(76% + 8% * sin(var(--t) * 360deg)) calc(42% + 10% * cos(var(--t) * 360deg)), var(--c1), transparent 70%), radial-gradient(60% 80% at calc(18% + 7% * cos(var(--t) * 360deg)) calc(88% - 9% * sin(var(--t) * 360deg)), var(--c2), transparent 72%), radial-gradient(40% 60% at calc(50% + 10% * sin(var(--t) * 720deg)) 10%, color-mix(in srgb, var(--c1) 55%, #fff 45%), transparent 70%), #050507; filter: blur(1.2cqw) saturate(1.25); }
+.top .num { right: 6.5cqw; top: 50%; transform: translateY(-52%); font: 800 34cqw/.8 var(--nuvio); letter-spacing: -.075em; background: linear-gradient(calc(170deg + 14deg * sin(var(--t) * 360deg)), rgba(255,255,255,.98), rgba(255,255,255,.5) 46%, rgba(255,255,255,.14)); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 .8cqw 2cqw rgba(0,0,0,.35)); }
+.top .glass { left: 5cqw; top: 50%; transform: translateY(-50%); flex-direction: column; justify-content: center; gap: 2.2cqw; padding: 4cqw 4.6cqw; min-width: 34cqw; }
+.top .glass img.logo { position: static; height: 9.5cqw; max-width: 30cqw; }
+.top .glass .where { font-weight: 700; font-size: 5.6cqw; letter-spacing: .01em; color: rgba(255,255,255,.92); }
+.top.ke .flag { left: 0; right: 0; bottom: 0; height: 2.6cqw; background: linear-gradient(#000 0 30%, #fff 30% 35%, #bb0000 35% 65%, #fff 65% 70%, #006600 70%); z-index: 8; }
+@keyframes tick { from { --t: 0; } to { --t: 1; } }
+.sheet .top:hover { animation: tick 3.6s linear infinite; }
+
+/* sheet */
+.sheet { padding: 24px 16px 60px; max-width: 1500px; margin: 0 auto; }
+.sheet h2 { font-size: 18px; margin: 26px 0 10px; }
+.sheet .row { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.sheet .tile { border-radius: 10px; }
+.sheet figcaption { font-size: 12px; color: #8a8a95; margin-top: 4px; }
+
+/* render mode: one tile filling the window */
+body.render .sheet { display: none; }
+body.render #render .tile { width: 100vw; height: 100vh; aspect-ratio: auto; }
+</style>
+<div class="sheet" id="sheet"></div>
+<div id="render"></div>
+<script src="folders.js"></script>
+<script>
+const S = 'assets/hi/';
+const KEEP = new Set(['apple-tv']);
+const F = window.FOLDERS;
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+function tile(key) {
+  const f = F[key];
+  const st = [];
+  if (f.c1) st.push(`--c1:${f.c1}`);
+  if (f.c2) st.push(`--c2:${f.c2}`);
+  if (f.img) st.push(`--img:url(${S}still/${f.img}.jpg)`);
+  const logo = f.logo ? `<img class="logo${KEEP.has(f.logo) ? ' keep' : ''}" src="${S}logo/${f.logo}.png" alt="">` : '';
+  if (f.kind === 'top') {
+    return `<div class="tile top${f.ke ? ' ke' : ''}" style="${st.join(';')}" role="img" aria-label="Top 10 ${esc(f.name)}"><div class="bg"></div><div class="num">10</div><div class="glass">${logo}<div class="where">${esc(f.where)}</div></div>${f.ke ? '<i class="flag"></i>' : ''}<div class="grain"></div></div>`;
+  }
+  const label = logo || `<div class="name" data-text="${esc(f.name)}">${esc(f.name)}</div>`;
+  return `<div class="tile v4${f.kind === 'svc' ? ' svc' : ''}" style="${st.join(';')}" role="img" aria-label="${esc(f.name)}"><div class="img"></div><div class="glow"></div><div class="shade"></div><div class="side">${label}</div><div class="grain"></div></div>`;
+}
+
+// Logos are sized by area, not height, so a tall mark (Paramount+) carries the same weight as a
+// wide one (Netflix). Each slot has an area in cqw² and height/width caps.
+const LOGO = { side: { area: 500, h: 17, w: 46 }, glass: { area: 250, h: 12.5, w: 30 } };
+async function sizeLogos(root) {
+  await Promise.all([...root.querySelectorAll('.tile img.logo')].map(async img => {
+    await img.decode();
+    const a = img.naturalWidth / img.naturalHeight;
+    const { area, h, w } = LOGO[img.closest('.glass') ? 'glass' : 'side'];
+    let lh = Math.min(h, Math.sqrt(area / a));
+    if (lh * a > w) lh = w / a;
+    img.style.height = lh.toFixed(2) + 'cqw';
+    img.style.maxWidth = 'none';
+  }));
+}
+
+// One title size; a name too wide for one line breaks into two balanced lines,
+// and only shrinks if a single word is still too wide.
+const SIZE = 13, MAX = 56;
+const meas = document.createElement('div');
+meas.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:nowrap;font-size:100px;line-height:1';
+document.body.appendChild(meas);
+function w100(el, text) {
+  const cs = getComputedStyle(el);
+  meas.style.fontFamily = cs.fontFamily; meas.style.fontWeight = cs.fontWeight;
+  meas.textContent = text;
+  const ls = parseFloat(cs.letterSpacing) / parseFloat(cs.fontSize) || 0;
+  return meas.getBoundingClientRect().width + ls * 100 * text.length;
+}
+function fitTitles(root) {
+  root.querySelectorAll('.tile .name').forEach(el => {
+    const text = el.dataset.text;
+    let s = SIZE, lines = [text];
+    if (w100(el, text) * SIZE / 100 > MAX) {
+      const words = text.split(' ');
+      if (words.length > 1) {
+        let best = null;
+        for (let i = 1; i < words.length; i++) {
+          const a = words.slice(0, i).join(' '), b = words.slice(i).join(' ');
+          const wide = Math.max(w100(el, a), w100(el, b));
+          if (!best || wide < best.wide) best = { a, b, wide };
+        }
+        lines = [best.a, best.b];
+        s = Math.min(SIZE, MAX * 100 / best.wide);
+      } else {
+        s = MAX * 100 / w100(el, text);
+      }
+    }
+    el.innerHTML = lines.map(esc).join('<br>');
+    el.style.fontSize = s.toFixed(2) + 'cqw';
+  });
+}
+
+const ready = document.fonts ? document.fonts.ready : Promise.resolve();
+const rm = location.hash.match(/^#r-([\w-]+)$/);
+if (rm) {
+  document.body.classList.add('render');
+  document.getElementById('render').innerHTML = tile(rm[1]);
+  window.setT = t => document.querySelector('#render .tile').style.setProperty('--t', t);
+  const r = document.getElementById('render');
+  ready.then(() => sizeLogos(r)).then(() => { fitTitles(r); window.renderReady = true; });
+} else {
+  document.getElementById('sheet').innerHTML = window.ROWS.map(([t, ks]) =>
+    `<h2>${esc(t)}</h2><div class="row">${ks.map(k => `<figure style="margin:0">${tile(k)}<figcaption>${esc(F[k].name)}</figcaption></figure>`).join('')}</div>`).join('');
+  ready.then(() => sizeLogos(document)).then(() => fitTitles(document));
+}
+</script>

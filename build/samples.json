@@ -1,0 +1,19 @@
+{
+ "svc-netflix": "tv:66732", "svc-prime-video": "tv:76479", "svc-disney-plus": "tv:83867",
+ "svc-hbo-max": "tv:100088", "svc-apple-tv": "tv:95396", "svc-crunchyroll": "tv:127532",
+ "svc-hulu": "tv:136315", "svc-jiohotstar": "movie:579974",
+ "gen-action": "movie:76341", "gen-horror": "movie:1233413", "gen-sci-fi": "movie:693134",
+ "gen-comedy": "movie:120467", "gen-thriller": "movie:146233", "gen-romance": "movie:313369",
+ "gen-drama": "movie:872585",
+ "world-k-drama": "tv:93405", "world-anime": "tv:85937", "world-indian": "movie:579974",
+ "world-african": "movie:1013865", "world-spanish": "tv:71446", "world-french": "tv:96677",
+ "mood-spooky": "movie:1078605", "mood-true-crime": "movie:1949", "mood-heists": "movie:161",
+ "mood-time-travel": "tv:70523", "mood-superheroes": "movie:414906", "mood-dystopia": "movie:335984",
+ "canon-imdb": "movie:238", "canon-oscar": "movie:872585", "canon-letterboxd": "movie:496243",
+ "canon-a24": "movie:545611",
+ "dec-70s": "movie:578", "dec-80s": "movie:105", "dec-90s": "movie:680", "dec-2000s": "movie:155",
+ "nf-1": "tv:285322", "nf-2": "tv:258165", "nf-3": "tv:236235", "nf-4": "tv:255752",
+ "nf-5": "tv:66732", "nf-6": "tv:203857", "nf-7": "tv:72844", "nf-8": "tv:119051",
+ "nfm-1": "movie:1236045", "nfm-2": "movie:812583", "nfm-3": "movie:860508", "nfm-4": "movie:1284041",
+ "nfm-5": "movie:1330021", "nfm-6": "movie:1492640", "nfm-7": "movie:1458857", "nfm-8": "movie:1389172"
+}

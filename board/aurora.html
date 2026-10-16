@@ -1,0 +1,403 @@
+<title>Aurora Glass Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Geist:wght@400..700&family=Inter+Tight:wght@500..800&display=swap">
+<style>
+/* Layout: a dark lab bench. Variants sit side by side at real size; the page itself stays neutral so the glass carries the colour. */
+@property --t { syntax: "<number>"; inherits: true; initial-value: 0; }
+:root {
+  color-scheme: dark;
+  --void: #000;
+  --room: #08080a;
+  --panel: #111114;
+  --rule: #24242b;
+  --fg: #f2f2f4;
+  --mute: #9b9ba6;
+  --dim: #6a6a75;
+  --pick: #ffcf5a;
+  --ui: "Geist", -apple-system, "Helvetica Neue", sans-serif;
+  --nuvio: "Inter Tight", -apple-system, "Helvetica Neue", sans-serif;
+  --display: "Big Shoulders Display", "Anton", "Impact", sans-serif;
+}
+* { box-sizing: border-box; }
+body { background: var(--room); color: var(--fg); font-family: var(--ui); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1320px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.top { padding-block: 56px 26px; }
+.eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); display: flex; flex-wrap: wrap; gap: 6px 18px; }
+h1 { font-family: var(--display); font-weight: 900; font-size: clamp(54px, 8.5vw, 112px); line-height: .88; text-transform: uppercase; margin: 18px 0; text-wrap: balance; }
+.lead { max-width: 64ch; color: #c9c9d1; font-size: 17px; margin: 0; }
+h2 { font-size: 26px; letter-spacing: -.01em; margin: 0 0 6px; text-wrap: balance; }
+.sub { color: var(--mute); margin: 0 0 22px; max-width: 72ch; }
+section { padding-block: 34px; border-top: 1px solid var(--rule); }
+.changes { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-top: 26px; }
+.changes div { border-left: 2px solid var(--pick); padding: 2px 0 2px 14px; color: var(--mute); font-size: 14px; }
+.changes b { display: block; color: var(--fg); font-weight: 600; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.opt { background: var(--panel); border: 1px solid var(--rule); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px; min-width: 0; transition: border-color .2s; }
+.opt.on { border-color: var(--pick); }
+.opt h3 { margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px; }
+.opt h3 b { font-family: var(--display); font-size: 30px; color: var(--pick); line-height: 1; }
+.opt h3 em { font-style: normal; font-size: 12px; font-weight: 600; color: #000; background: var(--pick); border-radius: 99px; padding: 2px 8px; margin-left: auto; align-self: center; }
+.opt p { margin: 0; color: var(--mute); font-size: 14px; }
+.opt .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.opt .hero { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.opt .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.gifrow { display: flex; gap: 12px; align-items: center; background: #0a0a0c; border: 1px dashed var(--rule); border-radius: 12px; padding: 10px; }
+.gifrow img { width: 46%; max-width: 100%; aspect-ratio: 16 / 9; border-radius: 8px; display: block; }
+.gifrow p { font-size: 12.5px; color: var(--dim); }
+button.btn { font: 600 14px var(--ui); color: #000; background: var(--fg); border: 0; border-radius: 999px; padding: 10px 16px; cursor: pointer; margin-top: auto; }
+.opt.on button.btn { background: var(--pick); }
+button:focus-visible { outline: 2px solid var(--pick); outline-offset: 2px; }
+
+.controls { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(8,8,10,.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding-block: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; border-bottom: 1px solid var(--rule); margin-bottom: 22px; }
+.seg { display: inline-flex; flex-wrap: wrap; background: var(--panel); border: 1px solid var(--rule); border-radius: 999px; padding: 3px; }
+.seg button { font: 600 13.5px var(--ui); color: var(--mute); background: none; border: 0; border-radius: 999px; padding: 7px 12px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--fg); color: #000; }
+.controls .lbl { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+
+/* Nuvio desktop window and iPhone (same geometry as the first board) */
+.win { position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 10; background: var(--void); border-radius: 14px; overflow: hidden; container-type: inline-size; box-shadow: 0 0 0 1px #1c1c22, 0 40px 80px -30px rgba(0,0,0,.9); font-family: var(--nuvio); color: #fff; }
+.win .bar { position: absolute; top: 1.4cqw; left: 50%; transform: translateX(-50%); display: flex; gap: .3cqw; padding: .35cqw; border-radius: 99px; background: rgba(40,40,46,.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); z-index: 3; }
+.win .bar i { font-style: normal; font-weight: 600; font-size: 1.02cqw; padding: .55cqw 1.25cqw; border-radius: 99px; color: rgba(255,255,255,.72); }
+.win .bar i.on { background: #fff; color: #000; }
+.win .me { position: absolute; top: 1.6cqw; right: 2.2cqw; width: 2.6cqw; height: 2.6cqw; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #c94040, #3a0b0b 70%); z-index: 3; display: grid; place-items: center; font-weight: 700; font-size: 1.1cqw; }
+.home { position: absolute; inset: 0; padding-top: 6.4cqw; overflow: hidden; }
+.shelf { margin-bottom: 1.95cqw; }
+.shelf h4 { margin: 0 0 .75cqw 3.24cqw; font-weight: 700; font-size: 1.32cqw; letter-spacing: -.01em; }
+.track { display: flex; gap: .82cqw; padding-left: 3.24cqw; }
+.track > .tile { flex: none; width: 16.67cqw; }
+.win .fade { position: absolute; left: 0; right: 0; bottom: 0; height: 7cqw; background: linear-gradient(transparent, #000); pointer-events: none; z-index: 2; }
+.devices { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+.devices > div { min-width: 0; }
+.phone { position: relative; width: 100%; max-width: 330px; margin: 0 auto; aspect-ratio: 430 / 932; border-radius: 13% / 6%; background: #000; overflow: hidden; container-type: inline-size; box-shadow: 0 0 0 2px #2a2a31, 0 0 0 7px #0d0d10, 0 30px 60px -20px rgba(0,0,0,.9); font-family: var(--nuvio); color: #fff; }
+.phone .island { position: absolute; top: 2.6cqw; left: 50%; transform: translateX(-50%); width: 29cqw; height: 8.4cqw; border-radius: 99px; background: #000; z-index: 4; }
+.phone .status { position: absolute; top: 3.4cqw; left: 9cqw; right: 8cqw; display: flex; justify-content: space-between; font-weight: 700; font-size: 3.9cqw; z-index: 4; }
+.phone .ph-home { position: absolute; inset: 0; padding-top: 17cqw; }
+.phone .ph-title { font-weight: 800; font-size: 7.4cqw; margin: 0 0 4cqw 4.6cqw; letter-spacing: -.02em; }
+.phone .shelf h4 { margin: 0 0 2.4cqw 4.6cqw; font-size: 4.6cqw; }
+.phone .shelf { margin-bottom: 5.6cqw; }
+.phone .track { gap: 2.4cqw; padding-left: 4.6cqw; }
+.phone .track > .tile { width: 47.9cqw; }
+.phone .tabbar { position: absolute; left: 6cqw; right: 6cqw; bottom: 5cqw; height: 15cqw; border-radius: 99px; background: rgba(38,38,44,.62); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.09); display: flex; justify-content: space-around; align-items: center; z-index: 4; }
+.phone .tabbar i { font-style: normal; font-size: 3cqw; font-weight: 600; color: rgba(255,255,255,.6); display: flex; flex-direction: column; align-items: center; gap: .6cqw; }
+.phone .tabbar i::before { content: ""; width: 5.6cqw; height: 5.6cqw; border-radius: 1.6cqw; background: currentColor; opacity: .85; }
+.phone .tabbar i.on { color: #fff; }
+.dev-cap { text-align: center; font-size: 13px; color: var(--dim); margin-top: 10px; }
+footer { padding-block: 34px 70px; border-top: 1px solid var(--rule); color: var(--mute); }
+footer strong { color: var(--fg); }
+
+/* =================================================================
+   COVERS. Sizes are in cqw of the tile. --t runs 0..1 for motion;
+   t = 0 is the still cover, so the hover animation starts seamlessly.
+   ================================================================= */
+.tile { position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; border-radius: .46cqw; overflow: hidden; container-type: inline-size; isolation: isolate; background: #0b0b0d; color: #fff; font-family: var(--nuvio); }
+.phone .tile { border-radius: 1.9cqw; }
+.opt .tile { border-radius: 10px; }
+.tile > * { position: absolute; }
+.tile .bg, .tile .img, .tile .glow, .tile .grain { inset: 0; background-size: cover; background-position: center; }
+.tile .grain { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 18cqw; opacity: .07; mix-blend-mode: overlay; z-index: 9; pointer-events: none; }
+.tile .name { position: static; font-weight: 760; letter-spacing: -.035em; line-height: .95; white-space: nowrap; text-shadow: 0 .3cqw 1.6cqw rgba(0,0,0,.28); }
+.tile img.logo { object-fit: contain; filter: brightness(0) invert(1) drop-shadow(0 .3cqw 1.2cqw rgba(0,0,0,.3)); }
+.tile img.logo.keep { filter: drop-shadow(0 .3cqw 1.2cqw rgba(0,0,0,.35)); }
+
+/* the glass material, shared by every variant */
+.glass { border-radius: 5.6cqw; background: linear-gradient(155deg, rgba(255,255,255,.24), rgba(255,255,255,.05) 48%, rgba(255,255,255,.11)); backdrop-filter: blur(2.4cqw) saturate(1.8) brightness(1.12); -webkit-backdrop-filter: blur(2.4cqw) saturate(1.8) brightness(1.12); box-shadow: inset 0 .28cqw .18cqw -.08cqw rgba(255,255,255,.6), inset 0 -.5cqw 1.2cqw rgba(0,0,0,.2), 0 2.2cqw 5cqw rgba(0,0,0,.42); display: flex; align-items: center; }
+.glass::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: .26cqw; background: linear-gradient(135deg, rgba(255,255,255,.85), rgba(255,255,255,.1) 38%, rgba(255,255,255,0) 62%, rgba(255,255,255,.4)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); pointer-events: none; }
+.svc .bg::after, .svc .glow::after { content: ""; position: absolute; inset: 0; background: radial-gradient(80% 90% at 15% 70%, var(--c1), transparent 70%); mix-blend-mode: screen; opacity: .55; }
+
+/* A0 · first draft, for comparison */
+.v0 .bg { background-image: var(--img); filter: blur(5cqw) saturate(1.7) brightness(.78); transform: scale(1.35); }
+.v0 .img { background-image: var(--img); -webkit-mask-image: linear-gradient(90deg, transparent 18%, #000 64%); mask-image: linear-gradient(90deg, transparent 18%, #000 64%); }
+.v0 .glass { left: 5.5%; top: 11%; bottom: 11%; width: 47%; justify-content: center; border-radius: 6cqw; padding: 0 3.5cqw; }
+.v0 .name { text-align: center; }
+.v0 .glass img.logo { position: static; max-width: 82%; max-height: 46%; }
+
+/* A1 · Refined Slab: glass anchored low-left, one title size everywhere */
+.v1 .bg { background-image: var(--img); filter: blur(5cqw) saturate(1.75) brightness(.74); transform: scale(1.35); }
+.v1 .img { background-image: var(--img); -webkit-mask-image: linear-gradient(90deg, transparent 22%, #000 70%); mask-image: linear-gradient(90deg, transparent 22%, #000 70%); }
+.v1 .glass { left: 5cqw; bottom: 5cqw; padding: 3.4cqw 4.4cqw; max-width: 58cqw; }
+.v1 .glass img.logo { position: static; height: 10.5cqw; max-width: 40cqw; }
+
+/* A2 · Ornament: the whole film, a floating glass capsule, ambient light below */
+.v2 .img { background-image: var(--img); filter: brightness(.86); }
+.v2 .glow { background-image: var(--img); filter: blur(4cqw) saturate(2.2) brightness(1.1); transform: scale(1.3); -webkit-mask-image: linear-gradient(transparent 45%, #000 95%); mask-image: linear-gradient(transparent 45%, #000 95%); opacity: .9; }
+.v2 .shade { inset: 0; background: linear-gradient(transparent 50%, rgba(0,0,0,.38)); }
+.v2 .glass { left: 4.6cqw; bottom: 4.6cqw; height: 16cqw; padding: 0 5cqw; border-radius: 99px; max-width: 72cqw; }
+.v2 .glass img.logo { position: static; height: 8.2cqw; max-width: 36cqw; }
+
+/* A3 · Frosted Window: frost everywhere, a clear lens onto the film */
+.v3 .bg { background-image: var(--img); filter: blur(4cqw) saturate(1.9) brightness(.82); transform: scale(1.4); }
+.v3 .frost { inset: 0; background: linear-gradient(120deg, rgba(255,255,255,.1), rgba(255,255,255,0) 50%); }
+.v3 .lens { right: 4.6cqw; top: 6cqw; bottom: 6cqw; width: 46cqw; border-radius: 7.5cqw; background-image: var(--img); background-size: cover; background-position: var(--focus, 62% 40%); box-shadow: inset 0 0 0 .3cqw rgba(255,255,255,.28), inset 0 .5cqw .4cqw -.2cqw rgba(255,255,255,.55), inset 0 -1cqw 2cqw rgba(0,0,0,.35), 0 2.6cqw 5cqw rgba(0,0,0,.45); }
+.v3 .lens::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(150deg, rgba(255,255,255,.22), transparent 30%); }
+.v3 .side { left: 6cqw; top: 50%; transform: translateY(-50%); max-width: 40cqw; }
+.v3 .side img.logo { position: static; display: block; height: 10cqw; max-width: 38cqw; object-position: left center; }
+
+/* A4 · Glass Type: no panel, the letters are polished glass */
+.v4 .img { background-image: var(--img); filter: brightness(.7) saturate(1.1); }
+.v4 .glow { background-image: var(--img); filter: blur(5cqw) saturate(2) brightness(.9); transform: scale(1.35); -webkit-mask-image: linear-gradient(90deg, #000 30%, transparent 70%); mask-image: linear-gradient(90deg, #000 30%, transparent 70%); }
+.v4 .side { left: 6cqw; bottom: 6cqw; }
+.v4 .name { font-weight: 800; letter-spacing: -.045em; background: linear-gradient(172deg, #fff 8%, rgba(255,255,255,.62) 46%, rgba(255,255,255,.28) 58%, rgba(255,255,255,.8) 96%); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; filter: drop-shadow(0 .25cqw .1cqw rgba(255,255,255,.18)) drop-shadow(0 .6cqw 1.6cqw rgba(0,0,0,.45)); }
+.v4 .side img.logo { position: static; display: block; height: 12cqw; max-width: 46cqw; object-position: left bottom; }
+
+/* ---------- Top 10, three motions. All read --t (0..1). ---------- */
+.top .bg { background: radial-gradient(55% 85% at calc(76% + 8% * sin(var(--t) * 360deg)) calc(42% + 10% * cos(var(--t) * 360deg)), var(--c1), transparent 70%), radial-gradient(60% 80% at calc(18% + 7% * cos(var(--t) * 360deg)) calc(88% - 9% * sin(var(--t) * 360deg)), var(--c2), transparent 72%), radial-gradient(40% 60% at calc(50% + 10% * sin(var(--t) * 720deg)) 10%, color-mix(in srgb, var(--c1) 55%, #fff 45%), transparent 70%), #050507; filter: blur(1.2cqw) saturate(1.25); }
+.top .num { right: 6.5cqw; top: 50%; transform: translateY(-52%); font: 800 34cqw/.8 var(--nuvio); letter-spacing: -.075em; background: linear-gradient(176deg, rgba(255,255,255,.98), rgba(255,255,255,.55) 48%, rgba(255,255,255,.16)); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 .8cqw 2cqw rgba(0,0,0,.35)); }
+.top .glass { left: 5cqw; top: 50%; transform: translateY(-50%); flex-direction: column; justify-content: center; gap: 2.2cqw; padding: 4cqw 4.6cqw; min-width: 34cqw; }
+.top .glass img.logo { position: static; height: 9.5cqw; max-width: 30cqw; }
+.top .glass .where { font-weight: 700; font-size: 5.6cqw; letter-spacing: .01em; color: rgba(255,255,255,.92); }
+.top.ke .flag { left: 0; right: 0; bottom: 0; height: 2.6cqw; background: linear-gradient(#000 0 30%, #fff 30% 35%, #bb0000 35% 65%, #fff 65% 70%, #006600 70%); z-index: 8; }
+
+/* T1 · Sheen: a band of light crosses glass and numeral, then rests */
+.m1 .sheen { top: -15%; bottom: -15%; left: 0; width: 34cqw; background: linear-gradient(90deg, transparent, rgba(255,255,255,.26) 50%, transparent); transform: translateX(calc(-62cqw + 176cqw * clamp(0, (var(--t) - .08) / .52, 1))) skewX(-18deg); mix-blend-mode: screen; z-index: 7; }
+.m1 .bg { background: radial-gradient(55% 85% at 76% 42%, var(--c1), transparent 70%), radial-gradient(60% 80% at 18% 88%, var(--c2), transparent 72%), #050507; }
+
+/* T2 · Aurora Flow: the light behind drifts; the glass bends it */
+.m2 .num { background: linear-gradient(calc(170deg + 14deg * sin(var(--t) * 360deg)), rgba(255,255,255,.98), rgba(255,255,255,.5) 46%, rgba(255,255,255,.14)); -webkit-background-clip: text; background-clip: text; }
+
+/* T3 · Rim Light: a highlight travels round the glass edge */
+.m3 .bg { background: radial-gradient(55% 85% at 76% 42%, var(--c1), transparent 70%), radial-gradient(60% 80% at 18% 88%, var(--c2), transparent 72%), #050507; }
+.m3 .glass::before { background: conic-gradient(from calc(var(--t) * 360deg - 45deg), rgba(255,255,255,.95), rgba(255,255,255,.12) 18%, rgba(255,255,255,0) 50%, rgba(255,255,255,.12) 82%, rgba(255,255,255,.95)); padding: .34cqw; }
+.m3 .glint { right: calc(6.5cqw + 2cqw); top: 18%; width: 30cqw; height: 64%; background: radial-gradient(closest-side, rgba(255,255,255,.55), transparent); mix-blend-mode: overlay; transform: translateX(calc(-12cqw * sin(var(--t) * 360deg))); z-index: 6; }
+
+/* playback: always on the phone and the cards; on the Mac only while hovered, like Nuvio */
+@keyframes tick { from { --t: 0; } to { --t: 1; } }
+.play .top { animation: tick 3.6s linear infinite; }
+.win .top { animation: none; }
+.win .top:hover { animation: tick 3.6s linear infinite; }
+.render .top { animation: none !important; }
+@media (prefers-reduced-motion: reduce) { .play .top, .win .top:hover { animation: none; } }
+
+/* render mode: one tile filling the viewport, for exporting covers */
+body.render { margin: 0; background: #000; }
+body.render > :not(#render) { display: none !important; }
+#render { display: none; }
+body.render #render { display: block; position: fixed; inset: 0; }
+body.render #render .tile { width: 100vw; height: 100vh; aspect-ratio: auto; border-radius: 0; }
+
+@media (max-width: 1000px) {
+  .grid3 { grid-template-columns: minmax(0, 1fr); }
+  .devices { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 480px) { .opt .tiles, .opt .pair { grid-template-columns: 1fr; } .gifrow { flex-direction: column; } .gifrow img { width: 100%; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow"><span>Style A · Aurora Glass</span><span>Top 10 animated</span><span>Nuvio 0.1.30</span></div>
+    <h1>Aurora<br>Glass Lab</h1>
+    <p class="lead">You picked Aurora Glass with an animated Top 10 row. Below are four refinements of the cover and three ways to animate Top 10, all from the same frosted-glass idea, drawn at Nuvio's real tile size.</p>
+    <div class="changes">
+      <div><b>Real glass</b>A bright rim where light hits the top edge, a soft shadow underneath, and the film refracted through the pane.</div>
+      <div><b>One title size</b>Every folder name is set at the same size; long names break onto two balanced lines instead of shrinking.</div>
+      <div><b>More of the film</b>The pane is smaller and sits low, so the still does more of the work.</div>
+      <div><b>Brand light for services</b>Service tiles pick up their brand colour in the glow behind the glass.</div>
+    </div>
+  </header>
+
+  <section aria-labelledby="h-covers">
+    <h2 id="h-covers">Cover variations</h2>
+    <p class="sub">Same four folders in each: Netflix, Horror, K-Drama and Spooky Season, the longest name in the set. The first draft is last, for comparison.</p>
+    <div class="grid2" id="covers"></div>
+  </section>
+
+  <section aria-labelledby="h-motion">
+    <h2 id="h-motion">Top 10 motion</h2>
+    <p class="sub">On the Mac, Nuvio shows the still cover and plays the animation while you hover over the tile. On the iPhone it loops all the time, so these stay slow and calm. The first frame of every loop is the still cover, so nothing jumps when it starts.</p>
+    <div class="grid3" id="motions"></div>
+  </section>
+
+  <section aria-labelledby="h-home">
+    <div class="controls" role="group" aria-label="Preview controls">
+      <span class="lbl">Cover</span>
+      <div class="seg" id="seg-v" role="group" aria-label="Cover variation"></div>
+      <span class="lbl">Top 10</span>
+      <div class="seg" id="seg-m" role="group" aria-label="Top 10 motion"></div>
+    </div>
+    <h2 id="h-home">On your home</h2>
+    <p class="sub">Hover a Top 10 tile in the Mac view to play it, as Nuvio does. The iPhone loops it.</p>
+    <div class="devices">
+      <div><div class="win" id="win-home"></div><p class="dev-cap">Mac, tiles at 288&nbsp;pt</p></div>
+      <div><div class="phone play" id="ph-home"></div><p class="dev-cap">iPhone, tiles at 206&nbsp;pt</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Tell me a cover (A1 to A4) and a motion (T1 to T3)</strong>, or a mix such as "A2 for genres, A3 for services". Then I render all 78 covers, export the Top 10 animations, and build the import file.</p>
+  </footer>
+</div>
+<div id="render"></div>
+
+<script>
+const S = 'assets/web/';
+const still = k => `url(${S}still/${k}.jpg)`;
+
+const F = {
+  'top-ke':     { name: 'Kenya', kind: 'top', logo: 'netflix', c1: '#c4121a', c2: '#0b6b2a', where: 'Kenya', ke: true },
+  'top-netflix':{ name: 'Netflix', kind: 'top', logo: 'netflix', c1: '#e50914', c2: '#3a0006', where: 'Today' },
+  'top-prime':  { name: 'Prime Video', kind: 'top', logo: 'prime-video', c1: '#1a98ff', c2: '#03204a', where: 'Today' },
+  'top-disney': { name: 'Disney+', kind: 'top', logo: 'disney-plus', c1: '#2350ff', c2: '#0a1a5c', where: 'Today' },
+  'top-hbo':    { name: 'HBO Max', kind: 'top', logo: 'hbo-max', c1: '#9b3bff', c2: '#2a0660', where: 'Today' },
+  'top-apple':  { name: 'Apple TV+', kind: 'top', logo: 'apple-tv', c1: '#8a8a98', c2: '#1c1c22', where: 'Today', keep: true },
+  'top-crunchy':{ name: 'Crunchyroll', kind: 'top', logo: 'crunchyroll', c1: '#f47521', c2: '#4a1a00', where: 'Today' },
+  netflix: { name: 'Netflix', kind: 'svc', logo: 'netflix', img: 'svc-netflix', c1: '#e50914' },
+  prime:   { name: 'Prime Video', kind: 'svc', logo: 'prime-video', img: 'svc-prime-video', c1: '#1a98ff' },
+  disney:  { name: 'Disney+', kind: 'svc', logo: 'disney-plus', img: 'svc-disney-plus', c1: '#2350ff' },
+  hbo:     { name: 'HBO Max', kind: 'svc', logo: 'hbo-max', img: 'svc-hbo-max', c1: '#9b3bff' },
+  apple:   { name: 'Apple TV+', kind: 'svc', logo: 'apple-tv', img: 'svc-apple-tv', c1: '#8a8a98', keep: true },
+  crunchy: { name: 'Crunchyroll', kind: 'svc', logo: 'crunchyroll', img: 'svc-crunchyroll', c1: '#f47521' },
+  hulu:    { name: 'Hulu', kind: 'svc', logo: 'hulu', img: 'svc-hulu', c1: '#1ce783' },
+  action:  { name: 'Action', img: 'gen-action', focus: '58% 50%' },
+  horror:  { name: 'Horror', img: 'gen-horror', focus: '62% 45%' },
+  scifi:   { name: 'Sci-Fi', img: 'gen-sci-fi', focus: '55% 40%' },
+  comedy:  { name: 'Comedy', img: 'gen-comedy', focus: '60% 55%' },
+  thriller:{ name: 'Thriller', img: 'gen-thriller', focus: '70% 50%' },
+  romance: { name: 'Romance', img: 'gen-romance', focus: '58% 50%' },
+  drama:   { name: 'Drama', img: 'gen-drama', focus: '55% 45%' },
+  kdrama:  { name: 'K-Drama', img: 'world-k-drama', focus: '55% 60%' },
+  anime:   { name: 'Anime', img: 'world-anime', focus: '60% 45%' },
+  indian:  { name: 'Indian', img: 'world-indian', focus: '50% 40%' },
+  african: { name: 'African', img: 'world-african', focus: '45% 45%' },
+  spanish: { name: 'Spanish', img: 'world-spanish', focus: '60% 40%' },
+  french:  { name: 'French', img: 'world-french', focus: '55% 45%' },
+  spooky:  { name: 'Spooky Season', img: 'mood-spooky', focus: '48% 50%' },
+};
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+const VARIANTS = {
+  1: ['Refined Slab', 'The first draft made real: rim light, refraction and depth on the glass, anchored low on the left, one title size throughout.'],
+  2: ['Ornament', 'The whole film, with a floating glass capsule and the film\'s colours glowing up from underneath. The most cinematic; closest to visionOS.'],
+  3: ['Frosted Window', 'The tile is frosted glass and a clear lens shows the film. The strongest system across 78 folders and the boldest on the phone.'],
+  4: ['Glass Type', 'No panel at all. The name itself is polished glass over the film. Minimal and very current, a little less legible on the phone.'],
+  0: ['First draft', 'What you picked, unchanged.'],
+};
+const SIZES = {"1": "82 KB", "2": "179 KB", "3": "175 KB"};
+const MOTIONS = {
+  1: ['Sheen', 'A band of light passes over the glass and the numeral, then rests. Quiet; the classic premium move.'],
+  2: ['Aurora Flow', 'The coloured light behind the glass drifts slowly in a loop, so the pane and the numeral seem to bend it. The most alive.'],
+  3: ['Rim Light', 'A highlight travels round the edge of the glass while a soft glint crosses the numeral. Very Liquid Glass.'],
+};
+
+function tile(key, v, m) {
+  const f = F[key];
+  const st = [];
+  if (f.c1) st.push(`--c1:${f.c1}`);
+  if (f.c2) st.push(`--c2:${f.c2}`);
+  if (f.img) st.push(`--img:${still(f.img)}`);
+  if (f.focus) st.push(`--focus:${f.focus}`);
+  const logo = f.logo ? `<img class="logo${f.keep ? ' keep' : ''}" src="${S}logo/${f.logo}.png" alt="">` : '';
+  const name = `<div class="name" data-text="${esc(f.name)}">${esc(f.name)}</div>`;
+  if (f.kind === 'top') {
+    const extra = m === 1 ? '<div class="sheen"></div>' : m === 3 ? '<div class="glint"></div>' : '';
+    return `<div class="tile top m${m}${f.ke ? ' ke' : ''}" style="${st.join(';')}" role="img" aria-label="Top 10 ${esc(f.name)}"><div class="bg"></div><div class="num">10</div>${extra}<div class="glass">${logo}<div class="where">${esc(f.where)}</div></div>${f.ke ? '<i class="flag"></i>' : ''}<div class="grain"></div></div>`;
+  }
+  const svc = f.kind === 'svc' ? ' svc' : '';
+  const label = f.logo ? logo : name;
+  let inner;
+  if (v === 0) inner = `<div class="bg"></div><div class="img"></div><div class="glass">${label}</div>`;
+  if (v === 1) inner = `<div class="bg"></div><div class="img"></div><div class="glass">${label}</div>`;
+  if (v === 2) inner = `<div class="img"></div><div class="glow"></div><div class="shade"></div><div class="glass">${label}</div>`;
+  if (v === 3) inner = `<div class="bg"></div><div class="frost"></div><div class="lens"></div><div class="side">${label}</div>`;
+  if (v === 4) inner = `<div class="img"></div><div class="glow"></div><div class="side">${label}</div>`;
+  return `<div class="tile v${v}${svc}" style="${st.join(';')}" role="img" aria-label="${esc(f.name)}">${inner}<div class="grain"></div></div>`;
+}
+
+// One title size per variant; a name too wide for one line breaks into two
+// balanced lines, and only shrinks if a single word is still too wide.
+const TITLE = { 0: { size: 8.2, max: 34 }, 1: { size: 8.2, max: 46 }, 2: { size: 7.6, max: 60 }, 3: { size: 8.6, max: 38 }, 4: { size: 13, max: 56 } };
+const meas = document.createElement('div');
+meas.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:nowrap;font-size:100px;line-height:1';
+document.body.appendChild(meas);
+const wcache = new Map();
+function w100(el, text) {
+  const cs = getComputedStyle(el);
+  const k = cs.fontFamily + cs.fontWeight + text;
+  if (wcache.has(k)) return wcache.get(k);
+  meas.style.fontFamily = cs.fontFamily; meas.style.fontWeight = cs.fontWeight;
+  meas.textContent = text;
+  const ls = parseFloat(cs.letterSpacing) / parseFloat(cs.fontSize) || 0;
+  const w = meas.getBoundingClientRect().width + ls * 100 * text.length;
+  wcache.set(k, w); return w;
+}
+function fitTitles(root) {
+  root.querySelectorAll('.tile .name').forEach(el => {
+    const t = el.closest('.tile');
+    const v = Number((t.className.match(/\bv(\d)\b/) || [0, 1])[1]);
+    const { size, max } = TITLE[v];
+    const text = el.dataset.text;
+    el.textContent = text;
+    let s = size, lines = [text];
+    if (w100(el, text) * size / 100 > max) {
+      const words = text.split(' ');
+      if (words.length > 1) {
+        let best = null;
+        for (let i = 1; i < words.length; i++) {
+          const a = words.slice(0, i).join(' '), b = words.slice(i).join(' ');
+          const wide = Math.max(w100(el, a), w100(el, b));
+          if (!best || wide < best.wide) best = { a, b, wide };
+        }
+        lines = [best.a, best.b];
+        s = Math.min(size, max * 100 / best.wide);
+      } else {
+        s = max * 100 / w100(el, text);
+      }
+    }
+    el.innerHTML = lines.map(esc).join('<br>');
+    el.style.fontSize = s.toFixed(2) + 'cqw';
+  });
+}
+
+let V = 1, M = 2;
+try { V = Number(localStorage.getItem('aur-v') || 1); M = Number(localStorage.getItem('aur-m') || 2); } catch (e) {}
+
+function renderCards() {
+  document.getElementById('covers').innerHTML = [1, 2, 3, 4, 0].map(v => {
+    const [n, p] = VARIANTS[v];
+    return `<div class="opt${v === V ? ' on' : ''}" data-v="${v}"><h3><b>${v ? 'A' + v : 'A'}</b>${n}${v === 2 ? '<em>My pick</em>' : ''}</h3><p>${p}</p><div class="tiles">${['netflix', 'horror', 'kdrama', 'spooky'].map(k => tile(k, v)).join('')}</div>${v ? `<button type="button" class="btn" data-v="${v}">Show A${v} on my home</button>` : ''}</div>`;
+  }).join('');
+  document.getElementById('motions').innerHTML = [1, 2, 3].map(m => {
+    const [n, p] = MOTIONS[m];
+    return `<div class="opt play${m === M ? ' on' : ''}" data-m="${m}"><h3><b>T${m}</b>${n}${m === 2 ? '<em>My pick</em>' : ''}</h3><p>${p}</p><div class="hero">${tile('top-netflix', V, m)}</div><div class="pair">${tile('top-ke', V, m)}${tile('top-disney', V, m)}</div>` +
+      `<div class="gifrow"><img src="${S}anim/t${m}-netflix.webp" alt="Exported animated cover for Netflix Top 10, motion T${m}" loading="lazy"><p>The real export Nuvio would play: animated WebP, 512×288, 10 frames a second, ${SIZES[m]}.</p></div>` +
+      `<button type="button" class="btn" data-m="${m}">Use T${m} on my home</button></div>`;
+  }).join('');
+}
+
+const ROWS = [
+  ['Top 10 Today', ['top-ke', 'top-netflix', 'top-prime', 'top-disney', 'top-hbo', 'top-apple', 'top-crunchy']],
+  ['Streaming Services', ['netflix', 'prime', 'disney', 'hbo', 'apple', 'crunchy', 'hulu']],
+  ['Genres', ['action', 'horror', 'scifi', 'comedy', 'thriller', 'romance', 'drama']],
+  ['Around the World', ['kdrama', 'anime', 'indian', 'african', 'spanish', 'french']],
+];
+const shelf = ([t, ks]) => `<div class="shelf"><h4>${esc(t)}</h4><div class="track">${ks.map(k => tile(k, V, M)).join('')}</div></div>`;
+function renderHome() {
+  document.getElementById('win-home').innerHTML = `<div class="bar"><i class="on">Home</i><i>Search</i><i>Library</i><i>Settings</i></div><div class="me">E</div><div class="home">${ROWS.map(shelf).join('')}</div><div class="fade"></div>`;
+  document.getElementById('ph-home').innerHTML = `<div class="island"></div><div class="status"><span>9:41</span><span>5G</span></div><div class="ph-home"><div class="ph-title">Home</div>${ROWS.map(shelf).join('')}</div><div class="tabbar"><i class="on">Home</i><i>Search</i><i>Library</i><i>Settings</i></div>`;
+  document.getElementById('seg-v').innerHTML = [1, 2, 3, 4].map(v => `<button type="button" data-v="${v}" aria-pressed="${v === V}">A${v} ${VARIANTS[v][0]}</button>`).join('');
+  document.getElementById('seg-m').innerHTML = [1, 2, 3].map(m => `<button type="button" data-m="${m}" aria-pressed="${m === M}">T${m} ${MOTIONS[m][0]}</button>`).join('');
+}
+function renderAll() { renderCards(); renderHome(); fitTitles(document); }
+function setV(v) { V = v; try { localStorage.setItem('aur-v', v); } catch (e) {} renderAll(); }
+function setM(m) { M = m; try { localStorage.setItem('aur-m', m); } catch (e) {} renderAll(); }
+document.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.v) { setV(Number(b.dataset.v)); if (b.classList.contains('btn')) document.getElementById('h-home').scrollIntoView({ behavior: 'smooth' }); }
+  if (b.dataset.m) { setM(Number(b.dataset.m)); if (b.classList.contains('btn')) document.getElementById('h-home').scrollIntoView({ behavior: 'smooth' }); }
+});
+
+// Render mode for exporting covers: aurora.html#r-<variant>-<motion>-<folder key>
+const rm = location.hash.match(/^#r-(\d)-(\d)-([\w-]+)$/);
+if (rm) {
+  document.body.classList.add('render');
+  document.getElementById('render').innerHTML = tile(rm[3], Number(rm[1]), Number(rm[2]));
+  window.setT = t => document.querySelector('#render .tile').style.setProperty('--t', t);
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { fitTitles(document.getElementById('render')); window.renderReady = true; });
+} else {
+  renderAll();
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => fitTitles(document));
+}
+</script>
