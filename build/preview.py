@@ -116,7 +116,7 @@ footer strong {{ color: var(--fg); }}
     </div>
   </header>
   {"".join(sections)}
-  <footer><p><strong>Not imported yet.</strong> Nuvio loads covers from a public web address, so they go online before the import file can point at them. Importing replaces the Streaming Services and Genres collections on this profile.</p></footer>
+  <footer><p><strong>Online and ready to import.</strong> The covers are served from github.com/mali-king/nuvio-everything at tag v1. Install Everything Metadata in Nuvio first, then paste the contents of everything-collections.min.json into Nuvio's collection import. Importing replaces the Streaming Services and Genres collections on this profile.</p></footer>
 </div>
 """
 open(os.path.join(OUT, "index.html"), "w").write(page)
