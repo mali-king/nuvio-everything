@@ -29,6 +29,21 @@ same checks as Nuvio's `validateImportModel`.
   The Mac plays it while you hover a tile; the iPhone loops it.
 - `build/` and `board/`: the pipeline that produced all of it.
 
+## Other looks (tag v2)
+
+The same collection with four other cover designs. Every folder, row and source is identical to the
+Aurora Glass file; only the covers change, so you can switch looks by importing a different file.
+
+| Look | Import file | What it is |
+|---|---|---|
+| Polaroid Table | `styles/polaroid-table/polaroid-table.json` | Instant photos on a desk, labelled in marker; Top 10 gets a sticky note |
+| Arcade | `styles/arcade/arcade.json` | Each film as a 16-bit title screen, PICO-8 colours, CRT glass |
+| Riso Zine | `styles/riso-zine/riso-zine.json` | Two-ink risograph prints, torn, taped and scribbled on |
+| Hype Reel | `styles/hype-reel/hype-reel.json` | Sports-broadcast style: slashed colour panel, cast breaking out, echoing type |
+
+Each look has `covers/` (1600×900) and `anim/` (the 12 Top 10 hover loops) beside its import file, served from
+`raw.githubusercontent.com/mali-king/nuvio-everything/v2/styles/<look>/`.
+
 ## Before you import
 
 - Install Everything Metadata in Nuvio first. Nuvio only resolves an addon row when an installed addon's
@@ -47,3 +62,14 @@ node build/export_covers.cjs
 It checks every addon row against the config before writing anything. The cover design lives in
 `board/covers.html`; `covers.html#r-<folder key>` draws one cover full-window for the exporter. New covers
 need a new tag, since Nuvio caches by URL.
+
+The other looks:
+
+```sh
+python3 -I build/styles_assets.py                      # stills, cut-outs, Polaroid back photos -> board/styles.js
+node build/export_styles.cjs dist/styles               # all four looks; or name some: pol arc riso hype
+python3 -I build/style_collections.py dist/styles <tag>  # one import file per look, v1 with the cover URLs swapped
+```
+
+The four designs live in `board/styles.html`; `styles.html#r-<look>-<folder key>` draws one cover and
+`styles.html?s=<look>` draws a look's whole sheet.

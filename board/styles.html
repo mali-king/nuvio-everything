@@ -1,0 +1,673 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Everything Cover Looks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,500..900;1,62..125,500..900&family=Inter+Tight:wght@500..900&family=Press+Start+2P&family=Permanent+Marker&display=swap">
+<style>
+/* Production covers for the four picked looks, on all 78 Everything folders:
+   pol Polaroid Table, arc Arcade, riso Riso Zine, hype Hype Reel (from the overhaul labs, rounds 4 and 5).
+   styles.html#r-<style>-<folder key> draws one tile full-window for the exporter; window.setT(t) poses its
+   hover loop at t in [0, 1), and t = 0 is the still. styles.html?s=<style> draws every folder as a sheet. */
+:root { color-scheme: dark; --sans: "Inter Tight", -apple-system, "Helvetica Neue", sans-serif; --cond: "Archivo", "Inter Tight", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #000; color: #f2f2f4; font: 14px/1.4 var(--sans); }
+
+.tile { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; container-type: inline-size; isolation: isolate; background: #0b0b0d; color: #fff; }
+.tile > * { position: absolute; }
+.tile .fill { inset: 0; background-size: cover; background-position: center; }
+.tile canvas.full { inset: 0; width: 100%; height: 100%; }
+.tile .fit { white-space: nowrap; }
+.tile .grain { inset: 0; filter: url(#grain); pointer-events: none; }
+.flag { display: inline-block; flex: none; height: 3.2cqw; width: 4.8cqw; border-radius: .4cqw; background: linear-gradient(#111 0 30%, #fff 30% 36%, #c8102e 36% 64%, #fff 64% 70%, #007a3d 70%); box-shadow: 0 0 0 .14cqw rgba(255,255,255,.3); }
+.mask { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+
+/* ── Polaroid Table: instant photos on a dark desk under a lamp, labelled in marker ── */
+.pol { background: #120c09; }
+.pol .desk { inset: 0; background: repeating-linear-gradient(91deg, rgba(255,220,180,.025) 0 .25cqw, transparent .25cqw 1.3cqw), repeating-linear-gradient(89deg, rgba(0,0,0,.12) 0 .6cqw, transparent .6cqw 3.1cqw), linear-gradient(180deg, #24170f, #150e0a); }
+.pol .lamp { inset: 0; background: radial-gradient(62% 85% at 34% 38%, rgba(255,196,130,.32) 0%, rgba(255,170,100,.1) 45%, transparent 75%), radial-gradient(120% 120% at 34% 38%, transparent 40%, rgba(0,0,0,.65) 100%); opacity: var(--lamp, 1); }
+.pol .frame { background: linear-gradient(160deg, #fbf9f4, #ece7dc); border-radius: .7cqw; box-shadow: 0 .3cqw .4cqw rgba(0,0,0,.35), 0 2.4cqw 4cqw rgba(0,0,0,.6); transform: translate(var(--px, 0), var(--py, 0)) rotate(var(--rot)); }
+.pol .frame .ph { position: absolute; background-size: cover; background-position: var(--pos, center); box-shadow: inset 0 0 0 .1cqw rgba(0,0,0,.25); filter: saturate(1.05) contrast(1.04); }
+.pol .frame.wide .ph { left: 4.2%; right: 4.2%; top: 5.8%; height: 72%; border-radius: .2cqw; }
+.pol .frame.sq .ph { left: 5.4%; right: 5.4%; top: 5.6%; height: 73.8%; }
+.pol .frame.back { filter: brightness(.72) saturate(.9); }
+.pol .glare { position: absolute; left: 4.2%; right: 4.2%; top: 5.8%; height: 72%; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.2) 42%, rgba(255,255,255,.05) 50%, transparent 60%); background-size: 260% 100%; background-repeat: no-repeat; background-position: var(--gl, 100%) 0; }
+.pol .cap { position: absolute; left: 6%; right: 6%; bottom: 2%; height: 20%; display: flex; align-items: center; justify-content: center; gap: 1.4cqw; }
+.pol .cap .fit { font-family: "Permanent Marker", "Marker Felt", cursive; line-height: 1; color: #1e1c2c; transform: rotate(var(--cr, -1.2deg)); }
+.pol .tape { width: 11cqw; height: 3.4cqw; background: linear-gradient(180deg, rgba(250,244,225,.7), rgba(225,215,190,.6)); box-shadow: 0 .15cqw .3cqw rgba(0,0,0,.2);
+  clip-path: polygon(0 10%, 4% 0, 9% 12%, 13% 0, 100% 0, 96% 14%, 100% 30%, 96% 46%, 100% 62%, 96% 78%, 100% 100%, 0 100%, 4% 84%, 0 66%, 4% 48%, 0 30%); }
+.pol .note { width: 15.5cqw; height: 14.5cqw; padding-top: .6cqw; background: linear-gradient(172deg, #fff58a 0%, #ffe95a 55%, #f6d940 100%); box-shadow: 0 .25cqw .3cqw rgba(0,0,0,.25), .4cqw 1.2cqw 1.8cqw rgba(0,0,0,.45);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5cqw; transform: translate(var(--px, 0), var(--py, 0)) rotate(var(--nr, 6deg)); clip-path: polygon(0 0, 100% 0, 100% 86%, 88% 100%, 0 100%); }
+.pol .note::after { content: ""; position: absolute; right: 0; bottom: 0; width: 12%; height: 14%; background: linear-gradient(135deg, #d9bd2c 0 50%, transparent 50%); }
+.pol .note { gap: 0; }
+.pol .note b { font: 400 3.3cqw/1 "Permanent Marker", cursive; color: #1e1c2c; transform: rotate(-4deg); }
+.pol .note u { font: 400 8.6cqw/.86 "Permanent Marker", cursive; color: #d11f2a; text-decoration: none; letter-spacing: -.03em; }
+.pol .note i { font: 400 2.3cqw/1 "Permanent Marker", cursive; font-style: normal; color: #1e1c2c; display: flex; align-items: center; gap: .9cqw; margin-top: .4cqw; }
+.pol .cap .d5 { color: #8a2be2; font-family: var(--cond); font-weight: 900; font-stretch: 85%; font-size: 1.08em; margin-left: .05em; }
+.pol .note .flag { height: 2.2cqw; width: 3.3cqw; }
+.pol .grain { opacity: .14; mix-blend-mode: overlay; }
+
+/* ── Arcade: the film as a 16-bit title screen, PICO-8 palette, CRT glass ── */
+.arc { background: #000; image-rendering: pixelated; }
+.arc canvas.full, .arc canvas.px { image-rendering: pixelated; }
+.arc canvas.px { display: block; }
+.arc .topfade { inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,.25) 34%, transparent 52%, rgba(0,0,0,.35) 100%); }
+.arc .hud { left: 4cqw; right: 4cqw; top: 3.4cqw; display: flex; justify-content: space-between; font: 400 1.9cqw/1 "Press Start 2P", monospace; color: #fff1e8; text-shadow: .25cqw .25cqw 0 #000; }
+.arc .hud b { color: #ff004d; font-weight: 400; }
+.arc .ttl { left: 0; right: 0; top: 8cqw; display: flex; flex-direction: column; align-items: center; gap: 2cqw; transform: translateY(var(--bob, 0)); }
+.arc .stack { position: relative; }
+.arc .stack > div { white-space: nowrap; font-family: "Press Start 2P", monospace; line-height: 1.12; text-align: center; text-transform: var(--tt, uppercase); }
+.arc .stack .sh { color: #000; }
+.arc .stack .fg { position: absolute; inset: 0; color: transparent; -webkit-background-clip: text; background-clip: text; background-image: linear-gradient(180deg, #fff1e8 0 22%, var(--a1) 22% 48%, var(--a2) 48% 74%, var(--a3) 74% 100%); background-size: 100% var(--lh, 100%); background-repeat: repeat-y; }
+.arc .start { left: 0; right: 0; bottom: 5cqw; text-align: center; font: 400 2.8cqw/1 "Press Start 2P", monospace; color: #fff1e8; text-shadow: .3cqw .3cqw 0 #000; opacity: var(--blink, 1); }
+.arc .sub { font: 400 2.6cqw/1 "Press Start 2P", monospace; color: #ffec27; text-shadow: .3cqw .3cqw 0 #000; display: flex; gap: 1.4cqw; align-items: center; }
+.arc .scan { inset: 0; background: repeating-linear-gradient(180deg, rgba(0,0,0,.32) 0 .16cqw, transparent .16cqw .5cqw); background-position: 0 var(--sc, 0); pointer-events: none; }
+.arc .roll { left: 0; right: 0; height: 9cqw; top: var(--roll, -10cqw); background: linear-gradient(180deg, transparent, rgba(255,255,255,.1), transparent); }
+.arc .crt { inset: 0; box-shadow: inset 0 0 6cqw rgba(0,0,0,.75), inset 0 0 1.2cqw rgba(0,0,0,.9); border-radius: 2cqw; }
+
+/* ── Riso Zine: a two-ink risograph print, torn, taped and scribbled on ── */
+.riso { background: #f1ebde; color: var(--a); }
+.riso .paper { inset: 0; background: radial-gradient(120% 90% at 30% 20%, #f7f2e7 0%, #efe7d7 60%, #e6dcc7 100%); }
+.riso .blob { background: var(--b); mix-blend-mode: multiply; opacity: .92; }
+.riso .tape { height: 3.6cqw; width: 13cqw; background: linear-gradient(180deg, rgba(255,250,232,.72), rgba(236,226,198,.62)); box-shadow: 0 .15cqw .4cqw rgba(60,40,10,.12);
+  clip-path: polygon(0 8%, 4% 0, 8% 10%, 12% 0, 100% 0, 96% 12%, 100% 25%, 96% 38%, 100% 50%, 96% 62%, 100% 75%, 96% 88%, 100% 100%, 0 100%, 4% 88%, 0 75%, 4% 62%, 0 50%, 4% 38%, 0 25%); }
+.riso .ttl > div { position: absolute; left: 0; top: 0; font-family: var(--cond); font-weight: 900; text-transform: uppercase; line-height: .84; letter-spacing: -.005em; mix-blend-mode: multiply; }
+.riso .ttl .ia { color: var(--a); }
+.riso .ttl .ib { color: var(--b); transform: translate(var(--mx, .55cqw), var(--my, .45cqw)); }
+.riso .ttl .mask.ia { background: var(--a); }
+.riso .ttl .mask.ib { background: var(--b); }
+.riso svg.scrib { inset: 0; width: 100%; height: 100%; mix-blend-mode: multiply; overflow: visible; }
+.riso .sticker { width: 19cqw; height: 19cqw; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--c, #ffe800); color: #1c1c1c; mix-blend-mode: multiply;
+  clip-path: polygon(50% 0%, 57% 8%, 66% 2%, 70% 12%, 80% 9%, 81% 19%, 91% 20%, 88% 30%, 98% 34%, 92% 42%, 100% 50%, 92% 58%, 98% 66%, 88% 70%, 91% 80%, 81% 81%, 80% 91%, 70% 88%, 66% 98%, 57% 92%, 50% 100%, 43% 92%, 34% 98%, 30% 88%, 20% 91%, 19% 81%, 9% 80%, 12% 70%, 2% 66%, 8% 58%, 0% 50%, 8% 42%, 2% 34%, 12% 30%, 9% 20%, 19% 19%, 20% 9%, 30% 12%, 34% 2%, 43% 8%); }
+.riso .sticker b { font: 900 4.6cqw/.9 var(--cond); font-stretch: 75%; text-transform: uppercase; }
+.riso .sticker i { font: 900 9.6cqw/.8 var(--cond); font-stretch: 62%; font-style: normal; }
+.riso .label { background: #1c1c1c; color: #f1ebde; padding: .5cqw 1.6cqw .6cqw; font: 800 4.4cqw/1 var(--cond); font-stretch: 80%; text-transform: uppercase; letter-spacing: .08em; }
+.riso .grain { opacity: .5; mix-blend-mode: multiply; }
+
+/* ── Hype Reel: sports-broadcast energy; slashed panel, break-out cast, echoing type ── */
+.hype { background: var(--dk); }
+.hype .bg { background: linear-gradient(118deg, var(--acp) 0%, color-mix(in srgb, var(--acp) 62%, #000) 38%, color-mix(in srgb, var(--dk) 70%, #000) 70%); }
+.hype .dots { inset: 0; background-image: radial-gradient(rgba(0,0,0,.28) 28%, transparent 30%); background-size: 1.2cqw 1.2cqw; -webkit-mask: linear-gradient(118deg, #000 0%, transparent 45%); mask: linear-gradient(118deg, #000 0%, transparent 45%); }
+.hype .echo { left: -8cqw; top: -3cqw; width: 140cqw; transform: skewX(-12deg); }
+.hype .echo .row { font-family: var(--cond); font-weight: 900; font-style: italic; font-stretch: 62%; text-transform: uppercase; font-size: 15.5cqw; line-height: .84; white-space: nowrap;
+  color: transparent; -webkit-text-stroke: .15cqw rgba(255,255,255,.3); transform: translateX(var(--ex, 0px)); }
+.hype .echo .row span { padding-right: 3cqw; }
+.hype .panel, .hype .cut { inset: 0; background-repeat: no-repeat; background-size: var(--bs, cover); background-position: var(--bp, center); transform: scale(var(--pz, 1)); transform-origin: 70% 50%; }
+.hype .panel { background-image: var(--img); clip-path: polygon(50% 0, 100% 0, 100% 100%, 34% 100%); filter: saturate(1.15) contrast(1.08); }
+.hype .pedge { inset: 0; background: #fff; clip-path: polygon(49% 0, 50.4% 0, 34.4% 100%, 33% 100%); }
+.hype .pedge2 { inset: 0; background: var(--ac); clip-path: polygon(46.4% 0, 47.4% 0, 31.4% 100%, 30.4% 100%); }
+.hype .cut { background-image: var(--cut); filter: drop-shadow(.22cqw 0 0 #fff) drop-shadow(-.22cqw 0 0 #fff) drop-shadow(0 .22cqw 0 #fff) drop-shadow(0 -.22cqw 0 #fff) drop-shadow(1.2cqw 1.2cqw 0 rgba(0,0,0,.35)); }
+.hype svg.speed { inset: 0; width: 100%; height: 100%; }
+.hype .lab { left: 5cqw; bottom: 5cqw; display: flex; flex-direction: column; align-items: flex-start; gap: 1.6cqw; }
+.hype .fit { font-family: var(--cond); font-weight: 900; font-style: italic; font-stretch: 68%; text-transform: uppercase; line-height: .84; color: #fff; text-shadow: .55cqw .55cqw 0 var(--sh), 1.1cqw 1.1cqw 0 rgba(0,0,0,.25); }
+.hype .fit.nocase { text-transform: none; }
+.hype img.logo { display: block; filter: brightness(0) invert(1) drop-shadow(.5cqw .5cqw 0 var(--sh)); transform: skewX(-8deg); }
+.hype .t10 { display: flex; align-items: flex-end; gap: 1.4cqw; }
+.hype .t10 b { font: 900 9cqw/.84 var(--cond); font-stretch: 68%; font-style: italic; text-transform: uppercase; color: #fff; text-shadow: .5cqw .5cqw 0 var(--sh); }
+.hype .t10 i { font: 900 24cqw/.78 var(--cond); font-stretch: 62%; font-style: italic; color: #fff; text-shadow: .7cqw .7cqw 0 var(--sh), 1.4cqw 1.4cqw 0 rgba(0,0,0,.25); }
+.hype .where { font: 900 4.6cqw/1 var(--cond); font-stretch: 80%; font-style: italic; text-transform: uppercase; letter-spacing: .06em; background: #fff; color: var(--dk); padding: .5cqw 1.4cqw; transform: skewX(-12deg); display: flex; align-items: center; gap: 1.2cqw; }
+
+/* sheet */
+.sheet { padding: 24px 16px 60px; max-width: 1500px; margin: 0 auto; }
+.sheet h2 { font-size: 18px; margin: 30px 0 10px; }
+.sheet .row { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+.sheet .tile { border-radius: 10px; }
+body.render .sheet { display: none; }
+body.render #render .tile { width: 100vw; height: 100vh; aspect-ratio: auto; }
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs id="filters">
+  <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0" intercept="1"/></feComponentTransfer></filter>
+</defs></svg>
+<div class="sheet" id="sheet"></div>
+<div id="render"></div>
+<script src="folders.js"></script>
+<script src="styles.js"></script>
+<script>
+const A = 'assets/';
+const F = window.FOLDERS, PD = window.PD;
+const STYLES = { pol: 'Polaroid Table', arc: 'Arcade', riso: 'Riso Zine', hype: 'Hype Reel' };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+// Deterministic randomness per folder, so every frame of a tile draws the same tile.
+function rng(seed) {
+  let h = 1779033703 ^ seed.length;
+  for (let i = 0; i < seed.length; i++) { h = Math.imul(h ^ seed.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19; }
+  return () => { h = Math.imul(h ^ h >>> 16, 2246822507); h = Math.imul(h ^ h >>> 13, 3266489909); return ((h ^= h >>> 16) >>> 0) / 4294967296; };
+}
+function hsl(hex) {
+  const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255);
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn;
+  if (!d) return [0, 0, l];
+  const s = d / (1 - Math.abs(2 * l - 1));
+  const h = mx === r ? ((g - b) / d + 6) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  return [h * 60, s, l];
+}
+// WCAG relative luminance of a hex colour
+function lum(hex) {
+  const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
+  return .2126 * c[0] + .7152 * c[1] + .0722 * c[2];
+}
+const IMG = {};
+const load = src => IMG[src] || (IMG[src] = (async () => { const i = new Image(); i.src = src; await i.decode(); return i; })());
+
+// Accent per name folder (services and Top 10 use their brand colour). Picked to suit each still and to
+// differ from the neighbours in its row.
+const ACC = {
+  'genres--action': '#ff5a1f', 'genres--comedy': '#ff5fa8', 'genres--drama': '#f0b43a', 'genres--thriller': '#3d7bff',
+  'genres--horror': '#ff2d2d', 'genres--sci-fi': '#35d6ff', 'genres--romance': '#b26bff', 'genres--mystery': '#1fc99b',
+  'genres--family': '#ff3d5e', 'genres--animation': '#ffd21a', 'genres--documentary': '#36c96b',
+  'around-the-world--k-drama': '#ff5fa8', 'around-the-world--anime': '#ff4a3d', 'around-the-world--indian': '#ff9a1f',
+  'around-the-world--african': '#19c26b', 'around-the-world--japanese': '#3fb6ff', 'around-the-world--spanish': '#e8252e',
+  'around-the-world--french': '#2f6bff', 'around-the-world--turkish': '#19b2c9', 'around-the-world--chinese': '#ffc21a',
+  'moods-and-themes--spooky-season': '#ff7a12', 'moods-and-themes--true-crime': '#ffd400', 'moods-and-themes--heists': '#1fbf6a',
+  'moods-and-themes--time-travel': '#3b8cff', 'moods-and-themes--superheroes': '#ff2b2b', 'moods-and-themes--dystopian-futures': '#ff9a1f',
+  'moods-and-themes--zombies': '#8fd400', 'moods-and-themes--serial-killers': '#d0102a', 'moods-and-themes--spies': '#3fa0ff',
+  'moods-and-themes--martial-arts': '#ffcc00', 'moods-and-themes--true-stories': '#f2a33a', 'moods-and-themes--space-and-cyberpunk': '#c04bff',
+  'moods-and-themes--coming-of-age': '#8ccf3f', 'moods-and-themes--christmas': '#e8202f',
+  'the-canon--imdb-top-250': '#f5c518', 'the-canon--best-picture': '#ff6b2b', 'the-canon--letterboxd-250': '#00e054',
+  'the-canon--a24': '#9b7bff', 'the-canon--top-rated': '#01b4e4',
+  'decades--70s': '#ff8c1a', 'decades--80s': '#ff3fd2', 'decades--90s': '#2ee6c8', 'decades--2000s': '#3a6bff',
+  'decades--2010s': '#ff8fb1', 'decades--2020s': '#7c5cff',
+};
+
+// Where the eye should land, in % of the still's width, when the cut-out's box spans more than the subject
+// (two people, a crowd) and centring on it would hide the face that matters behind the colour panel.
+const FX = { 'the-canon--imdb-top-250': 24, 'the-canon--top-rated': 30 };
+
+// Riso inks per folder: "image + title ink, accent ink[, sticker ink]", from the standard risograph drum colours.
+const INK = {
+  black: '#1c1c1c', burgundy: '#914e72', blue: '#0078bf', federal: '#3d5588', teal: '#00838a', green: '#00a95c',
+  hunter: '#407060', purple: '#765ba7', violet: '#4b2f96', mediumblue: '#3255a4', brown: '#925f52',
+  red: '#e8232e', scarlet: '#ff3b2f', brightred: '#f15060', pink: '#ff48b0', orange: '#ff6c2f', florange: '#ff7477',
+  yellow: '#ffe800', sunflower: '#ffb511', aqua: '#5ec8e5', mint: '#82d8d5', lime: '#e3ed55',
+};
+const RISO = {
+  'top-10-today--kenya': 'black red green', 'top-10-today--netflix': 'black red sunflower', 'top-10-today--prime-video': 'blue yellow pink',
+  'top-10-today--disney-plus': 'federal aqua yellow', 'top-10-today--hbo-max': 'violet pink yellow', 'top-10-today--apple-tv': 'black sunflower aqua',
+  'top-10-today--paramount-plus': 'mediumblue aqua sunflower', 'top-10-today--hulu': 'black green pink', 'top-10-today--peacock': 'purple sunflower pink',
+  'top-10-today--crunchyroll': 'black orange yellow', 'top-10-today--jiohotstar': 'mediumblue pink yellow', 'top-10-today--zee5': 'violet mint yellow',
+  'streaming-services--netflix': 'black red', 'streaming-services--prime-video': 'blue yellow', 'streaming-services--disney-plus': 'federal aqua',
+  'streaming-services--hbo-max': 'violet pink', 'streaming-services--apple-tv': 'black mint', 'streaming-services--paramount-plus': 'mediumblue sunflower',
+  'streaming-services--hulu': 'black green', 'streaming-services--peacock': 'purple sunflower', 'streaming-services--crunchyroll': 'black orange',
+  'streaming-services--jiohotstar': 'mediumblue pink', 'streaming-services--sonyliv': 'federal sunflower', 'streaming-services--zee5': 'purple pink',
+  'streaming-services--sun-nxt': 'burgundy orange', 'streaming-services--aha': 'teal orange', 'streaming-services--hoichoi': 'black scarlet',
+  'streaming-services--amazon-mx-player': 'mediumblue aqua', 'streaming-services--manoramamax': 'federal red', 'streaming-services--shemaroome': 'burgundy yellow',
+  'streaming-services--epic-on': 'hunter sunflower', 'streaming-services--hungama-play': 'black pink', 'streaming-services--lionsgate-play': 'federal orange',
+  'genres--action': 'black orange', 'genres--comedy': 'blue pink', 'genres--drama': 'burgundy sunflower', 'genres--thriller': 'black aqua',
+  'genres--horror': 'black scarlet', 'genres--sci-fi': 'blue orange', 'genres--romance': 'purple pink', 'genres--mystery': 'teal florange',
+  'genres--family': 'blue red', 'genres--animation': 'federal yellow', 'genres--documentary': 'hunter aqua',
+  'around-the-world--k-drama': 'teal pink', 'around-the-world--anime': 'black red', 'around-the-world--indian': 'burgundy orange',
+  'around-the-world--african': 'black green', 'around-the-world--japanese': 'federal scarlet', 'around-the-world--spanish': 'black red',
+  'around-the-world--french': 'mediumblue brightred', 'around-the-world--turkish': 'teal sunflower', 'around-the-world--chinese': 'black yellow',
+  'moods-and-themes--spooky-season': 'black orange', 'moods-and-themes--true-crime': 'black yellow', 'moods-and-themes--heists': 'black sunflower',
+  'moods-and-themes--time-travel': 'federal aqua', 'moods-and-themes--superheroes': 'blue red', 'moods-and-themes--dystopian-futures': 'teal orange',
+  'moods-and-themes--zombies': 'hunter lime', 'moods-and-themes--serial-killers': 'black scarlet', 'moods-and-themes--spies': 'black mint',
+  'moods-and-themes--martial-arts': 'burgundy yellow', 'moods-and-themes--true-stories': 'federal sunflower', 'moods-and-themes--space-and-cyberpunk': 'violet aqua',
+  'moods-and-themes--coming-of-age': 'blue lime', 'moods-and-themes--christmas': 'hunter red',
+  'the-canon--imdb-top-250': 'black yellow', 'the-canon--best-picture': 'federal sunflower', 'the-canon--letterboxd-250': 'black green',
+  'the-canon--a24': 'black florange', 'the-canon--top-rated': 'federal aqua',
+  'decades--70s': 'brown orange', 'decades--80s': 'blue pink', 'decades--90s': 'purple aqua', 'decades--2000s': 'mediumblue lime',
+  'decades--2010s': 'teal pink', 'decades--2020s': 'purple yellow',
+};
+
+function info(key) {
+  const f = F[key], p = PD[key];
+  const top = f.kind === 'top';
+  const ac = f.c1 || ACC[key];
+  const [h, s] = hsl(ac);
+  const where = f.where === 'Today' ? '' : f.where;
+  const nc = /^\d+s$/.test(f.name);
+  return { key, f, p, top, ac, h, s, grey: s < .15, where, nc, logo: f.logo, row: key.split('--')[0] };
+}
+const logoSrc = f => `${A}hi/logo/${f.logo}.png`;
+const flag = i => i.f.ke ? '<i class="flag"></i>' : '';
+const imgTag = (f, slot) => `<img class="logo" data-slot="${slot}" src="${logoSrc(f)}" alt="">`;
+// where a still's subject sits, as fractions of the frame
+const focus = i => { const [bx, by, bw, bh] = i.p.box; return [(bx + bw / 2) / 100, (by + bh * .45) / 100]; };
+// cover-fit an image into a w x h box, zoomed, centred on a focus point, clamped to the image
+function crop(im, w, h, fx, fy, zoom = 1) {
+  const sc = Math.max(w / im.naturalWidth, h / im.naturalHeight) * zoom;
+  const dw = im.naturalWidth * sc, dh = im.naturalHeight * sc;
+  return { x: clamp(w / 2 - fx * dw, w - dw, 0), y: clamp(h / 2 - fy * dh, h - dh, 0), w: dw, h: dh };
+}
+
+/* ── markup ── */
+const T = {};
+
+T.pol = (key, i) => {
+  const bd = i.p.bd;
+  const [fx, fy] = focus(i);
+  // Top 10: the caption names the service and a sticky note pinned to the photo says what it is
+  const cap = i.top && i.f.ke ? 'Netflix' : i.f.name;
+  // a little scatter per folder, so a row of polaroids reads as a desk and not as a template
+  const R = rng(key + 'pol'), j = (a, b) => a + R() * (b - a);
+  const r0 = j(-4.4, -2.4), r1 = j(6, 10), r2 = j(-8.5, -5), tr = j(-6, -2), cr = j(-2, .2);
+  const b1 = bd[0] ? `<div class="frame wide back" style="left:${j(46, 48).toFixed(1)}cqw;top:${j(1, 2.5).toFixed(1)}cqw;width:50cqw;height:39.8cqw;--rot:${r1.toFixed(1)}deg"><div class="ph" style="background-image:url(${A}st/bd/${bd[0]}.jpg)"></div></div>` : '';
+  const b2 = bd[1] ? `<div class="frame sq back" style="left:${j(68, 70).toFixed(1)}cqw;top:${j(16, 18).toFixed(1)}cqw;width:27cqw;height:32.8cqw;--rot:${r2.toFixed(1)}deg"><div class="ph" style="background-image:url(${A}st/bd/${bd[1]}.jpg)"></div></div>` : '';
+  const front = `<div class="frame wide front" style="left:4cqw;top:4.6cqw;width:59cqw;height:47cqw;--rot:${r0.toFixed(1)}deg"><div class="ph" style="background-image:url(${A}${i.p.still});--pos:${(fx * 100).toFixed(0)}% ${(fy * 100).toFixed(0)}%"></div><div class="glare"></div>
+    <div class="cap" style="--cr:${cr.toFixed(1)}deg"><div class="fit" data-text="${esc(cap)}" data-box="${i.f.ke ? 40 : 46},9" data-lh=".95" data-cap="7">${esc(cap)}</div>${i.f.ke ? flag(i) : ''}</div></div>`;
+  const note = i.top ? `<div class="note" style="left:${j(49, 51).toFixed(1)}cqw;top:${j(20, 23).toFixed(1)}cqw;--nr:${j(4, 9).toFixed(1)}deg"><b>Top</b><u>10</u><i>${i.f.ke ? flag(i) : ''}${esc(i.where || 'Today')}</i></div>` : '';
+  return { st: [], inner: `<div class="desk"></div>${b1}${b2}<div class="lamp"></div>${front}${note}<div class="tape" style="left:${j(26, 30).toFixed(1)}cqw;top:2.6cqw;transform:rotate(${tr.toFixed(1)}deg)"></div><div class="grain"></div>` };
+};
+
+// logos whose detail turns to mush at title-screen resolution: the service's name in the pixel font instead
+const ARC_TEXT = new Set(['paramount-plus', 'disney-plus', 'jiohotstar']);
+const PICO = ['#000000', '#1d2b53', '#7e2553', '#008751', '#ab5236', '#5f574f', '#c2c3c7', '#fff1e8', '#ff004d', '#ffa300', '#ffec27', '#00e436', '#29adff', '#83769c', '#ff77a8', '#ffccaa'];
+T.arc = (key, i) => {
+  const h = i.h.toFixed(0), s = i.grey ? 0 : 100;
+  const st = [`--a1:hsl(${h} ${s}% 72%)`, `--a2:hsl(${h} ${s}% 56%)`, `--a3:hsl(${h} ${s * .9}% 38%)`];
+  const R = rng(key + 'hi');
+  const hud = `<div class="hud"><span><b>1UP</b> ${String(Math.floor(R() * 90000) + 10000).padStart(6, '0')}</span><span><b>HI</b> ${String(Math.floor(R() * 900000) + 99999).padStart(6, '0')}</span></div>`;
+  let ttl;
+  const pxLogo = i.logo && !ARC_TEXT.has(i.logo);
+  const brand = pxLogo ? `<canvas class="px" data-logo="1" data-box="${i.top ? '38,11' : '62,17'}"></canvas>`
+    : `<div class="stack" data-text="${esc(i.f.name.toUpperCase())}" data-box="${i.top ? '60,6' : '86,20'}"><div class="sh"></div><div class="fg"></div></div>`;
+  if (i.top) ttl = `${brand}<div class="stack" data-text="Top 10" data-box="80,13"><div class="sh"></div><div class="fg"></div></div>${i.where ? `<div class="sub">${flag(i)}${esc(i.where)}</div>` : ''}`;
+  else if (i.logo) ttl = brand;
+  else ttl = `<div class="stack" data-text="${esc(i.nc ? i.f.name : i.f.name.toUpperCase())}" data-box="86,20"${i.nc ? ' style="--tt:none"' : ''}><div class="sh"></div><div class="fg"></div></div>`;
+  return { st, inner: `<canvas class="full pix"></canvas><div class="topfade"></div>${hud}<div class="ttl">${ttl}</div><div class="start">Press start</div><div class="roll"></div><div class="roll r2"></div><div class="scan"></div><div class="crt"></div>` };
+};
+
+T.riso = (key, i) => {
+  const [a, b, c] = RISO[key].split(' ').map(n => INK[n]);
+  const st = [`--a:${a}`, `--b:${b}`, c ? `--c:${c}` : ''];
+  let ttl;
+  if (i.top) {
+    ttl = `<div class="ttl" data-logo="1" style="left:5cqw;top:6cqw;width:32cqw;height:14cqw"></div>
+      <div class="sticker" style="left:9cqw;top:27cqw;transform:rotate(-8deg)"><b>Top</b><i>10</i></div>
+      ${i.where ? `<div class="label" style="left:24cqw;top:44cqw;transform:rotate(3deg)">${esc(i.where)}</div>` : ''}`;
+  } else if (i.logo) {
+    ttl = `<div class="ttl" data-logo="1" style="left:5cqw;top:9cqw;width:33cqw;height:22cqw"></div>`;
+  } else {
+    ttl = `<div class="ttl" data-text="${esc(i.f.name)}" style="left:5cqw;top:6.5cqw;width:33cqw;height:33cqw"></div>`;
+  }
+  const inner = `<div class="paper"></div><div class="blob"></div><canvas class="half"></canvas><div class="tape t1"></div><div class="tape t2"></div>${ttl}<svg class="scrib" viewBox="0 0 100 56.25"></svg><div class="grain"></div>`;
+  return { st, inner };
+};
+
+T.hype = (key, i) => {
+  // The panel keeps the true accent; on a light one (yellow, lime) the lettering's hard shadow goes darker
+  // so the white type still reads.
+  const L = lum(i.ac), shade = L > .45 ? 30 : L > .3 ? 42 : 55;
+  const dk = `hsl(${i.h.toFixed(0)} ${(Math.min(i.s, .85) * 100).toFixed(0)}% 7%)`;
+  const st = [`--img:url(${A}${i.p.still})`, i.p.cut ? `--cut:url(${A}${i.p.cut})` : '', `--ac:${i.ac}`, `--acp:${i.ac}`, `--dk:${dk}`, `--sh:color-mix(in srgb, ${i.ac} ${shade}%, #000)`];
+  const word = i.top ? 'Top 10' : i.f.name;
+  const rows = [0, 1, 2, 3].map(n => `<div class="row" data-dir="${n % 2 ? 1 : -1}">${Array(6).fill(`<span>${esc(word)}</span>`).join('')}</div>`).join('');
+  let lab;
+  if (i.top) lab = `${imgTag(i.f, 'hype-top')}<div class="t10"><b>Top</b><i>10</i></div>${i.where ? `<div class="where">${flag(i)}${esc(i.where)}</div>` : ''}`;
+  else if (i.logo) lab = imgTag(i.f, 'hype-side');
+  else lab = `<div class="fit${i.nc ? ' nocase' : ''}" data-text="${esc(i.f.name)}" data-box="56,22" data-lh=".84" data-st="62,68,75,85">${esc(i.f.name)}</div>`;
+  return { st, inner: `<div class="fill bg"></div><div class="dots"></div><div class="echo">${rows}</div>${speedSvg(key)}<div class="pedge2"></div><div class="panel"></div><div class="pedge"></div><div class="cut"></div><div class="lab">${lab}</div><div class="grain" style="opacity:.1;mix-blend-mode:overlay"></div>` };
+};
+
+function speedSvg(key) {
+  const R = rng(key + 'speed');
+  let g = '';
+  for (let n = 0; n < 16; n++) {
+    const y = 4 + R() * 48, x = R() * 100, len = 6 + R() * 22, w = (.12 + R() * .3).toFixed(2), o = (.2 + R() * .45).toFixed(2);
+    for (const dx of [-100, 0]) g += `<line x1="${(x + dx).toFixed(1)}" y1="${y.toFixed(1)}" x2="${(x + dx + len).toFixed(1)}" y2="${(y - len * .21).toFixed(1)}" stroke="rgba(255,255,255,${o})" stroke-width="${w}" stroke-linecap="round"/>`;
+  }
+  return `<svg class="speed" viewBox="0 0 100 56.25" preserveAspectRatio="none"><g class="sp">${g}</g></svg>`;
+}
+
+function tile(style, key) {
+  const i = info(key);
+  const { st, inner } = T[style](key, i);
+  return `<div class="tile ${style}${i.top ? ' top' : ''}" data-key="${key}" data-style="${style}" style="${st.filter(Boolean).join(';')}" role="img" aria-label="${esc(i.f.name)}">${inner}</div>`;
+}
+
+/* ── measuring and fitting ── */
+function measure(el, text, stretch) {
+  const m = document.createElement('span');
+  m.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-size:100px;left:0;top:0;line-height:1';
+  if (stretch) m.style.fontStretch = stretch + '%';
+  m.textContent = text;
+  el.appendChild(m);
+  const w = m.getBoundingClientRect().width;
+  m.remove();
+  return w;
+}
+// Largest size at which text fits a box (cqw), trying one line and the best two-line split, and
+// every width the font allows; ties go to the wider cut so the word fills its box.
+function fitBox(el, text, bw, bh, lh, stretches = [null], cap = 999) {
+  let best = null;
+  for (const st of stretches) {
+    const opts = [{ lines: [text], wd: measure(el, text, st) }];
+    const words = text.split(' ');
+    if (words.length > 1) {
+      let b2 = null;
+      for (let k = 1; k < words.length; k++) {
+        const a = words.slice(0, k).join(' '), b = words.slice(k).join(' ');
+        const wd = Math.max(measure(el, a, st), measure(el, b, st));
+        if (!b2 || wd < b2.wd) b2 = { lines: [a, b], wd };
+      }
+      opts.push(b2);
+    }
+    for (const o of opts) {
+      const size = Math.min(cap, bw * 100 / o.wd, bh / (o.lines.length * lh));
+      const score = size * (o.lines.length === 1 ? 1.06 : 1) + (st || 0) / 1e4;
+      if (!best || score > best.score) best = { score, size, lines: o.lines, stretch: st };
+    }
+  }
+  return best;
+}
+function applyFit(el, fit, html) {
+  el.innerHTML = html || fit.lines.map(esc).join('<br>');
+  el.style.fontSize = fit.size.toFixed(2) + 'cqw';
+  if (fit.stretch) el.style.fontStretch = fit.stretch + '%';
+}
+function fitAll(t) {
+  t.querySelectorAll('.fit[data-box]').forEach(el => {
+    const [bw, bh] = el.dataset.box.split(',').map(Number);
+    const st = el.dataset.st ? el.dataset.st.split(',').map(Number) : [null];
+    applyFit(el, fitBox(el, el.dataset.text, bw, bh, +el.dataset.lh, st, el.dataset.cap ? +el.dataset.cap : 999));
+  });
+}
+
+// Logos are sized by area (cqw²), so a tall mark carries the same weight as a wide one.
+const LOGO = { 'hype-top': { area: 220, h: 10, w: 30 }, 'hype-side': { area: 760, h: 18, w: 50 } };
+async function logoSize(src, area, h, w) {
+  const im = await load(src);
+  const a = im.naturalWidth / im.naturalHeight;
+  let lh = Math.min(h, Math.sqrt(area / a));
+  if (lh * a > w) lh = w / a;
+  return { h: lh, w: lh * a, a };
+}
+async function sizeLogos(root) {
+  await Promise.all([...root.querySelectorAll('img.logo[data-slot]')].map(async img => {
+    const { area, h, w } = LOGO[img.dataset.slot];
+    const s = await logoSize(img.src, area, h, w);
+    img.style.height = s.h.toFixed(2) + 'cqw';
+    img.style.width = s.w.toFixed(2) + 'cqw';
+  }));
+}
+
+/* ── per-style finishing ── */
+const B = {};
+
+B.pol = async (t, key) => {
+  fitAll(t);
+  // the marker's 5 reads as an S at tile size, so ZEE5's is written in its brand purple
+  const cap = t.querySelector('.cap .fit');
+  if (/ZEE5$/.test(cap.textContent)) cap.innerHTML = cap.innerHTML.replace(/5$/, '<span class="d5">5</span>');
+};
+
+B.arc = async (t, key) => {
+  const i = info(key);
+  const cv = t.querySelector('canvas.pix');
+  const im = await load(A + i.p.still);
+  const PW = 200, PH = 113;
+  cv.width = PW; cv.height = PH;
+  const ctx = cv.getContext('2d');
+  const c = crop(im, PW, PH, ...focus(i), 1.06);
+  ctx.filter = `saturate(1.35) contrast(1.15) brightness(${clamp(.4 / (i.p.lum || .3), 1, 2.2).toFixed(2)})`;
+  ctx.drawImage(im, c.x, c.y, c.w, c.h);
+  ctx.filter = 'none';
+  const d = ctx.getImageData(0, 0, PW, PH), p = d.data;
+  const pal = PICO.map(h => [1, 3, 5].map(k => parseInt(h.slice(k, k + 2), 16)));
+  const bayer = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+  for (let y = 0; y < PH; y++) for (let x = 0; x < PW; x++) {
+    const j = (y * PW + x) * 4, o = (bayer[(y & 3) * 4 + (x & 3)] / 16 - .5) * 44;
+    const r = p[j] + o, g = p[j + 1] + o, b = p[j + 2] + o;
+    let best = 0, bd = 1e9;
+    for (let k = 0; k < pal.length; k++) {
+      const dr = r - pal[k][0], dg = g - pal[k][1], db = b - pal[k][2];
+      const dd = dr * dr * .3 + dg * dg * .59 + db * db * .11;
+      if (dd < bd) { bd = dd; best = k; }
+    }
+    p[j] = pal[best][0]; p[j + 1] = pal[best][1]; p[j + 2] = pal[best][2];
+  }
+  ctx.putImageData(d, 0, 0);
+  // title: pixel font with a hard black outline and a stepped drop
+  for (const stack of t.querySelectorAll('.stack')) {
+    const [bw, bh] = stack.dataset.box.split(',').map(Number);
+    const fg = stack.querySelector('.fg'), sh = stack.querySelector('.sh');
+    const fit = fitBox(fg, stack.dataset.text, bw, bh, 1.12);
+    applyFit(fg, fit); applyFit(sh, fit);
+    const o = Math.max(.32, fit.size * .07);
+    const dk = getComputedStyle(t).getPropertyValue('--a3').trim();
+    sh.style.textShadow = [[o, 0], [-o, 0], [0, o], [0, -o], [o, o], [-o, -o], [o, -o], [-o, o]].map(([x, y]) => `${x.toFixed(2)}cqw ${y.toFixed(2)}cqw 0 #000`).join(',')
+      + `, 0 ${(o * 2.2).toFixed(2)}cqw 0 #000, ${(o * 1.1).toFixed(2)}cqw ${(o * 2.2).toFixed(2)}cqw 0 #000, 0 ${(o * 1.4).toFixed(2)}cqw 0 ${dk}`;
+    fg.style.setProperty('--lh', (fit.size * 1.12).toFixed(2) + 'cqw');
+  }
+  // logos, pixelated: drawn tiny, outlined in black, then blown up without smoothing
+  for (const pc of t.querySelectorAll('canvas.px')) {
+    const [bw, bh] = pc.dataset.box.split(',').map(Number);
+    const s = await logoSize(logoSrc(i.f), bw * bh * .7, bh, bw);
+    const lw = Math.round(clamp(s.w * 2.1, 40, 130)), lhh = Math.max(8, Math.round(lw / s.a));
+    pc.width = lw + 4; pc.height = lhh + 4;
+    const lc = document.createElement('canvas'); lc.width = lw; lc.height = lhh;
+    const lx = lc.getContext('2d'); lx.drawImage(await load(logoSrc(i.f)), 0, 0, lw, lhh);
+    lx.globalCompositeOperation = 'source-in';
+    const x = pc.getContext('2d'); x.imageSmoothingEnabled = false;
+    lx.fillStyle = '#000'; lx.fillRect(0, 0, lw, lhh);
+    for (const [dx, dy] of [[1, 2], [3, 2], [2, 1], [2, 3], [2, 4], [3, 4]]) x.drawImage(lc, dx, dy);
+    lx.fillStyle = '#fff1e8'; lx.fillRect(0, 0, lw, lhh);
+    x.drawImage(lc, 2, 2);
+    // threshold alpha so edges stay hard pixels
+    const id = x.getImageData(0, 0, pc.width, pc.height);
+    for (let k = 3; k < id.data.length; k += 4) id.data[k] = id.data[k] > 110 ? 255 : 0;
+    x.putImageData(id, 0, 0);
+    pc.style.width = (s.w * pc.width / lw).toFixed(2) + 'cqw'; pc.style.height = (s.h * pc.height / lhh).toFixed(2) + 'cqw';
+  }
+};
+
+B.riso = async (t, key) => {
+  const i = info(key);
+  const tt = t.querySelector('.ttl');
+  // the title first: a one-word name too long for the 33cqw column widens it (up to 44cqw) and the photo
+  // narrows to make room, so no name prints smaller than about 9.5cqw
+  let fit = null, colW = parseFloat(tt.style.width);
+  const colH = parseFloat(tt.style.height);
+  if (!tt.dataset.logo) {
+    tt.innerHTML = '<div class="ib"></div><div class="ia"></div>';
+    const ia = tt.querySelector('.ia'), text = i.nc ? i.f.name : i.f.name.toUpperCase(), ST = [62, 70, 80, 90, 100];
+    fit = fitBox(ia, text, colW, colH, .84, ST);
+    if (fit.size < 9.5 && fit.lines.length === 1) {
+      colW = Math.min(44, colW * 9.5 / fit.size);
+      fit = fitBox(ia, text, colW, colH, .84, ST);
+      tt.style.width = colW.toFixed(2) + 'cqw';
+    }
+    for (const el of tt.children) { applyFit(el, fit); if (i.nc) el.style.textTransform = 'none'; }
+  }
+  // photo: right side, tilted; ink-B block behind it
+  const pl = Math.max(41, 5 + colW + 3.5);
+  const ph = { l: pl, t: 4.5, w: 96 - pl, h: 47.5, rot: 1.6 };
+  const blob = { l: pl - 4.5, t: 9.5, w: 93 - pl, h: 44, rot: -2.6 };
+  const cv = t.querySelector('canvas.half'), bl = t.querySelector('.blob');
+  Object.assign(cv.style, { left: ph.l + 'cqw', top: ph.t + 'cqw', width: ph.w + 'cqw', height: ph.h + 'cqw', transform: `rotate(${ph.rot}deg)` });
+  Object.assign(bl.style, { left: blob.l + 'cqw', top: blob.t + 'cqw', width: blob.w + 'cqw', height: blob.h + 'cqw', transform: `rotate(${blob.rot}deg)` });
+  t._torn = [cv, bl];
+  tear(t, key, 0);
+  const tp = t.querySelectorAll('.tape');
+  Object.assign(tp[0].style, { left: (ph.l - 4.5) + 'cqw', top: (ph.t - .8) + 'cqw', transform: 'rotate(-34deg)' });
+  Object.assign(tp[1].style, { left: (ph.l + ph.w - 9) + 'cqw', top: (ph.t + ph.h - 3) + 'cqw', transform: 'rotate(-30deg)' });
+  const cs = getComputedStyle(t);
+  await halftone(cv, A + i.p.still, i.p.cut && i.p.area > .02 ? A + i.p.cut : null, i.p.box, i.p.lum, cs.getPropertyValue('--a').trim(), cs.getPropertyValue('--b').trim());
+  // logo titles: the mark in ink A with a misregistered ink-B copy
+  let under;
+  if (tt.dataset.logo) {
+    const s = await logoSize(logoSrc(i.f), colW * colH * .7, colH, colW);
+    tt.innerHTML = ['ia', 'ib'].map(c => `<div class="mask ${c}" style="width:${s.w.toFixed(2)}cqw;height:${s.h.toFixed(2)}cqw;-webkit-mask-image:url(${logoSrc(i.f)});mask-image:url(${logoSrc(i.f)})"></div>`).join('');
+    tt.querySelector('.ib').style.transform = 'translate(var(--mx, .55cqw), var(--my, .45cqw))';
+    under = { x: parseFloat(tt.style.left), y: parseFloat(tt.style.top) + s.h + 1.6, w: s.w };
+  } else {
+    const ia = tt.querySelector('.ia');
+    const hgt = fit.lines.length * fit.size * .84;
+    under = { x: parseFloat(tt.style.left), y: parseFloat(tt.style.top) + hgt + 1.6, w: Math.min(colW, Math.max(...fit.lines.map(l => measure(ia, l, fit.stretch))) * fit.size / 100) };
+  }
+  if (!i.top) {
+    const R = rng(key + 'scrib');
+    const y = under.y, x0 = under.x - .5, x1 = under.x + under.w * .92;
+    const wob = () => (R() - .5) * 1.2;
+    const d1 = `M${x0} ${y + wob()} C ${x0 + (x1 - x0) * .3} ${y - 1.6 + wob()}, ${x0 + (x1 - x0) * .65} ${y + 1.6 + wob()}, ${x1} ${y - .6 + wob()}`;
+    const d2 = `M${x0 + 2} ${y + 1.9 + wob()} C ${x0 + (x1 - x0) * .35} ${y + .6 + wob()}, ${x0 + (x1 - x0) * .7} ${y + 2.8 + wob()}, ${x1 - 3} ${y + 1.2 + wob()}`;
+    t.querySelector('svg.scrib').innerHTML = `<path d="${d1}" fill="none" stroke="var(--b)" stroke-width=".85" stroke-linecap="round"/><path d="${d2}" fill="none" stroke="var(--b)" stroke-width=".6" stroke-linecap="round"/>`;
+  }
+};
+
+// Torn-paper edges as a clip-path; step varies the tear for the stop-motion boil.
+function tear(t, key, step) {
+  t._torn.forEach((el, n) => {
+    const R = rng(key + 'tear' + n + ':' + step);
+    const pts = [], j = () => (R() - .5) * 1.6;
+    for (let x = 0; x <= 100; x += 2.5) pts.push([x, 1 + j()]);
+    for (let y = 2.5; y <= 100; y += 3) pts.push([99 + j(), y]);
+    for (let x = 100; x >= 0; x -= 2.5) pts.push([x, 99 + j()]);
+    for (let y = 97.5; y > 0; y -= 3) pts.push([1 + j(), y]);
+    el.style.clipPath = `polygon(${pts.map(([x, y]) => `${x.toFixed(2)}% ${y.toFixed(2)}%`).join(',')})`;
+  });
+}
+
+// Two-ink risograph print of a still: ink B carries the scene's mid-tones as a light texture, ink A the
+// deep shadows plus the whole tonal range of the subject (the Vision cut-out), so the subject reads first.
+// The crop zooms until the subject fills most of the frame; a still with no subject keeps its whole frame.
+// A dark still is lifted (gamma on its tones) so it prints as a picture rather than a block of ink.
+async function halftone(cv, src, cutSrc, box, mean, inkA, inkB) {
+  const W = cv.width = Math.round(cv.clientWidth), H = cv.height = Math.round(cv.clientHeight);
+  const im = await load(src), cm = cutSrc ? await load(cutSrc) : null;
+  const [bx, by, bw, bh] = cm ? box.map(v => v / 100) : [0, 0, 1, 1];
+  const cover = Math.max(W / im.naturalWidth, H / im.naturalHeight);
+  const want = Math.min(H * .9 / (bh * im.naturalHeight), W * .95 / (bw * im.naturalWidth));
+  const sc = clamp(want, cover * 1.04, cover * 2.2);
+  const gam = clamp((mean || .3) / .3, .5, 1);
+  const dw = im.naturalWidth * sc, dh = im.naturalHeight * sc;
+  const ox = clamp(W / 2 - (bx + bw / 2) * dw, W - dw, 0), oy = clamp(H * .55 - (by + bh / 2) * dh, H - dh, 0);
+  const cell = W / 50;
+  const grab = (img, blur) => {
+    const c = document.createElement('canvas'); c.width = W; c.height = H;
+    const x = c.getContext('2d'); x.filter = `blur(${blur}px)`; x.drawImage(img, ox, oy, dw, dh);
+    return x.getImageData(0, 0, W, H).data;
+  };
+  const px = grab(im, cell * .3), mk = cm ? grab(cm, cell * .5) : null;
+  const L = new Float32Array(W * H), Mk = new Float32Array(W * H), hist = new Uint32Array(256);
+  for (let n = 0; n < W * H; n++) {
+    const v = .2126 * px[n * 4] + .7152 * px[n * 4 + 1] + .0722 * px[n * 4 + 2];
+    L[n] = v; hist[v | 0]++; Mk[n] = mk ? mk[n * 4 + 3] / 255 : 0;
+  }
+  let acc = 0, lo = 0, hi = 255;
+  for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc < W * H * .02) lo = v; if (acc < W * H * .985) hi = v; }
+  const at = (arr, x, y) => arr[clamp(y | 0, 0, H - 1) * W + clamp(x | 0, 0, W - 1)];
+  const dark = (x, y) => 1 - clamp((at(L, x, y) - lo) / Math.max(1, hi - lo), 0, 1) ** gam;
+  const ss = (a, b, v) => { const k = clamp((v - a) / (b - a), 0, 1); return k * k * (3 - 2 * k); };
+  const ctx = cv.getContext('2d');
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = '#f3eee2'; ctx.fillRect(0, 0, W, H);
+  const plate = (deg, c, cover, ink, shift) => {
+    ctx.globalCompositeOperation = 'multiply';
+    ctx.fillStyle = ink;
+    const th = deg * Math.PI / 180, cs = Math.cos(th), sn = Math.sin(th);
+    const n = Math.ceil(Math.hypot(W, H) / c / 2) + 2;
+    ctx.beginPath();
+    for (let a = -n; a <= n; a++) for (let b = -n; b <= n; b++) {
+      const x = W / 2 + (a * cs - b * sn) * c + shift, y = H / 2 + (a * sn + b * cs) * c + shift;
+      if (x < -c || y < -c || x > W + c || y > H + c) continue;
+      const k = cover(x, y);
+      if (k < .02) continue;
+      const rad = Math.min(c * .7, c * Math.sqrt(k / Math.PI));
+      ctx.moveTo(x + rad, y); ctx.arc(x, y, rad, 0, Math.PI * 2);
+    }
+    ctx.fill();
+  };
+  // with no subject mask, ink A takes a little more of the mid-tones so the scene still has a figure
+  const aLo = cm ? .5 : .38;
+  plate(75, cell, (x, y) => .78 * ss(.05, .75, dark(x, y)) * (1 - .6 * at(Mk, x, y)), inkB, cell * .21);
+  plate(15, cell, (x, y) => { const d = dark(x, y), m = at(Mk, x, y); return Math.max(.8 * ss(aLo, .95, d), m * (.18 + .82 * ss(.06, .8, d))); }, inkA, 0);
+  ctx.globalCompositeOperation = 'source-over';
+}
+
+B.hype = async (t, key) => {
+  const i = info(key);
+  const el = t.querySelector('.lab .fit');
+  if (el) {
+    const [bw, bh] = el.dataset.box.split(',').map(Number);
+    applyFit(el, fitBox(el, i.nc ? el.dataset.text : el.dataset.text.toUpperCase(), bw, bh, +el.dataset.lh, el.dataset.st.split(',').map(Number)));
+  }
+  // Frame the still so its subject sits on or right of the slash. The panel only shows the tile right of
+  // x = 33%, so the photo can slide right by up to a third without uncovering anything. The cut-out breaks
+  // out over the slash only when the subject is big enough and does not reach back across the colour panel,
+  // where it would sit under the lettering.
+  const [bx, by, bw, bh] = i.p.box, cx = FX[key] ?? bx + bw / 2;
+  const shift = clamp(60 - cx, 0, 32);
+  t.style.setProperty('--bs', '100% 100%');
+  t.style.setProperty('--bp', `${shift.toFixed(1)}cqw 0`);
+  const cut = t.querySelector('.cut');
+  const breakOut = i.p.cut && i.p.area > .035 && bh > 38 && bx + shift > 25;
+  if (!breakOut) cut.remove();
+  t._rows = [...t.querySelectorAll('.echo .row')].map((row, n) => ({ row, unit: row.firstElementChild.getBoundingClientRect().width / (t.getBoundingClientRect().width / t.clientWidth), dir: +row.dataset.dir, base: -(n * 37 % 100) / 100 }));
+  setRows(t, 0);
+};
+function setRows(t, p) {
+  t._rows.forEach(({ row, unit, dir, base }) => row.style.setProperty('--ex', ((base + dir * p - (dir > 0 ? 1 : 0)) * unit).toFixed(1) + 'px'));
+}
+
+/* ── motion: t in [0, 1); t = 0 is the still, and the loop closes ── */
+const M = {};
+M.pol = (el, t) => {
+  const a = t * Math.PI * 2;
+  el.querySelectorAll('.frame, .note').forEach((f, n) => {
+    const s = f.classList.contains('back') ? -.6 : 1;
+    f.style.setProperty('--px', (Math.sin(a + n) * .35 * s).toFixed(3) + 'cqw');
+    f.style.setProperty('--py', ((1 - Math.cos(a + n)) * .25 * s).toFixed(3) + 'cqw');
+  });
+  el.querySelectorAll('.glare').forEach(g => g.style.setProperty('--gl', (100 - 100 * t).toFixed(1) + '%'));
+  el.style.setProperty('--lamp', (1 + .03 * Math.sin(a * 3)).toFixed(3));
+};
+M.arc = (el, t) => {
+  el.style.setProperty('--blink', (t % .5) < .32 ? 1 : 0);
+  // two roll bars half a loop apart, so one is always on screen
+  el.querySelectorAll('.roll').forEach((r, n) => r.style.top = (-10 + ((t + n / 2) % 1) * 76).toFixed(2) + 'cqw');
+  // the scanlines creep down one line a loop, so every frame differs (no frame merging) and the loop closes
+  el.style.setProperty('--sc', (t * 1).toFixed(3) + 'cqw');
+  el.style.setProperty('--bob', (Math.round(Math.sin(t * Math.PI * 4) * 2) * .25).toFixed(2) + 'cqw');
+};
+M.riso = (el, t) => {
+  const step = Math.floor(t * 12) % 12;
+  tear(el, el.dataset.key, step);
+  const R = rng(el.dataset.key + 'boil' + step), j = s => step ? ((R() - .5) * s).toFixed(2) : 0;
+  el.style.setProperty('--mx', (.55 + +j(.5)) + 'cqw');
+  el.style.setProperty('--my', (.45 + +j(.5)) + 'cqw');
+  // a slow continuous drift under the stepped boil, so no two frames are identical (an encoder would merge
+  // them, and the iPhone plays every WebP frame at 100 ms whatever its duration)
+  const dx = Math.sin(t * Math.PI * 2) * .5, dy = (1 - Math.cos(t * Math.PI * 2)) * .2;
+  el.querySelector('canvas.half').style.translate = `${(+j(.4) + dx).toFixed(3)}cqw ${(+j(.4) + dy).toFixed(3)}cqw`;
+  el.querySelector('.ttl').style.translate = `${(-dx * .4).toFixed(3)}cqw 0`;
+  el.querySelector('canvas.half').style.rotate = `${j(.5)}deg`;
+  el.querySelector('.blob').style.translate = `${j(.6)}cqw ${j(.6)}cqw`;
+  const st = el.querySelector('.sticker');
+  if (st) st.style.rotate = `${j(4)}deg`;
+};
+M.hype = (el, t) => {
+  setRows(el, t);
+  el.style.setProperty('--pz', (1 + .025 * Math.sin(t * Math.PI) ** 2).toFixed(4));
+  const g = el.querySelector('svg.speed .sp');
+  if (g) g.setAttribute('transform', `translate(${(t * 100).toFixed(2)} ${(-t * 21).toFixed(2)})`);
+};
+
+async function build(root) {
+  await sizeLogos(root);
+  for (const t of root.querySelectorAll('.tile')) {
+    await B[t.dataset.style](t, t.dataset.key);
+    M[t.dataset.style](t, 0);
+  }
+}
+window.setT = t => document.querySelectorAll('#render .tile').forEach(el => M[el.dataset.style](el, t));
+
+const FONTS = ['900 100px Archivo', 'italic 900 100px Archivo', '800 100px "Inter Tight"', '400 100px "Press Start 2P"', '400 100px "Permanent Marker"'];
+const ready = (document.fonts ? Promise.all(FONTS.map(f => document.fonts.load(f))).then(() => document.fonts.ready) : Promise.resolve());
+const rm = location.hash.match(/^#r-(\w+)-([\w-]+)$/);
+if (rm) {
+  document.body.classList.add('render');
+  const r = document.getElementById('render');
+  r.innerHTML = tile(rm[1], rm[2]);
+  ready.then(() => build(r)).then(() => { window.renderReady = true; }, e => { window.renderError = String(e && e.stack || e); });
+} else {
+  const want = new URLSearchParams(location.search).get('s');
+  const styles = want ? [want] : Object.keys(STYLES);
+  document.getElementById('sheet').innerHTML = styles.map(s => `<h1>${esc(STYLES[s])}</h1>` + window.ROWS.map(([title, ks]) =>
+    `<h2>${esc(title)}</h2><div class="row">${ks.map(k => tile(s, k)).join('')}</div>`).join('')).join('');
+  ready.then(() => build(document));
+}
+</script>
