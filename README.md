@@ -41,8 +41,15 @@ Aurora Glass file; only the covers change, so you can switch looks by importing 
 | Riso Zine | `styles/riso-zine/riso-zine.json` | Two-ink risograph prints, torn, taped and scribbled on |
 | Hype Reel | `styles/hype-reel/hype-reel.json` | Sports-broadcast style: slashed colour panel, cast breaking out, echoing type |
 
+Two more under tag v3:
+
+| Look | Import file | What it is |
+|---|---|---|
+| True Black Mono | `styles/true-black-mono/true-black-mono.json` | Pure black for OLED: the cast cut out in silver and lit out of the black, white type and logos |
+| Showcase | `styles/showcase/showcase.json` | Built like a premium streaming app: true-colour key art, brand tiles for services, a Top 10 badge |
+
 Each look has `covers/` (1600×900) and `anim/` (the 12 Top 10 hover loops) beside its import file, served from
-`raw.githubusercontent.com/mali-king/nuvio-everything/v2/styles/<look>/`.
+`raw.githubusercontent.com/mali-king/nuvio-everything/<tag>/styles/<look>/`.
 
 ## Before you import
 
@@ -73,3 +80,11 @@ python3 -I build/style_collections.py dist/styles <tag>  # one import file per l
 
 The four designs live in `board/styles.html`; `styles.html#r-<look>-<folder key>` draws one cover and
 `styles.html?s=<look>` draws a look's whole sheet.
+
+True Black Mono and Showcase live in `board/looks3.html` (styles `mono` and `app`, same contract), with the
+candidates that were not picked:
+
+```sh
+LAB=looks3 node build/export_styles.cjs dist/styles                                   # mono and app
+python3 -I build/style_collections.py dist/styles <tag> true-black-mono showcase
+```

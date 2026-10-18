@@ -1,0 +1,924 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Everything Looks III</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@100..900&family=Archivo:ital,wdth,wght@0,62..125,500..900;1,62..125,500..900&family=Fraunces:opsz,wght@9..144,500..700&family=Lilita+One&family=Caveat+Brush&display=swap">
+<style>
+/* Round 6: three more cover looks for the 78 Everything folders, built like styles.html.
+   mono True Black Mono, app Showcase (a real streaming app's tiles); for the third slot (Stained Glass was
+   turned down) candidates: vhs VHS Rental, film Lightbox, gallery Gallery (round 7); cine Movie Night, flap
+   Split-Flap, sticker Sticker Pack, slate Slate (round 8).
+   looks3.html#r-<style>-<folder key> draws one tile full-window for the exporter; window.setT(t) poses its
+   hover loop at t in [0, 1), and t = 0 is the still. looks3.html?s=<style> draws every folder as a sheet. */
+:root { color-scheme: dark; --sans: "Inter Tight", -apple-system, "Helvetica Neue", sans-serif; --cond: "Archivo", "Inter Tight", sans-serif; --disp: "Fraunces", Georgia, serif; --round: "Lilita One", "Arial Rounded MT Bold", sans-serif; --hand: "Caveat Brush", "Marker Felt", cursive; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #000; color: #f2f2f4; font: 14px/1.4 var(--sans); }
+
+.tile { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; container-type: inline-size; isolation: isolate; background: #000; color: #fff; }
+.tile > * { position: absolute; }
+.tile .fill { inset: 0; background-size: cover; background-position: center; }
+.tile canvas.full { inset: 0; width: 100%; height: 100%; }
+.tile .fit { white-space: nowrap; }
+.tile .grain { inset: 0; filter: url(#grain); pointer-events: none; }
+.tile img.logo { display: block; }
+.flag { display: inline-block; flex: none; height: 3.2cqw; width: 4.8cqw; border-radius: .4cqw; background: linear-gradient(#111 0 30%, #fff 30% 36%, #c8102e 36% 64%, #fff 64% 70%, #007a3d 70%); box-shadow: 0 0 0 .14cqw rgba(255,255,255,.3); }
+
+/* ── True Black Mono: the cast in silver, lit out of pure #000; white type ── */
+.mono { background: #000; }
+.mono canvas.full { transform: scale(var(--pz, 1)); transform-origin: 69% 55%; }
+.mono .lab { left: 6cqw; bottom: 6.4cqw; display: flex; flex-direction: column; align-items: flex-start; gap: 2.6cqw; }
+.mono .fit { font-family: var(--sans); font-weight: 600; letter-spacing: -.04em; line-height: .9; color: #fff; }
+.mono img.logo { filter: brightness(0) invert(1); }
+.mono .t10 { display: flex; align-items: flex-end; gap: 1.8cqw; margin-top: -1cqw; }
+.mono .t10 i { font: 200 31cqw/.74 var(--sans); font-style: normal; letter-spacing: -.07em; color: #fff; margin-left: -1.2cqw; }
+.mono .t10 b { display: flex; flex-direction: column; gap: 1.4cqw; padding-bottom: .6cqw; font: 600 5.2cqw/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: #fff; }
+.mono .t10 b span + span { color: #8d8d8d; }
+.mono .grain { opacity: .1; mix-blend-mode: overlay; }
+
+/* ── Showcase: what a premium streaming app ships; true-colour key art, brand tiles, a Top 10 badge ── */
+.app { background: #0b0c10; }
+.app .img { inset: 0; background-image: var(--img); background-size: cover; background-position: var(--pos, center); transform: translate(var(--px, 0), 0) scale(var(--pz, 1)); transform-origin: var(--pos, center); }
+.app .soft { inset: 0; background-image: var(--img); background-size: cover; background-position: var(--pos, center); filter: blur(2.6cqw) saturate(1.25) brightness(.78);
+  -webkit-mask-image: linear-gradient(0deg, #000 0%, #000 18%, transparent 46%); mask-image: linear-gradient(0deg, #000 0%, #000 18%, transparent 46%); transform: scale(1.08); }
+.app .shade { inset: 0; background: linear-gradient(0deg, rgba(6,7,11,.8) 0%, rgba(6,7,11,.42) 24%, rgba(6,7,11,0) 50%), linear-gradient(90deg, rgba(6,7,11,.38) 0%, rgba(6,7,11,0) 42%); }
+.app .lab { left: 5.4cqw; bottom: 4.8cqw; display: flex; flex-direction: column; align-items: flex-start; gap: 2.4cqw; }
+.app .fit { font-family: var(--sans); font-weight: 750; letter-spacing: -.035em; line-height: .92; color: #fff; text-shadow: 0 .2cqw 1.4cqw rgba(0,0,0,.35); }
+.app .edge { inset: 0; box-shadow: inset 0 0 0 .16cqw rgba(255,255,255,.1), inset 0 .22cqw 0 rgba(255,255,255,.08); pointer-events: none; }
+.app img.logo.white { filter: brightness(0) invert(1) drop-shadow(0 .3cqw 1.4cqw rgba(0,0,0,.35)); }
+/* brand tiles: the service's colour over a dimmed still, the mark centred */
+.app.svc .img { filter: grayscale(.45) brightness(.34) blur(.2cqw); transform: scale(1.04); }
+.app .brand { inset: 0; mix-blend-mode: screen; background: radial-gradient(78% 105% at 50% 120%, color-mix(in srgb, var(--ac) 92%, transparent) 0%, color-mix(in srgb, var(--ac) 38%, transparent) 42%, transparent 74%),
+  radial-gradient(70% 70% at 50% 42%, color-mix(in srgb, var(--ac) 18%, transparent) 0%, transparent 72%); }
+.app .sheen { inset: 0; background: linear-gradient(118deg, rgba(255,255,255,.1) 0%, rgba(255,255,255,0) 34%); }
+.app .mid { inset: 0; display: flex; align-items: center; justify-content: center; }
+.app .mid .fit { font-weight: 800; letter-spacing: -.045em; text-align: center; line-height: .9; }
+/* Top 10 */
+.app.top .shade { background: linear-gradient(90deg, rgba(6,7,11,.86) 0%, rgba(6,7,11,.55) 34%, rgba(6,7,11,0) 62%), linear-gradient(0deg, rgba(6,7,11,.5) 0%, rgba(6,7,11,0) 40%); }
+.app .t10 { display: flex; align-items: center; gap: 2.6cqw; }
+.app .badge { width: 17cqw; height: 17cqw; border-radius: 1.4cqw; background: linear-gradient(160deg, color-mix(in srgb, var(--ac) 88%, #fff) 0%, var(--ac) 40%, color-mix(in srgb, var(--ac) 70%, #000) 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 .6cqw 2cqw rgba(0,0,0,.45), inset 0 .2cqw 0 rgba(255,255,255,.25); color: #fff; }
+.app .badge b { font: 800 4cqw/1 var(--sans); letter-spacing: .14em; margin-left: .14em; }
+.app .badge i { font: 900 10cqw/.86 var(--sans); font-style: normal; letter-spacing: -.05em; }
+.app .when .flag { height: 4.4cqw; width: 6.6cqw; }
+.app .when { display: flex; align-items: center; gap: 1.6cqw; font: 750 8cqw/1 var(--sans); letter-spacing: -.03em; color: #fff; }
+
+/* ── VHS Rental: the film on a store-bought tape; chrome title on the label, reels turning in the window ── */
+.vhs { background: #120d0b; }
+.vhs .bg { inset: 0; background: radial-gradient(85% 95% at 28% 0%, #3b2b21 0%, #1b130f 55%, #0c0807 100%); }
+.vhs .cas { left: 3.4cqw; top: 3cqw; width: 93.2cqw; height: 50.2cqw; transform: rotate(-1.2deg); }
+.vhs .cas > * { position: absolute; }
+.vhs .shell { inset: 0; border-radius: 1.4cqw; background: linear-gradient(175deg, #2b2b30 0%, #151517 42%, #0b0b0c 100%);
+  box-shadow: 0 1.6cqw 3cqw rgba(0,0,0,.7), inset 0 .25cqw 0 rgba(255,255,255,.13), inset 0 -.3cqw 0 rgba(0,0,0,.6); }
+.vhs .shell::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: repeating-linear-gradient(90deg, rgba(255,255,255,.02) 0 .2cqw, transparent .2cqw .5cqw); }
+.vhs .label { left: 3.4cqw; top: 2.8cqw; width: 86.4cqw; height: 31.4cqw; border-radius: .5cqw; overflow: hidden; background: #f3eee2; box-shadow: 0 .2cqw .4cqw rgba(0,0,0,.5); }
+.vhs .label > * { position: absolute; }
+.vhs .ph { inset: .5cqw; border-radius: .25cqw; background-image: var(--img); background-size: cover; background-position: var(--pos, center); filter: saturate(1.2) contrast(1.08); }
+.vhs .lsh { inset: .5cqw; border-radius: .25cqw; background: linear-gradient(72deg, rgba(4,6,20,.8) 0%, rgba(4,6,20,.42) 36%, rgba(4,6,20,0) 60%); }
+.vhs .band { left: .5cqw; right: .5cqw; height: 4cqw; top: var(--band, -10cqw); background: repeating-linear-gradient(180deg, rgba(255,255,255,0) 0 .3cqw, rgba(255,255,255,.28) .3cqw .42cqw), linear-gradient(180deg, transparent, rgba(255,255,255,.14), transparent); mix-blend-mode: screen; }
+.vhs .ttl { left: 3.4cqw; bottom: 2.8cqw; display: flex; flex-direction: column; align-items: flex-start; gap: 1.4cqw; }
+.vhs .chrome { position: relative; }
+.vhs .chrome > div { white-space: nowrap; font-family: var(--cond); font-weight: 900; font-style: italic; font-stretch: 92%; text-transform: uppercase; line-height: .9; letter-spacing: -.01em; }
+.vhs .chrome.nc > div { text-transform: none; }
+.vhs .chrome .sh { color: #0a1030; }
+.vhs .chrome .fg { position: absolute; inset: 0; color: transparent; -webkit-background-clip: text; background-clip: text;
+  background-image: linear-gradient(180deg, #ffffff 0%, #e2ebff 36%, #7d96d8 48%, #16205a 51%, color-mix(in srgb, var(--ac) 60%, #fff) 70%, #ffffff 100%); }
+.vhs img.logo { filter: brightness(0) invert(1) drop-shadow(.25cqw .3cqw 0 #0a1030) drop-shadow(0 .4cqw .8cqw rgba(0,0,0,.6)); }
+.vhs .win { left: 22cqw; top: 36.4cqw; width: 49cqw; height: 11cqw; border-radius: .8cqw; overflow: hidden; background: linear-gradient(180deg, #1d1d21, #0e0e10); box-shadow: inset 0 .3cqw .8cqw rgba(0,0,0,.9), 0 0 0 .3cqw #09090a, 0 .15cqw 0 .35cqw rgba(255,255,255,.06); }
+.vhs .win svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.vhs .win::after { content: ""; position: absolute; inset: 0; background: linear-gradient(165deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,0) 38%); }
+.vhs .mark { font: 800 2.3cqw/1 var(--cond); font-stretch: 80%; letter-spacing: .14em; color: #46464d; text-shadow: 0 .12cqw 0 rgba(255,255,255,.07); }
+.vhs .screw { width: 1.5cqw; height: 1.5cqw; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #5a5a60 0%, #232326 60%, #111 100%); }
+.vhs .sticker { left: 76cqw; top: 35.4cqw; width: 13.4cqw; height: 13.4cqw; border-radius: 50%; background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--st) 70%, #fff) 0%, var(--st) 55%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .4cqw;
+  color: #141414; font-family: var(--cond); text-transform: uppercase; box-shadow: 0 .3cqw .6cqw rgba(0,0,0,.5); transform: rotate(-12deg); }
+.vhs .sticker b { font-weight: 800; font-size: 2.2cqw; line-height: 1; letter-spacing: .08em; }
+.vhs .sticker i { font-style: normal; font-weight: 900; font-size: 3.2cqw; line-height: 1; font-stretch: 78%; }
+.vhs .burst { left: 64cqw; top: -2.6cqw; width: 24cqw; height: 24cqw; background: var(--st); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #141414; transform: rotate(10deg);
+  clip-path: polygon(50% 0%, 57% 13%, 69% 4%, 71% 19%, 85% 15%, 81% 29%, 96% 31%, 87% 43%, 100% 50%, 87% 57%, 96% 69%, 81% 71%, 85% 85%, 71% 81%, 69% 96%, 57% 87%, 50% 100%, 43% 87%, 31% 96%, 29% 81%, 15% 85%, 19% 71%, 4% 69%, 13% 57%, 0% 50%, 13% 43%, 4% 31%, 19% 29%, 15% 15%, 29% 19%, 31% 4%, 43% 13%);
+  filter: drop-shadow(0 .3cqw .4cqw rgba(0,0,0,.45)); }
+.vhs .burst b { font: 900 4.4cqw/.9 var(--cond); font-stretch: 80%; }
+.vhs .burst i { font: 900 10.5cqw/.82 var(--cond); font-style: italic; font-stretch: 75%; }
+.vhs .grain { opacity: .12; mix-blend-mode: overlay; }
+
+/* ── Lightbox: the film as a strip of slides on a light table, a loupe on the frame that matters ── */
+.film { background: #eef1f4; color: #111; }
+.film .box { inset: 0; background: radial-gradient(95% 120% at 50% 38%, #ffffff 0%, #f4f6f9 50%, #dde2e8 100%); }
+.film .strip { left: -6cqw; top: 2.2cqw; width: 112cqw; height: 36cqw; background: #151111; transform: rotate(var(--rot, -3deg)); box-shadow: 0 .5cqw 1.4cqw rgba(30,40,60,.28); }
+.film .strip > * { position: absolute; }
+.film .perf { left: 0; right: 0; height: 2.5cqw; background-image: repeating-linear-gradient(90deg, transparent 0 1.5cqw, #f7f9fc 1.5cqw 3.4cqw, transparent 3.4cqw 4.9cqw); }
+.film .edge { left: 6cqw; font: 700 1.25cqw/1 var(--cond); letter-spacing: .32em; color: #e9a53b; white-space: nowrap; word-spacing: 8cqw; opacity: .9; }
+.film .fr { top: 5.65cqw; width: 37cqw; height: 24.7cqw; background-size: cover; background-position: var(--pos, center); border-radius: .3cqw; filter: saturate(1.12) contrast(1.05); box-shadow: inset 0 0 1.2cqw rgba(0,0,0,.35); }
+.film svg.grease { left: 0; top: 0; width: 100%; height: 100%; overflow: visible; }
+.film .loupe { width: 22cqw; height: 22cqw; border-radius: 50%; background: conic-gradient(from 200deg, #8d9096, #f4f5f7, #9a9da3 30%, #e6e8eb 50%, #7c7f85 70%, #f0f1f3 85%, #8d9096);
+  box-shadow: 0 1.6cqw 2.8cqw rgba(20,30,50,.4), 0 .3cqw .6cqw rgba(0,0,0,.3), inset 0 0 0 .2cqw rgba(0,0,0,.35); }
+.film .lens { position: absolute; inset: .9cqw; border-radius: 50%; background-image: var(--img); background-repeat: no-repeat; filter: saturate(1.12) contrast(1.05); box-shadow: inset 0 0 1.6cqw rgba(0,0,0,.55); }
+.film .glint { position: absolute; inset: .9cqw; border-radius: 50%; background: radial-gradient(60% 45% at 32% 22%, rgba(255,255,255,.38) 0%, rgba(255,255,255,0) 70%); }
+.film .lab { left: 5cqw; bottom: 4.2cqw; display: flex; flex-direction: column; align-items: flex-start; gap: 1.8cqw; }
+.film.top .lab { flex-direction: row; align-items: center; gap: 3cqw; }
+.film .dymo { position: relative; padding: 1.15cqw 2.3cqw 1.25cqw; border-radius: .35cqw; transform: rotate(-1.4deg);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--tape) 80%, #fff) 0%, var(--tape) 30%, color-mix(in srgb, var(--tape) 82%, #000) 100%); box-shadow: 0 .35cqw .7cqw rgba(20,30,50,.3); }
+.film .dymo .fit, .film .dymo .t { font-family: var(--cond); font-weight: 800; font-stretch: 80%; text-transform: uppercase; letter-spacing: .14em; color: #f6f6f0; line-height: 1;
+  text-shadow: 0 -.14cqw 0 rgba(0,0,0,.4), 0 .14cqw 0 rgba(255,255,255,.3); }
+.film .dymo .t { font-size: 6.4cqw; display: flex; align-items: center; gap: 1.6cqw; white-space: nowrap; }
+.film img.logo { filter: brightness(0); }
+
+/* ── Gallery: the still as an oil painting in a gilt frame, hung on a coloured museum wall ── */
+.gallery { background: var(--wall); }
+.gallery .wall { inset: 0; background: radial-gradient(40% 75% at 70% 4%, rgba(255,224,170,calc(.32 * var(--li, 1))) 0%, rgba(255,214,160,calc(.1 * var(--li, 1))) 50%, transparent 78%),
+  radial-gradient(140% 130% at 45% 35%, transparent 45%, rgba(0,0,0,.5) 100%), var(--wall); }
+.gallery .grain { opacity: .2; mix-blend-mode: overlay; }
+.gallery .frame { left: 45cqw; top: 9cqw; width: 50cqw; height: 39.5cqw;
+  background: linear-gradient(135deg, rgba(255,255,255,0) 0 38%, rgba(255,250,225,.22) 50%, rgba(255,255,255,0) 62%),
+    repeating-linear-gradient(45deg, rgba(90,60,15,.22) 0 .32cqw, transparent .32cqw .9cqw),
+    linear-gradient(135deg, #7a5a22 0%, #e9cd7e 22%, #a37d34 40%, #f0d68e 58%, #8a6826 78%, #5c4317 100%);
+  box-shadow: 0 2.4cqw 3.8cqw rgba(0,0,0,.55), 0 .5cqw .9cqw rgba(0,0,0,.4), inset 0 0 0 .25cqw rgba(255,236,180,.55), inset 0 0 0 .6cqw rgba(90,62,18,.5), inset .5cqw .5cqw .9cqw rgba(255,248,220,.45), inset -.5cqw -.5cqw .9cqw rgba(40,25,5,.6); }
+.gallery .frame > * { position: absolute; }
+.gallery .liner { inset: 2.5cqw; background: #e8dfc7; box-shadow: inset 0 0 0 .15cqw rgba(0,0,0,.25), inset .3cqw .3cqw .6cqw rgba(0,0,0,.25); }
+.gallery canvas.paint { left: 3.3cqw; top: 3.3cqw; width: calc(100% - 6.6cqw); height: calc(100% - 6.6cqw); }
+.gallery .varnish { left: 3.3cqw; top: 3.3cqw; right: 3.3cqw; bottom: 3.3cqw; background: linear-gradient(115deg, transparent 35%, rgba(255,250,235,.16) 47%, transparent 58%); background-size: 300% 100%; background-repeat: no-repeat; background-position: var(--vs, 130%) 0; mix-blend-mode: screen; }
+.gallery .lamp { left: 60.5cqw; top: 2.4cqw; width: 19cqw; height: 1.7cqw; border-radius: .85cqw; background: linear-gradient(180deg, #f0d892, #8a6a2a); box-shadow: 0 .5cqw .9cqw rgba(0,0,0,.45); }
+.gallery .lamp::after { content: ""; position: absolute; left: 50%; top: 1.5cqw; width: .7cqw; height: 5.2cqw; transform: translateX(-50%); background: linear-gradient(90deg, #6e5220, #d9b866, #6e5220); }
+.gallery .lab { left: 6cqw; top: 9cqw; bottom: 10.2cqw; width: 36cqw; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: 2.4cqw; }
+.gallery .rule { position: static; width: 7cqw; height: .32cqw; background: #d9b56c; }
+.gallery .fit { font-family: var(--disp); font-weight: 600; font-variation-settings: "opsz" 144; letter-spacing: -.02em; line-height: .95; color: #f6ecd8; }
+.gallery img.logo { filter: brightness(0) invert(.93) sepia(.25); }
+.gallery .t10 { font: 600 13cqw/.88 var(--disp); font-variation-settings: "opsz" 144; letter-spacing: -.02em; color: #f6ecd8; }
+.gallery .when { font: italic 500 5.4cqw/1 var(--disp); color: #d9b56c; display: flex; align-items: center; gap: 1.4cqw; }
+
+/* ── Movie Night: the still on a cinema screen between velvet curtains, the audience in silhouette ── */
+.cine { background: #080304; }
+.cine .room { inset: 0; background: radial-gradient(75% 85% at 50% 32%, color-mix(in srgb, var(--glow, #888) 30%, transparent) 0%, transparent 72%), linear-gradient(180deg, #13070a 0%, #060203 100%); }
+.cine .scr { left: 15.5cqw; top: 8cqw; width: 69cqw; height: 34.5cqw; box-shadow: 0 0 0 .45cqw #040102, 0 0 6cqw color-mix(in srgb, var(--glow, #888) 50%, transparent); overflow: hidden; }
+.cine .scr .ph { position: absolute; inset: 0; background-image: var(--img); background-size: cover; background-position: var(--pos, center); filter: brightness(var(--fl, 1)) saturate(1.06); }
+.cine .scr::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.66) 0%, rgba(0,0,0,.18) 42%, rgba(0,0,0,0) 62%), radial-gradient(130% 130% at 50% 45%, transparent 55%, rgba(0,0,0,.35) 100%); }
+.cine .dust { left: 15.5cqw; top: 8cqw; width: 69cqw; height: 34.5cqw; mix-blend-mode: screen; opacity: .55; background-position: 0 var(--dy, 0);
+  background-image: radial-gradient(circle at 12% 20%, rgba(255,255,255,.7) 0 .1cqw, transparent .2cqw), radial-gradient(circle at 37% 66%, rgba(255,255,255,.55) 0 .08cqw, transparent .18cqw),
+    radial-gradient(circle at 58% 34%, rgba(255,255,255,.6) 0 .12cqw, transparent .22cqw), radial-gradient(circle at 81% 78%, rgba(255,255,255,.5) 0 .09cqw, transparent .18cqw), radial-gradient(circle at 70% 10%, rgba(255,255,255,.45) 0 .07cqw, transparent .16cqw);
+  background-size: 23cqw 11.5cqw; }
+.cine .cap { left: 19.5cqw; bottom: 18cqw; display: flex; flex-direction: column; align-items: flex-start; gap: 1.4cqw; }
+.cine .fit, .cine .t10 { font-family: var(--cond); font-weight: 800; font-stretch: 125%; text-transform: uppercase; letter-spacing: .07em; line-height: .98; color: #fff; text-shadow: 0 .3cqw 1.2cqw rgba(0,0,0,.6); }
+.cine .t10 { font-size: 7cqw; display: flex; align-items: center; gap: 1.6cqw; white-space: nowrap; }
+.cine .t10 span { font-size: .5em; letter-spacing: .2em; color: rgba(255,255,255,.82); }
+.cine img.logo { filter: brightness(0) invert(1) drop-shadow(0 .3cqw 1cqw rgba(0,0,0,.6)); }
+.cine .cur { top: 0; bottom: 0; width: 18cqw; background: linear-gradient(90deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 55%, color-mix(in srgb, var(--glow, #888) 26%, transparent) 100%), linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.55) 100%),
+    repeating-linear-gradient(90deg, #3a050c 0, #7a0f20 1.3cqw, #a51a30 1.9cqw, #5c0914 2.9cqw, #2a0307 3.5cqw); clip-path: polygon(0 0, 100% 0, 94% 30%, 80% 62%, 58% 100%, 0 100%); }
+.cine .cur.r { right: 0; transform: scaleX(-1); }
+.cine .cur.l { left: 0; }
+.cine .val { left: 0; right: 0; top: 0; height: 7.6cqw; background: linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,0) 60%), repeating-linear-gradient(90deg, #5a0915 0, #9b1a2f 2.2cqw, #5a0915 4.4cqw);
+  -webkit-mask: linear-gradient(#000, #000) 0 0 / 100% 4.6cqw no-repeat, radial-gradient(4.1cqw 3.1cqw at 50% 0, #000 97%, transparent 100%) 0 4.5cqw / 8.2cqw 3.1cqw repeat-x;
+  mask: linear-gradient(#000, #000) 0 0 / 100% 4.6cqw no-repeat, radial-gradient(4.1cqw 3.1cqw at 50% 0, #000 97%, transparent 100%) 0 4.5cqw / 8.2cqw 3.1cqw repeat-x; }
+.cine svg.aud { left: 0; bottom: 0; width: 100%; height: 22cqw; }
+.cine .grain { opacity: .12; mix-blend-mode: overlay; }
+
+/* ── Split-Flap: the name on a station departures board over the still; the flaps shuffle on hover ── */
+.flap .img { inset: 0; background-image: var(--img); background-size: cover; background-position: var(--pos, center); transform: scale(var(--pz, 1)); transform-origin: 70% 40%; }
+.flap .shade { inset: 0; background: linear-gradient(0deg, rgba(5,6,8,.86) 0%, rgba(5,6,8,.45) 36%, rgba(5,6,8,0) 62%), linear-gradient(90deg, rgba(5,6,8,.55) 0%, rgba(5,6,8,0) 52%); }
+.flap .lab { left: 4.4cqw; bottom: 4.4cqw; display: flex; flex-direction: column; align-items: flex-start; gap: 2cqw; }
+.flap .board { position: static; padding: .8cqw; border-radius: .7cqw; background: linear-gradient(180deg, #1b1b1e, #0a0a0b); box-shadow: 0 .8cqw 2cqw rgba(0,0,0,.6), inset 0 .15cqw 0 rgba(255,255,255,.08), inset 0 0 0 .12cqw rgba(255,255,255,.04); display: flex; flex-direction: column; gap: .45cqw; }
+.flap .frow { display: flex; gap: .3cqw; }
+.flap .c { position: relative; width: var(--cw); height: calc(var(--cw) * 1.42); border-radius: .28cqw; overflow: hidden; display: flex; align-items: center; justify-content: center; padding-top: calc(var(--cw) * .06);
+  background: linear-gradient(180deg, #333337 0%, #27272b 49.5%, #070708 49.5%, #070708 50.5%, #1e1e21 50.5%, #141416 100%); box-shadow: inset 0 .1cqw 0 rgba(255,255,255,.1), 0 .1cqw .2cqw rgba(0,0,0,.6);
+  font-family: var(--cond); font-weight: 700; font-stretch: 82%; font-size: calc(var(--cw) * 1.08); line-height: 1; color: #f4f2ea; }
+.flap .c::after { content: ""; position: absolute; left: 0; right: 0; top: calc(50% - .07cqw); height: .14cqw; background: rgba(0,0,0,.9); }
+.flap .c::before { content: ""; position: absolute; left: .08cqw; right: .08cqw; top: calc(50% - .22cqw); height: .44cqw; background: radial-gradient(circle at 0 50%, #6a6a6e 0 .16cqw, transparent .2cqw), radial-gradient(circle at 100% 50%, #6a6a6e 0 .16cqw, transparent .2cqw); z-index: 1; }
+.flap .c.acc { background: linear-gradient(180deg, color-mix(in srgb, var(--ac) 88%, #fff) 0%, var(--ac) 49.5%, #070708 49.5%, #070708 50.5%, color-mix(in srgb, var(--ac) 78%, #000) 50.5%, color-mix(in srgb, var(--ac) 62%, #000) 100%); }
+.flap .c.mid { background: linear-gradient(180deg, #1a1a1d 0%, #121214 49.5%, #070708 49.5%, #070708 50.5%, #2a2a2e 50.5%, #1d1d20 100%); color: #b9b7b0; }
+.flap img.logo { filter: brightness(0) invert(1) drop-shadow(0 .3cqw 1cqw rgba(0,0,0,.5)); }
+
+/* ── Sticker Pack: the cast as a glossy die-cut sticker on a colour wall, the name as a lettering sticker ── */
+.sticker { background: var(--ac); }
+.sticker .bg { inset: 0; background: radial-gradient(85% 115% at 72% 28%, color-mix(in srgb, var(--ac) 72%, #fff) 0%, var(--ac) 46%, color-mix(in srgb, var(--ac) 66%, #000) 100%); }
+.sticker .dots { inset: 0; background-image: radial-gradient(color-mix(in srgb, var(--ac) 50%, #000) 24%, transparent 27%); background-size: 1.5cqw 1.5cqw; opacity: .3;
+  -webkit-mask-image: linear-gradient(128deg, #000 0%, transparent 42%); mask-image: linear-gradient(128deg, #000 0%, transparent 42%); }
+.sticker canvas.full { transform: rotate(var(--wob, 2.5deg)); transform-origin: 66% 60%; }
+.sticker .lab { left: 4.4cqw; bottom: 5.4cqw; display: flex; flex-direction: column; align-items: flex-start; gap: 2.2cqw; transform: rotate(var(--tr, -5deg)); transform-origin: 0 100%; }
+.sticker .stack { position: relative; filter: drop-shadow(.25cqw .55cqw .4cqw rgba(0,0,0,.35)); }
+.sticker .stack > div { white-space: nowrap; font-family: var(--round); line-height: .95; letter-spacing: .005em; }
+.sticker .stack .sh { color: #fff; }
+.sticker .stack .fg { position: absolute; inset: 0; color: #17131d; }
+.sticker .brand { padding: 1.5cqw 2.2cqw; border-radius: 1.8cqw; background: var(--bc); box-shadow: 0 0 0 .9cqw #fff, .25cqw .7cqw .7cqw .9cqw rgba(0,0,0,.3); transform: rotate(3deg); }
+.sticker .brand img.logo { filter: brightness(0) invert(1); }
+.sticker .gloss { inset: 0; pointer-events: none; }
+
+/* ── Slate: the name written on a film clapperboard in front of the scene; the sticks clap on hover ── */
+.slate { background: #000; }
+.slate .img { inset: 0; background-image: var(--img); background-repeat: no-repeat; background-size: var(--bs, cover); background-position: var(--bp, center); transform: scale(var(--pz, 1)); transform-origin: 72% 45%; }
+.slate .shade { inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.42) 42%, rgba(0,0,0,0) 64%); }
+.slate .board { left: 4.2cqw; top: 6.8cqw; width: 52cqw; height: 44.5cqw; transform: rotate(-4deg) translateY(var(--jolt, 0)); filter: drop-shadow(0 1.3cqw 1.6cqw rgba(0,0,0,.6)); }
+.slate .board > * { position: absolute; }
+.slate .stick { left: 0; width: 52cqw; height: 4.4cqw; border-radius: .45cqw; box-shadow: inset 0 0 0 .14cqw rgba(0,0,0,.45), inset 0 .14cqw 0 rgba(255,255,255,.25); }
+.slate .stick.lo { top: 4.65cqw; background: repeating-linear-gradient(60deg, #f3f2ee 0 3.3cqw, #131315 3.3cqw 6.6cqw); }
+.slate .stick.hi { top: 0; background: repeating-linear-gradient(120deg, #f3f2ee 0 3.3cqw, #131315 3.3cqw 6.6cqw); transform-origin: 1.4cqw 4.4cqw; transform: rotate(var(--clap, 0deg)); }
+.slate .hinge { left: .6cqw; top: 3.7cqw; width: 1.7cqw; height: 1.7cqw; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #e9e9ea, #8a8a8f 60%, #3a3a3e); }
+.slate .body { left: 0; right: 0; top: 9.4cqw; bottom: 0; border-radius: .6cqw; background: linear-gradient(168deg, #2a2a2f 0%, #141417 48%, #0c0c0e 100%); box-shadow: inset 0 .16cqw 0 rgba(255,255,255,.14), inset 0 0 0 .14cqw rgba(255,255,255,.05); }
+.slate .body > * { position: absolute; }
+.slate .ln { background: rgba(240,240,236,.82); }
+.slate .lb { font: 700 1.9cqw/1 var(--cond); font-stretch: 85%; letter-spacing: .14em; color: rgba(240,240,236,.78); }
+.slate .prod { left: 2cqw; right: 2cqw; top: 3.4cqw; height: 12.2cqw; display: flex; align-items: center; gap: 2.4cqw; }
+.slate .hand, .slate .fit { font-family: var(--hand); color: #f7f7f2; line-height: .92; }
+.slate .val { top: 20.8cqw; font: 400 7cqw/1 var(--hand); color: #f7f7f2; text-align: center; }
+.slate img.logo { filter: brightness(0) invert(1); }
+
+/* sheet */
+.sheet { padding: 24px 16px 60px; max-width: 1500px; margin: 0 auto; }
+.sheet h1 { font-size: 22px; margin: 34px 0 6px; }
+.sheet h2 { font-size: 15px; margin: 22px 0 10px; color: #aaa; font-weight: 600; }
+.sheet .row { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+.sheet .tile { border-radius: 10px; }
+body.render .sheet { display: none; }
+body.render #render .tile { width: 100vw; height: 100vh; aspect-ratio: auto; }
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0" intercept="1"/></feComponentTransfer></filter>
+</defs></svg>
+<div class="sheet" id="sheet"></div>
+<div id="render"></div>
+<script src="folders.js"></script>
+<script src="styles.js"></script>
+<script>
+const A = 'assets/';
+const F = window.FOLDERS, PD = window.PD;
+const STYLES = { mono: 'True Black Mono', app: 'Showcase', vhs: 'VHS Rental', film: 'Lightbox', gallery: 'Gallery', cine: 'Movie Night', flap: 'Split-Flap', sticker: 'Sticker Pack', slate: 'Slate' };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+const ss = (a, b, v) => { const k = clamp((v - a) / (b - a), 0, 1); return k * k * (3 - 2 * k); };
+
+// Deterministic randomness per folder, so every frame of a tile draws the same tile.
+function rng(seed) {
+  let h = 1779033703 ^ seed.length;
+  for (let i = 0; i < seed.length; i++) { h = Math.imul(h ^ seed.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19; }
+  return () => { h = Math.imul(h ^ h >>> 16, 2246822507); h = Math.imul(h ^ h >>> 13, 3266489909); return ((h ^= h >>> 16) >>> 0) / 4294967296; };
+}
+function hsl(hex) {
+  const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255);
+  return rgbHsl(r, g, b);
+}
+function rgbHsl(r, g, b) {
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn;
+  if (!d) return [0, 0, l];
+  const s = d / (1 - Math.abs(2 * l - 1));
+  const h = mx === r ? ((g - b) / d + 6) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  return [h * 60, s, l];
+}
+function hslRgb(h, s, l) {
+  const c = (1 - Math.abs(2 * l - 1)) * s, hp = ((h % 360) + 360) % 360 / 60, x = c * (1 - Math.abs(hp % 2 - 1)), m = l - c / 2;
+  const [r, g, b] = hp < 1 ? [c, x, 0] : hp < 2 ? [x, c, 0] : hp < 3 ? [0, c, x] : hp < 4 ? [0, x, c] : hp < 5 ? [x, 0, c] : [c, 0, x];
+  return [r + m, g + m, b + m];
+}
+// WCAG relative luminance of a hex colour
+function lum(hex) {
+  const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
+  return .2126 * c[0] + .7152 * c[1] + .0722 * c[2];
+}
+const IMG = {};
+const load = src => IMG[src] || (IMG[src] = (async () => { const i = new Image(); i.src = src; await i.decode(); return i; })());
+
+// Accent per name folder (services and Top 10 use their brand colour), as in styles.html.
+const ACC = {
+  'genres--action': '#ff5a1f', 'genres--comedy': '#ff5fa8', 'genres--drama': '#f0b43a', 'genres--thriller': '#3d7bff',
+  'genres--horror': '#ff2d2d', 'genres--sci-fi': '#35d6ff', 'genres--romance': '#b26bff', 'genres--mystery': '#1fc99b',
+  'genres--family': '#ff3d5e', 'genres--animation': '#ffd21a', 'genres--documentary': '#36c96b',
+  'around-the-world--k-drama': '#ff5fa8', 'around-the-world--anime': '#ff4a3d', 'around-the-world--indian': '#ff9a1f',
+  'around-the-world--african': '#19c26b', 'around-the-world--japanese': '#3fb6ff', 'around-the-world--spanish': '#e8252e',
+  'around-the-world--french': '#2f6bff', 'around-the-world--turkish': '#19b2c9', 'around-the-world--chinese': '#ffc21a',
+  'moods-and-themes--spooky-season': '#ff7a12', 'moods-and-themes--true-crime': '#ffd400', 'moods-and-themes--heists': '#1fbf6a',
+  'moods-and-themes--time-travel': '#3b8cff', 'moods-and-themes--superheroes': '#ff2b2b', 'moods-and-themes--dystopian-futures': '#ff9a1f',
+  'moods-and-themes--zombies': '#8fd400', 'moods-and-themes--serial-killers': '#d0102a', 'moods-and-themes--spies': '#3fa0ff',
+  'moods-and-themes--martial-arts': '#ffcc00', 'moods-and-themes--true-stories': '#f2a33a', 'moods-and-themes--space-and-cyberpunk': '#c04bff',
+  'moods-and-themes--coming-of-age': '#8ccf3f', 'moods-and-themes--christmas': '#e8202f',
+  'the-canon--imdb-top-250': '#f5c518', 'the-canon--best-picture': '#ff6b2b', 'the-canon--letterboxd-250': '#00e054',
+  'the-canon--a24': '#9b7bff', 'the-canon--top-rated': '#01b4e4',
+  'decades--70s': '#ff8c1a', 'decades--80s': '#ff3fd2', 'decades--90s': '#2ee6c8', 'decades--2000s': '#3a6bff',
+  'decades--2010s': '#ff8fb1', 'decades--2020s': '#7c5cff',
+};
+// Where the eye should land, in % of the still's width, when the cut-out spans more than the subject.
+const FX = { 'the-canon--imdb-top-250': 24, 'the-canon--top-rated': 30 };
+
+function info(key) {
+  const f = F[key], p = PD[key];
+  const top = f.kind === 'top';
+  const ac = f.c1 || ACC[key];
+  const [h, s] = hsl(ac);
+  const where = f.where === 'Today' ? '' : f.where;
+  const nc = /^\d+s$/.test(f.name);
+  return { key, f, p, top, svc: f.kind === 'svc', ac, h, s, grey: s < .15, where, nc, logo: f.logo };
+}
+const logoSrc = f => `${A}hi/logo/${f.logo}.png`;
+const imgTag = (f, slot, cls = '') => `<img class="logo ${cls}" data-slot="${slot}" src="${logoSrc(f)}" alt="">`;
+const fitDiv = (text, box, lh, cap, extra = '') => `<div class="fit" data-text="${esc(text)}" data-box="${box}" data-lh="${lh}"${cap ? ` data-cap="${cap}"` : ''}${extra}>${esc(text)}</div>`;
+// where a still's subject sits, as fractions of the frame
+const focus = i => { const [bx, by, bw, bh] = i.p.box; return [(FX[i.key] ?? bx + bw / 2) / 100, (by + bh * .45) / 100]; };
+// cover-fit an image into a w x h box, zoomed, centred on a focus point, clamped to the image
+function crop(im, w, h, fx, fy, zoom = 1) {
+  const sc = Math.max(w / im.naturalWidth, h / im.naturalHeight) * zoom;
+  const dw = im.naturalWidth * sc, dh = im.naturalHeight * sc;
+  return { x: clamp(w / 2 - fx * dw, w - dw, 0), y: clamp(h / 2 - fy * dh, h - dh, 0), w: dw, h: dh };
+}
+// pixels of an image drawn at (x, y, w, h) into a W x H canvas
+function grab(img, W, H, x, y, w, h, filter) {
+  const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d', { willReadFrequently: true });
+  if (filter) g.filter = filter;
+  g.drawImage(img, x, y, w, h);
+  return g.getImageData(0, 0, W, H).data;
+}
+// canvas backing size in device pixels
+function size(cv) {
+  const d = document.body.classList.contains('render') ? 1 : Math.min(2, devicePixelRatio || 1);
+  return [cv.width = Math.round(cv.clientWidth * d), cv.height = Math.round(cv.clientHeight * d)];
+}
+
+/* ── markup ── */
+const T = {};
+
+T.mono = (key, i) => {
+  let lab;
+  if (i.top) lab = `${imgTag(i.f, 'mono-top')}<div class="t10"><i>10</i><b><span>Top</span><span>${esc(i.where || 'Today')}</span></b></div>`;
+  else if (i.logo) lab = `${imgTag(i.f, 'mono-svc')}`;
+  else lab = fitDiv(i.f.name, '46,24', '.9', 11);
+  return { st: [], inner: `<canvas class="full"></canvas><div class="grain"></div><div class="lab">${lab}</div>` };
+};
+
+T.app = (key, i) => {
+  const [fx, fy] = focus(i);
+  const st = [`--img:url(${A}${i.p.still})`, `--pos:${(fx * 100).toFixed(0)}% ${(fy * 100).toFixed(0)}%`, `--ac:${i.ac}`];
+  let inner;
+  if (i.top) {
+    const when = i.f.ke ? `<i class="flag"></i>${esc(i.where)}` : esc(i.where || 'Today');
+    inner = `<div class="img"></div><div class="fill shade"></div><div class="lab">${imgTag(i.f, 'app-top', 'white')}<div class="t10"><div class="badge"><b>TOP</b><i>10</i></div><div class="when">${when}</div></div></div>`;
+  } else if (i.svc) {
+    const mark = i.logo ? imgTag(i.f, 'app-svc', 'white') : fitDiv(i.f.name, '70,20', '.9', 13);
+    inner = `<div class="img"></div><div class="fill brand"></div><div class="fill sheen"></div><div class="mid">${mark}</div>`;
+  } else {
+    inner = `<div class="img"></div><div class="soft"></div><div class="fill shade"></div><div class="lab">${fitDiv(i.f.name, '66,17', '.92', 9.6)}</div>`;
+  }
+  return { st, inner: inner + '<div class="edge"></div>' };
+};
+
+// VHS: reels for the window (viewBox in cqw of the window); the hubs turn in the hover loop
+function reels(key) {
+  const R = rng(key + 'reel'), packL = 9 + R() * 1.6, packR = 6 + R() * 1.4;
+  const reel = (cx, pack) => {
+    let rings = '';
+    for (let r = 4; r < pack; r += .55) rings += `<circle cx="${cx}" cy="5.5" r="${r.toFixed(2)}" fill="none" stroke="rgba(255,255,255,${(.02 + R() * .04).toFixed(3)})" stroke-width=".18"/>`;
+    let teeth = '';
+    for (let k = 0; k < 6; k++) { const a = k * Math.PI / 3, c = Math.cos(a), s = Math.sin(a), q = (r, d) => `${(cx + r * Math.cos(a + d)).toFixed(2)} ${(5.5 + r * Math.sin(a + d)).toFixed(2)}`; teeth += `<path d="M${q(2.25, -.32)} L${q(1.35, 0)} L${q(2.25, .32)} Z" fill="#e9e6de"/>`; }
+    return `<circle cx="${cx}" cy="5.5" r="${pack.toFixed(2)}" fill="#3a251a"/>${rings}<g class="hub" data-cx="${cx}"><circle cx="${cx}" cy="5.5" r="3.5" fill="#ece9e1"/><circle cx="${cx}" cy="5.5" r="2.3" fill="#1b1b1d"/>${teeth}<circle cx="${cx}" cy="5.5" r="3.5" fill="none" stroke="#bdb9af" stroke-width=".25"/></g>`;
+  };
+  return `<svg viewBox="0 0 49 11" preserveAspectRatio="none">${reel(12.5, packL)}${reel(36.5, packR)}</svg>`;
+}
+const STICK = ['#ff6a1a', '#c6ff1a', '#ff3d8b', '#ffe11a', '#28e0ff'];
+T.vhs = (key, i) => {
+  const [fx, fy] = focus(i);
+  const st = rng(key + 'stick'), stc = i.top ? '#ffe11a' : STICK[Math.floor(st() * STICK.length)];
+  const style = [`--img:url(${A}${i.p.still})`, `--pos:${(fx * 100).toFixed(0)}% ${(fy * 100).toFixed(0)}%`, `--ac:${i.ac}`, `--st:${stc}`];
+  const chrome = (text, box, cap) => `<div class="chrome${i.nc ? ' nc' : ''}" data-text="${esc(text)}" data-box="${box}" data-cap="${cap}"><div class="sh"></div><div class="fg"></div></div>`;
+  let ttl;
+  if (i.top) ttl = `${imgTag(i.f, 'vhs-top')}${chrome((i.where || 'Today').toUpperCase(), '50,10', 10)}`;
+  else if (i.logo) ttl = imgTag(i.f, 'vhs-svc');
+  else ttl = chrome(i.nc ? i.f.name : i.f.name.toUpperCase(), '56,15', 10.5);
+  const screws = [[1.6, 1.4], [89.8, 1.4], [1.6, 47], [89.8, 47], [45.3, 47.2]].map(([x, y]) => `<div class="screw" style="left:${x}cqw;top:${y}cqw"></div>`).join('');
+  const sticker = i.top ? `<div class="burst"><b>TOP</b><i>10</i></div>` : `<div class="sticker"><b>Be kind</b><i>Rewind</i></div>`;
+  const inner = `<div class="bg"></div><div class="cas"><div class="shell"></div>${screws}<div class="label"><div class="ph"></div><div class="lsh"></div><div class="band"></div><div class="ttl">${ttl}</div></div>
+    <div class="win">${reels(key)}</div><div class="mark" style="left:5cqw;top:41cqw">T-120</div><div class="mark" style="left:5cqw;top:44.6cqw">SP · 2H</div>${sticker}</div><div class="grain"></div>`;
+  return { st: style, inner };
+};
+
+// Lightbox: three frames (two backdrops either side of the still), a loupe on the still's subject, a Dymo label
+const FR = { w: 37, h: 24.7, top: 5.65, x: [-1.4, 37.5, 76.4] };
+T.film = (key, i) => {
+  const [fx, fy] = focus(i);
+  const bd = i.p.bd || [];
+  const R = rng(key + 'film');
+  const L = lum(i.ac);
+  const tape = `hsl(${i.h.toFixed(0)} ${i.grey ? 0 : 72}% ${L > .4 ? 30 : 36}%)`;
+  const src = [bd[0] ? `${A}st/bd/${bd[0]}.jpg` : `${A}${i.p.still}`, `${A}${i.p.still}`, bd[1] ? `${A}st/bd/${bd[1]}.jpg` : `${A}${i.p.still}`];
+  const frames = src.map((s, n) => `<div class="fr" style="left:${FR.x[n]}cqw;background-image:url(${s});${n === 1 ? `--pos:${(fx * 100).toFixed(0)}% ${(fy * 100).toFixed(0)}%` : ''}"></div>`).join('');
+  // a loose grease-pencil ring around the chosen frame, and a tick
+  const cx = FR.x[1] + FR.w / 2, cy = FR.top + FR.h / 2;
+  let d = '', a0 = -2.2 + R() * .4;
+  for (let k = 0; k <= 40; k++) {
+    const a = a0 + k / 40 * Math.PI * 2.12, w = 1 + (R() - .5) * .05;
+    d += `${k ? 'L' : 'M'}${(cx + Math.cos(a) * 23 * w).toFixed(2)} ${(cy + Math.sin(a) * 17.2 * w).toFixed(2)}`;
+  }
+  const tick = `M${cx + 18.5} ${cy + 13.5} l1.8 2.5 l4.4 -6`;
+  const grease = `<svg class="grease" viewBox="0 0 112 36"><path d="${d}" fill="none" stroke="#d9262c" stroke-width=".6" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/><path d="${tick}" fill="none" stroke="#d9262c" stroke-width=".7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const edge = n => `<div class="edge" style="top:${n ? 30.85 : 4.05}cqw">SAFETY FILM ▸ ${12 + n} ▸ ${12 + n}A ▸ ${13 + n} ▸ ${13 + n}A ▸ ${14 + n}</div>`;
+  const strip = `<div class="strip" style="--rot:${(-2.2 - R() * 1.6).toFixed(2)}deg"><div class="perf" style="top:1.3cqw"></div><div class="perf" style="bottom:1.3cqw"></div>${edge(0)}${edge(1)}${frames}${grease}<div class="loupe"><div class="lens"></div><div class="glint"></div></div></div>`;
+  let lab;
+  if (i.top) lab = `<div class="dymo"><div class="t">Top 10${i.where ? ` · ${esc(i.where)}` : ''}</div></div>${imgTag(i.f, 'film-top')}`;
+  else if (i.logo) lab = imgTag(i.f, 'film-svc');
+  else lab = `<div class="dymo">${fitDiv(i.f.name.toUpperCase(), '62,9', '1', 8.6)}</div>`;
+  return { st: [`--img:url(${A}${i.p.still})`, `--tape:${tape}`], inner: `<div class="box"></div>${strip}<div class="lab">${lab}</div>` };
+};
+
+// Gallery: wall colour from the folder's accent, deep and a little greyed, as museums paint them
+T.gallery = (key, i) => {
+  let h = i.h, s = Math.min(.5, Math.max(.24, i.s * .5)), l = .2;
+  if (h > 38 && h < 78) { h -= 14; l = .23; }
+  if (i.grey) s = 0;
+  const wall = `hsl(${h.toFixed(0)} ${(s * 100).toFixed(0)}% ${(l * 100).toFixed(0)}%)`;
+  let lab;
+  if (i.top) lab = `${imgTag(i.f, 'gal-top')}<div class="t10">Top 10</div><div class="when">${i.f.ke ? '<i class="flag"></i>' : ''}${esc(i.where || 'Today')}</div>`;
+  else if (i.logo) lab = `${imgTag(i.f, 'gal-svc')}<div class="rule"></div>`;
+  else lab = `${fitDiv(i.f.name, '36,26', '.95', 11)}<div class="rule"></div>`;
+  return { st: [`--wall:${wall}`], inner: `<div class="wall"></div><div class="grain"></div><div class="lamp"></div><div class="frame"><div class="liner"></div><canvas class="paint"></canvas><div class="varnish"></div></div><div class="lab">${lab}</div>` };
+};
+
+// Movie Night: two rows of the audience, heads and shoulders, a seat or two empty
+function audience(key) {
+  const R = rng(key + 'aud');
+  const row = (hy, r, gap, sh) => {
+    let d = '';
+    for (let x = -1 + R() * gap * .6; x < 104; x += gap * (.85 + R() * .3)) {
+      if (R() < .08) continue;
+      const hr = r * (.88 + R() * .24), y = hy + (R() - .5) * 1.1, ny = y + hr * 1.5;
+      d += `M${(x - sh).toFixed(2)} 23 C${(x - sh).toFixed(2)} ${(ny + hr * 1.2).toFixed(2)} ${(x - hr * 1.15).toFixed(2)} ${(ny + hr * .5).toFixed(2)} ${(x - hr * .55).toFixed(2)} ${ny.toFixed(2)}`
+        + ` A${(hr * .95).toFixed(2)} ${(hr * 1.08).toFixed(2)} 0 1 1 ${(x + hr * .55).toFixed(2)} ${ny.toFixed(2)}`
+        + ` C${(x + hr * 1.15).toFixed(2)} ${(ny + hr * .5).toFixed(2)} ${(x + sh).toFixed(2)} ${(ny + hr * 1.2).toFixed(2)} ${(x + sh).toFixed(2)} 23 Z`;
+    }
+    return d;
+  };
+  return `<svg class="aud" viewBox="0 0 100 22" preserveAspectRatio="none">
+    <path d="${row(8.6, 2.5, 9.2, 5.1)}" fill="#060204" stroke="var(--glow, #888)" stroke-opacity=".4" stroke-width=".24"/>
+    <path d="${row(11.4, 3.5, 13.4, 7.4)}" fill="#020001" stroke="var(--glow, #888)" stroke-opacity=".28" stroke-width=".28"/></svg>`;
+}
+T.cine = (key, i) => {
+  const [fx, fy] = focus(i);
+  let cap;
+  if (i.top) cap = `${imgTag(i.f, 'cine-top')}<div class="t10">Top 10 <span>${esc(i.where || 'Today')}</span></div>`;
+  else if (i.logo) cap = imgTag(i.f, 'cine-svc');
+  else cap = fitDiv(i.nc ? i.f.name : i.f.name.toUpperCase(), '56,9.5', '.98', 7.4);
+  return { st: [`--img:url(${A}${i.p.still})`, `--pos:${(fx * 100).toFixed(0)}% ${(fy * 100).toFixed(0)}%`],
+    inner: `<div class="room"></div><div class="scr"><div class="ph"></div></div><div class="dust"></div><div class="cap">${cap}</div><div class="cur l"></div><div class="cur r"></div><div class="val"></div>${audience(key)}<div class="grain"></div>` };
+};
+
+// Split-flap: the name broken over at most two rows at a word gap, padded to a neat block of blank flaps,
+// with a flap in the folder's colour at the head of the first row (boards flag a line or an airline that way)
+function flapRows(text) {
+  const words = text.split(' ');
+  if (text.length <= 11 || words.length < 2) return [text];
+  let best = null;
+  for (let k = 1; k < words.length; k++) {
+    const a = words.slice(0, k).join(' '), b = words.slice(k).join(' '), m = Math.max(a.length, b.length);
+    if (!best || m < best.m) best = { m, rows: [a, b] };
+  }
+  return best.rows;
+}
+T.flap = (key, i) => {
+  const [fx, fy] = focus(i);
+  const rows = i.top ? ['TOP 10', (i.where || 'Today').toUpperCase()] : flapRows(i.nc ? i.f.name.toUpperCase().replace(/S$/, 'S') : i.f.name.toUpperCase());
+  const n = Math.max(...rows.map(r => r.length)) + 1;
+  const cw = Math.min(8.2, 86 / n - .3);
+  const board = rows.map((r, k) => `<div class="frow">${k ? '<div class="c" data-ch=" "></div>' : '<div class="c acc"></div>'}${[...r.padEnd(n - 1)].map(ch => `<div class="c" data-ch="${esc(ch)}">${esc(ch)}</div>`).join('')}</div>`).join('');
+  const lab = `${i.top ? imgTag(i.f, 'flap-top') : ''}<div class="board" style="--cw:${cw.toFixed(2)}cqw">${board}</div>`;
+  return { st: [`--img:url(${A}${i.p.still})`, `--pos:${(fx * 100).toFixed(0)}% ${(fy * 100).toFixed(0)}%`, `--ac:${i.ac}`], inner: `<div class="img"></div><div class="shade"></div><div class="lab">${lab}</div>` };
+};
+
+// Sticker Pack: the cast sticker is drawn on the canvas; the name is a lettering sticker, a service's mark a brand sticker
+T.sticker = (key, i) => {
+  const R = rng(key + 'stk');
+  const word = (text, box, cap) => `<div class="stack" data-text="${esc(text)}" data-box="${box}" data-cap="${cap}"><div class="sh"></div><div class="fg"></div></div>`;
+  let lab;
+  if (i.top) lab = `<div class="brand">${imgTag(i.f, 'stk-logo')}</div>${word('Top 10 ' + (i.where || 'Today'), '50,13', 9.5)}`;
+  else if (i.logo) lab = `<div class="brand">${imgTag(i.f, 'stk-svc')}</div>`;
+  else lab = word(i.f.name, '50,22', 12.5);
+  const bc = i.f.c1 || i.ac;
+  return { st: [`--ac:${i.ac}`, `--bc:${bc}`, `--tr:${(-6 + R() * 3).toFixed(1)}deg`], inner: `<div class="bg"></div><div class="dots"></div><canvas class="full"></canvas><div class="lab">${lab}</div><div class="grain" style="opacity:.1;mix-blend-mode:overlay"></div>` };
+};
+
+// Slate: real slate fields; roll, scene and take vary per folder, and every Top 10 is take 10
+T.slate = (key, i) => {
+  const R = rng(key + 'slate');
+  const roll = 'A' + String(1 + Math.floor(R() * 40)).padStart(3, '0'), scene = String(1 + Math.floor(R() * 98)), take = i.top ? '10' : String(1 + Math.floor(R() * 8));
+  let prod;
+  if (i.top) prod = `${imgTag(i.f, 'slate-top')}<div class="hand" style="font-size:9.4cqw">Top 10</div>`;
+  else if (i.logo) prod = imgTag(i.f, 'slate-svc');
+  else prod = fitDiv(i.f.name, '47,12', '.92', 11);
+  const body = `<div class="ln" style="left:0;right:0;top:17.2cqw;height:.22cqw"></div><div class="ln" style="left:17.3cqw;top:17.2cqw;bottom:0;width:.22cqw"></div><div class="ln" style="left:34.6cqw;top:17.2cqw;bottom:0;width:.22cqw"></div>
+    <div class="lb" style="left:1.6cqw;top:1.3cqw">PROD.</div><div class="lb" style="left:1.6cqw;top:18.4cqw">ROLL</div><div class="lb" style="left:18.9cqw;top:18.4cqw">SCENE</div><div class="lb" style="left:36.2cqw;top:18.4cqw">TAKE</div>
+    <div class="prod">${prod}</div>
+    <div class="val" style="left:0;width:17.3cqw">${roll}</div><div class="val" style="left:17.3cqw;width:17.3cqw">${scene}</div><div class="val" style="left:34.6cqw;width:17.4cqw">${take}</div>`;
+  return { st: [`--img:url(${A}${i.p.still})`], inner: `<div class="img"></div><div class="shade"></div><div class="board"><div class="stick lo"></div><div class="stick hi"></div><div class="hinge"></div><div class="body">${body}</div></div>` };
+};
+
+function tile(style, key) {
+  const i = info(key);
+  const { st, inner } = T[style](key, i);
+  const kind = i.top ? ' top' : i.svc ? ' svc' : '';
+  return `<div class="tile ${style}${kind}" data-key="${key}" data-style="${style}" style="${st.filter(Boolean).join(';')}" role="img" aria-label="${esc(i.f.name)}">${inner}</div>`;
+}
+
+/* ── measuring and fitting ── */
+function measure(el, text, stretch) {
+  const m = document.createElement('span');
+  m.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-size:100px;left:0;top:0;line-height:1';
+  if (stretch) m.style.fontStretch = stretch + '%';
+  m.textContent = text;
+  el.appendChild(m);
+  const w = m.getBoundingClientRect().width;
+  m.remove();
+  return w;
+}
+// Largest size at which text fits a box (cqw), trying one line and the best two-line split.
+function fitBox(el, text, bw, bh, lh, cap = 999) {
+  const opts = [{ lines: [text], wd: measure(el, text) }];
+  const words = text.split(' ');
+  if (words.length > 1) {
+    let b2 = null;
+    for (let k = 1; k < words.length; k++) {
+      const a = words.slice(0, k).join(' '), b = words.slice(k).join(' ');
+      const wd = Math.max(measure(el, a), measure(el, b));
+      if (!b2 || wd < b2.wd) b2 = { lines: [a, b], wd };
+    }
+    opts.push(b2);
+  }
+  let best = null;
+  for (const o of opts) {
+    const sz = Math.min(cap, bw * 100 / o.wd, bh / (o.lines.length * lh));
+    const score = sz * (o.lines.length === 1 ? 1.06 : 1);
+    if (!best || score > best.score) best = { score, size: sz, lines: o.lines };
+  }
+  return best;
+}
+function fitAll(t) {
+  t.querySelectorAll('.fit[data-box]').forEach(el => {
+    const [bw, bh] = el.dataset.box.split(',').map(Number);
+    const fit = fitBox(el, el.dataset.text, bw, bh, +el.dataset.lh, el.dataset.cap ? +el.dataset.cap : 999);
+    el.innerHTML = fit.lines.map(esc).join('<br>');
+    el.style.fontSize = fit.size.toFixed(2) + 'cqw';
+  });
+}
+
+// Logos are sized by area (cqw²), so a tall mark carries the same weight as a wide one.
+const LOGO = {
+  'mono-svc': { area: 640, h: 17, w: 40 }, 'mono-top': { area: 270, h: 10.5, w: 30 },
+  'app-svc': { area: 860, h: 22, w: 52 }, 'app-top': { area: 330, h: 11, w: 34 },
+  'vhs-svc': { area: 330, h: 12.5, w: 42 }, 'vhs-top': { area: 190, h: 8, w: 28 },
+  'film-svc': { area: 420, h: 12.5, w: 46 }, 'film-top': { area: 170, h: 7.5, w: 24 },
+  'gal-svc': { area: 440, h: 16, w: 34 }, 'gal-top': { area: 190, h: 9, w: 28 },
+  'cine-svc': { area: 300, h: 11, w: 40 }, 'cine-top': { area: 120, h: 5.6, w: 20 }, 'flap-top': { area: 170, h: 7.5, w: 26 },
+  'stk-logo': { area: 150, h: 7, w: 24 }, 'stk-svc': { area: 330, h: 12, w: 40 }, 'slate-top': { area: 110, h: 7, w: 16 }, 'slate-svc': { area: 300, h: 11, w: 44 },
+};
+async function logoSize(src, area, h, w) {
+  const im = await load(src);
+  const a = im.naturalWidth / im.naturalHeight;
+  let lh = Math.min(h, Math.sqrt(area / a));
+  if (lh * a > w) lh = w / a;
+  return { h: lh, w: lh * a, a };
+}
+async function sizeLogos(root) {
+  await Promise.all([...root.querySelectorAll('img.logo[data-slot]')].map(async img => {
+    const { area, h, w } = LOGO[img.dataset.slot];
+    const s = await logoSize(img.src, area, h, w);
+    img.style.height = s.h.toFixed(2) + 'cqw';
+    img.style.width = s.w.toFixed(2) + 'cqw';
+  }));
+}
+
+/* ── per-style finishing ── */
+const B = {};
+
+// Mono: the still in neutral grey, its subject (the Vision cut-out) at full strength and the rest of the scene
+// sunk to a trace that falls off to true black, so the left of the tile, where the type sits, is #000.
+// The subject is moved to the right third; with no backdrop to keep, it can go anywhere.
+B.mono = async (t, key) => {
+  const i = info(key);
+  fitAll(t);
+  const cv = t.querySelector('canvas.full');
+  const [W, H] = size(cv);
+  const im = await load(A + i.p.still), cm = i.p.cut ? await load(A + i.p.cut) : null;
+  const sub = !!cm && i.p.area > .02;
+  const iw = im.naturalWidth, ih = im.naturalHeight;
+  const [bx, by, bw, bh] = i.p.box.map(v => v / 100);
+  const cx = (FX[key] ?? i.p.box[0] + i.p.box[2] / 2) / 100;
+  const cover = Math.max(W / iw, H / ih);
+  // a Top 10 lockup is wider than a name, so its subject sits further right
+  const CX = i.top ? .76 : .72, F0 = i.top ? .44 : .34, F1 = i.top ? .68 : .6;
+  let sc, ox, oy;
+  if (sub) {
+    sc = clamp(H * .96 / (bh * ih), cover * .92, cover * 1.7);
+    ox = W * CX - cx * iw * sc;
+    oy = by + bh > .95 ? H - (by + bh) * ih * sc : H * .5 - (by + bh * .5) * ih * sc;
+  } else {
+    // no cut-out: the whole still, pushed right, fading in from the left
+    sc = cover * 1.08; ox = W * 1.02 - iw * sc; oy = (H - ih * sc) / 2;
+  }
+  const dw = iw * sc, dh = ih * sc;
+  const px = grab(im, W, H, ox, oy, dw, dh);
+  const mk = sub ? grab(cm, W, H, ox, oy, dw, dh, `blur(${(W * .0022).toFixed(2)}px)`) : null;
+  const N = W * H, L = new Float32Array(N), Ms = new Float32Array(N), hist = new Uint32Array(256);
+  let cnt = 0;
+  for (let n = 0; n < N; n++) {
+    L[n] = .2126 * px[n * 4] + .7152 * px[n * 4 + 1] + .0722 * px[n * 4 + 2];
+    Ms[n] = mk ? mk[n * 4 + 3] / 255 : 0;
+    if (px[n * 4 + 3] > 200 && (!sub || Ms[n] > .5)) { hist[L[n] | 0]++; cnt++; }
+  }
+  // tones stretched over the subject's own range, then an S-curve; a dark still is lifted
+  let acc = 0, lo = 0, hi = 255;
+  for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc < cnt * .01) lo = v; if (acc < cnt * .992) hi = v; }
+  const gam = clamp((i.p.lum || .3) / .34, .62, 1);
+  const env = sub ? (i.p.area < .05 ? .42 : .17) : .9;
+  const rx = Math.max(bw * dw * .85, W * .3), ry = Math.max(bh * dh * .75, H * .55), cyy = oy + (by + bh * .45) * dh;
+  const G = new Float32Array(N), Mk = new Float32Array(N);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const n = y * W + x;
+    if (px[n * 4 + 3] < 8) continue;
+    let g = clamp((L[n] - lo) / Math.max(1, hi - lo), 0, 1) ** gam;
+    G[n] = .72 * ss(0, 1, g) + .28 * g;
+    const u = x / W;
+    const edge = clamp(Math.min(x - ox, ox + dw - x, y - oy, oy + dh - y) / (W * .1), 0, 1);
+    const r = Math.hypot((x - W * CX) / rx, (y - cyy) / ry);
+    const v = y / H, rim = sub ? 1 - ss(.3, 1.1, r) : ss(0, .2, v) * ss(0, .2, 1 - v) * ss(0, .14, 1 - u);
+    const scene = env * rim * ss(F0 + .02, F1 + .1, u) * edge;
+    // the corner the type sits in is kept black, whatever the cast does
+    const shade = i.top ? 1 - ss(.4, .62, u) : (1 - ss(.3, .52, u)) * ss(.3, .6, v);
+    Mk[n] = Math.max(Ms[n] * ss(F0, F1, u), scene) * (1 - .92 * shade);
+  }
+  t._mono = { W, H, G, Mk, Ms, ctx: cv.getContext('2d') };
+};
+function paintMono(el, t) {
+  const s = el._mono; if (!s) return;
+  const { W, H, G, Mk, Ms, ctx } = s;
+  const out = ctx.createImageData(W, H), o = out.data;
+  // hover: a soft band of light crosses the subject; it is off-frame at t = 0 and t = 1
+  const p = -.45 + 1.9 * t;
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const n = y * W + x;
+    let v = G[n] * Mk[n];
+    if (t) { const d = x / W - y / H * .4 - p; v = v * (1 + .7 * Ms[n] * Math.exp(-d * d / .014)) + .06 * Ms[n] * Math.exp(-d * d / .004); }
+    const c = Math.min(255, v * 255);
+    o[n * 4] = o[n * 4 + 1] = o[n * 4 + 2] = c; o[n * 4 + 3] = 255;
+  }
+  ctx.putImageData(out, 0, 0);
+}
+
+B.app = async (t, key) => { fitAll(t); };
+
+// VHS: the chrome title, fitted, with a navy outline and a hard drop
+B.vhs = async (t, key) => {
+  for (const st of t.querySelectorAll('.chrome')) {
+    const [bw, bh] = st.dataset.box.split(',').map(Number);
+    const fg = st.querySelector('.fg'), sh = st.querySelector('.sh');
+    const fit = fitBox(fg, st.dataset.text, bw, bh, .9, +st.dataset.cap);
+    for (const el of [fg, sh]) { el.innerHTML = fit.lines.map(esc).join('<br>'); el.style.fontSize = fit.size.toFixed(2) + 'cqw'; }
+    const o = Math.max(.16, fit.size * .04);
+    sh.style.textShadow = [[o, 0], [-o, 0], [0, o], [0, -o], [o, o], [-o, -o], [o, -o], [-o, o]].map(([x, y]) => `${x.toFixed(2)}cqw ${y.toFixed(2)}cqw 0 #0a1030`).join(',')
+      + `, ${(o * 1.8).toFixed(2)}cqw ${(o * 2.2).toFixed(2)}cqw 0 #0a1030, ${(o * 2.4).toFixed(2)}cqw ${(o * 3.2).toFixed(2)}cqw ${(o * 2).toFixed(2)}cqw rgba(0,0,0,.5)`;
+  }
+};
+
+// Lightbox: where the loupe sits and what it magnifies
+B.film = async (t, key) => {
+  const i = info(key);
+  fitAll(t);
+  const [fx, fy] = focus(i);
+  const bw = FR.h * 16 / 9, offx = clamp(FR.w / 2 - fx * bw, FR.w - bw, 0);
+  t._film = { fx, fy, bw, offx };
+};
+function poseFilm(el, t) {
+  const s = el._film; if (!s) return;
+  const Z = 1.8, RL = 11, RI = 10.1;
+  const dx = 2.6 * Math.sin(t * Math.PI * 2), dy = .9 * (1 - Math.cos(t * Math.PI * 2));
+  // loupe over the subject, kept on the frame
+  const px = clamp(s.offx + s.fx * s.bw, 10, FR.w - 10) + dx, py = FR.h / 2 + dy;
+  const lp = el.querySelector('.loupe');
+  lp.style.left = (FR.x[1] + px - RL).toFixed(3) + 'cqw'; lp.style.top = (FR.top + py - RL).toFixed(3) + 'cqw';
+  const u = (px - s.offx) / s.bw, v = clamp(s.fy + dy / FR.h, .12, .88);
+  const lens = el.querySelector('.lens');
+  lens.style.backgroundSize = `${(s.bw * Z).toFixed(2)}cqw ${(FR.h * Z).toFixed(2)}cqw`;
+  lens.style.backgroundPosition = `${(RI - u * s.bw * Z).toFixed(3)}cqw ${(RI - v * FR.h * Z).toFixed(3)}cqw`;
+}
+
+// Gallery: the still painted. A Kuwahara filter (summed-area tables, so any radius costs the same) turns it
+// into strokes; a light emboss of its tones gives the paint some body, a weave the canvas, and the varnish
+// warms the shadows.
+B.gallery = async (t, key) => {
+  const i = info(key);
+  fitAll(t);
+  const cv = t.querySelector('canvas.paint');
+  const [W, H] = size(cv);
+  const im = await load(A + i.p.still);
+  const [fx, fy] = focus(i);
+  const c = crop(im, W, H, fx, fy, 1.06);
+  const src = grab(im, W, H, c.x, c.y, c.w, c.h);
+  const r = Math.max(2, Math.round(W / 95)), W1 = W + 1, N1 = W1 * (H + 1);
+  const S = [0, 1, 2, 3].map(() => new Float64Array(N1)), Q = new Float64Array(N1);
+  for (let y = 0; y < H; y++) {
+    const rs = [0, 0, 0, 0], rq = [0];
+    for (let x = 0; x < W; x++) {
+      const n = (y * W + x) * 4, L = .2126 * src[n] + .7152 * src[n + 1] + .0722 * src[n + 2];
+      rs[0] += src[n]; rs[1] += src[n + 1]; rs[2] += src[n + 2]; rs[3] += L; rq[0] += L * L;
+      const m = (y + 1) * W1 + x + 1, up = y * W1 + x + 1;
+      for (let k = 0; k < 4; k++) S[k][m] = S[k][up] + rs[k];
+      Q[m] = Q[up] + rq[0];
+    }
+  }
+  const box = (A2, x0, y0, x1, y1) => A2[y1 * W1 + x1] - A2[y0 * W1 + x1] - A2[y1 * W1 + x0] + A2[y0 * W1 + x0];
+  const out = new Float32Array(W * H * 3), Lp = new Float32Array(W * H);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    let best = 1e18, bq = null;
+    for (const [qx, qy] of [[-1, -1], [0, -1], [-1, 0], [0, 0]]) {
+      const x0 = clamp(x + qx * r, 0, W), y0 = clamp(y + qy * r, 0, H), x1 = clamp(x0 + r + 1, 0, W), y1 = clamp(y0 + r + 1, 0, H);
+      const a = (x1 - x0) * (y1 - y0); if (!a) continue;
+      const mL = box(S[3], x0, y0, x1, y1) / a, v = box(Q, x0, y0, x1, y1) / a - mL * mL;
+      if (v < best) { best = v; bq = [x0, y0, x1, y1, a]; }
+    }
+    const [x0, y0, x1, y1, a] = bq, n = y * W + x;
+    out[n * 3] = box(S[0], x0, y0, x1, y1) / a; out[n * 3 + 1] = box(S[1], x0, y0, x1, y1) / a; out[n * 3 + 2] = box(S[2], x0, y0, x1, y1) / a;
+    Lp[n] = .2126 * out[n * 3] + .7152 * out[n * 3 + 1] + .0722 * out[n * 3 + 2];
+  }
+  const ctx = cv.getContext('2d'), img = ctx.createImageData(W, H), o = img.data, R = rng(key + 'canvas');
+  const e = Math.max(1, Math.round(W / 400)), wv = Math.max(2, W / 260);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const n = y * W + x;
+    const emb = (Lp[clamp(y - e, 0, H - 1) * W + clamp(x - e, 0, W - 1)] - Lp[clamp(y + e, 0, H - 1) * W + clamp(x + e, 0, W - 1)]) / 255;
+    const weave = 1 - .045 * (Math.sin(x / wv * Math.PI) * Math.sin(y / wv * Math.PI) > .2 ? 1 : 0);
+    const f = (1 + .9 * emb) * weave;
+    const r0 = out[n * 3], g0 = out[n * 3 + 1], b0 = out[n * 3 + 2];
+    // varnish: a little warmth, a touch more colour
+    const m = (r0 + g0 + b0) / 3;
+    o[n * 4] = clamp((m + (r0 - m) * 1.12) * 1.03 * f + 3, 0, 255);
+    o[n * 4 + 1] = clamp((m + (g0 - m) * 1.12) * 1.0 * f, 0, 255);
+    o[n * 4 + 2] = clamp((m + (b0 - m) * 1.12) * .9 * f, 0, 255);
+    o[n * 4 + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+  // the box filter leaves square dabs; half a pass of blur rounds them into brush marks
+  const cp = document.createElement('canvas'); cp.width = W; cp.height = H; cp.getContext('2d').drawImage(cv, 0, 0);
+  ctx.save(); ctx.globalAlpha = .5; ctx.filter = `blur(${(r * .45).toFixed(2)}px)`; ctx.drawImage(cp, 0, 0); ctx.restore();
+};
+
+// Movie Night: the room takes its light from the picture on the screen
+B.cine = async (t, key) => {
+  const i = info(key);
+  fitAll(t);
+  const im = await load(A + i.p.still);
+  const c = document.createElement('canvas'); c.width = 32; c.height = 18;
+  const g = c.getContext('2d', { willReadFrequently: true }); g.drawImage(im, 0, 0, 32, 18);
+  const d = g.getImageData(0, 0, 32, 18).data; let r = 0, gg = 0, b = 0;
+  for (let k = 0; k < d.length; k += 4) { r += d[k]; gg += d[k + 1]; b += d[k + 2]; }
+  const n = d.length / 4;
+  let [h, s, l] = rgbHsl(r / n / 255, gg / n / 255, b / n / 255);
+  const [R1, G1, B1] = hslRgb(h, Math.max(s, .3), clamp(l * 1.7, .45, .72));
+  t.style.setProperty('--glow', `rgb(${R1 * 255 | 0} ${G1 * 255 | 0} ${B1 * 255 | 0})`);
+};
+
+B.flap = async () => {};
+
+// Sticker Pack: the lettering sticker (a thick white die-cut edge around dark type) and the cast sticker:
+// the Vision cut-out grown by a blurred-and-thresholded alpha into a white backing, with a soft shadow;
+// a still with no cut-out becomes a rectangular photo sticker
+B.sticker = async (t, key) => {
+  const i = info(key);
+  for (const st of t.querySelectorAll('.stack')) {
+    const [bw, bh] = st.dataset.box.split(',').map(Number);
+    const fg = st.querySelector('.fg'), sh = st.querySelector('.sh');
+    const fit = fitBox(fg, st.dataset.text, bw, bh, .95, +st.dataset.cap);
+    for (const el of [fg, sh]) { el.innerHTML = fit.lines.map(esc).join('<br>'); el.style.fontSize = fit.size.toFixed(2) + 'cqw'; }
+    const o = Math.max(.3, fit.size * .13), ring = [];
+    for (let k = 0; k < 24; k++) { const a = k / 24 * Math.PI * 2; ring.push(`${(Math.cos(a) * o).toFixed(2)}cqw ${(Math.sin(a) * o).toFixed(2)}cqw 0 #fff`); }
+    sh.style.textShadow = ring.join(',');
+  }
+  const cv = t.querySelector('canvas.full');
+  const [W, H] = size(cv);
+  const im = await load(A + i.p.still), cm = i.p.cut && i.p.area > .02 ? await load(A + i.p.cut) : null;
+  const mk = () => { const c = document.createElement('canvas'); c.width = W; c.height = H; return c; };
+  const shape = mk(), pic = mk(), sx = shape.getContext('2d'), px = pic.getContext('2d');
+  const B0 = W * .011;
+  if (cm) {
+    const iw = im.naturalWidth, ih = im.naturalHeight, [, by, , bh] = i.p.box.map(v => v / 100);
+    const cover = Math.max(W / iw, H / ih);
+    const sc = clamp(H * .86 / (bh * ih), cover * .8, cover * 1.7);
+    const cx = (FX[key] ?? i.p.box[0] + i.p.box[2] / 2) / 100;
+    const ox = W * .66 - cx * iw * sc, oy = by + bh > .95 ? H * 1.03 - (by + bh) * ih * sc : H * .5 - (by + bh / 2) * ih * sc;
+    const ab = grab(cm, W, H, ox, oy, iw * sc, ih * sc, `blur(${B0.toFixed(1)}px)`);
+    const sd = sx.createImageData(W, H);
+    for (let n = 0; n < W * H; n++) { sd.data[n * 4] = sd.data[n * 4 + 1] = sd.data[n * 4 + 2] = 255; sd.data[n * 4 + 3] = ss(.05, .075, ab[n * 4 + 3] / 255) * 255; }
+    sx.putImageData(sd, 0, 0);
+    px.drawImage(im, ox, oy, iw * sc, ih * sc);
+    px.globalCompositeOperation = 'destination-in';
+    px.drawImage(cm, ox, oy, iw * sc, ih * sc);
+  } else {
+    const x = W * .36, y = H * .09, w = W * .58, h = H * .8, r = W * .02;
+    const rr = (g, x, y, w, h, r) => { g.beginPath(); g.roundRect(x, y, w, h, r); g.fill(); };
+    sx.fillStyle = '#fff'; rr(sx, x - B0, y - B0, w + 2 * B0, h + 2 * B0, r + B0);
+    const [fx, fy] = focus(i), c = crop(im, w, h, fx, fy);
+    px.save(); px.beginPath(); px.roundRect(x, y, w, h, r * .6); px.clip(); px.drawImage(im, x + c.x, y + c.y, c.w, c.h); px.restore();
+  }
+  const base = mk(), g = base.getContext('2d');
+  g.save(); g.filter = `blur(${(W * .006).toFixed(1)}px) brightness(0)`; g.globalAlpha = .38; g.drawImage(shape, W * .004, W * .009); g.restore();
+  g.drawImage(shape, 0, 0);
+  g.drawImage(pic, 0, 0);
+  t._stk = { W, H, base, shape, tmp: mk(), ctx: cv.getContext('2d') };
+};
+function paintSticker(el, t) {
+  const s = el._stk; if (!s) return;
+  const { W, H, base, shape, tmp, ctx } = s;
+  ctx.clearRect(0, 0, W, H); ctx.drawImage(base, 0, 0);
+  // vinyl gloss: a soft standing highlight, and a bright band that crosses on hover (off the sticker at t = 0)
+  const x = tmp.getContext('2d');
+  x.globalCompositeOperation = 'source-over'; x.clearRect(0, 0, W, H);
+  const p = -.5 + 2 * t;
+  const gr = x.createLinearGradient(W * (p - .3), 0, W * (p + .3), H * .6);
+  gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(.45, 'rgba(255,255,255,.0)'); gr.addColorStop(.5, 'rgba(255,255,255,.55)'); gr.addColorStop(.55, 'rgba(255,255,255,0)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+  const sg = x.createLinearGradient(0, 0, W * .5, H);
+  sg.addColorStop(0, 'rgba(255,255,255,.22)'); sg.addColorStop(.5, 'rgba(255,255,255,0)');
+  x.fillStyle = sg; x.fillRect(0, 0, W, H);
+  if (t) { x.fillStyle = gr; x.fillRect(0, 0, W, H); }
+  x.globalCompositeOperation = 'destination-in'; x.drawImage(shape, 0, 0);
+  ctx.drawImage(tmp, 0, 0);
+}
+
+// Slate: the scene sits right of the board, zoomed a little so it can move without uncovering an edge
+B.slate = async (t, key) => {
+  const i = info(key);
+  fitAll(t);
+  const z = 1.2, wi = 100 * z, hi = 56.25 * z;
+  const [fx, fy] = focus(i);
+  const x = clamp(73 - fx * wi, 100 - wi, 12), y = clamp(26 - fy * hi, 56.25 - hi, 0);
+  t.style.setProperty('--bs', `${wi}cqw auto`);
+  t.style.setProperty('--bp', `${x.toFixed(2)}cqw ${y.toFixed(2)}cqw`);
+};
+
+/* ── motion: t in [0, 1); t = 0 is the still, and the loop closes ── */
+const M = {};
+M.mono = (el, t) => {
+  paintMono(el, t);
+  el.style.setProperty('--pz', (1 + .03 * Math.sin(t * Math.PI) ** 2).toFixed(4));
+};
+M.app = (el, t) => {
+  el.style.setProperty('--pz', (1 + .07 * Math.sin(t * Math.PI) ** 2).toFixed(4));
+  el.style.setProperty('--px', (-1.2 * Math.sin(t * Math.PI * 2)).toFixed(3) + 'cqw');
+};
+M.vhs = (el, t) => {
+  el.querySelectorAll('.hub').forEach(g => g.setAttribute('transform', `rotate(${(t * 120).toFixed(2)} ${g.dataset.cx} 5.5)`));
+  el.style.setProperty('--band', (-6 + 40 * t).toFixed(2) + 'cqw');
+};
+M.film = (el, t) => poseFilm(el, t);
+M.gallery = (el, t) => {
+  el.style.setProperty('--li', (1 + .1 * Math.sin(t * Math.PI * 2)).toFixed(3));
+  el.style.setProperty('--vs', (130 - 160 * t).toFixed(1) + '%');
+};
+
+M.cine = (el, t) => {
+  const a = t * Math.PI * 2;
+  // projector flicker; 1 at t = 0, and the loop closes
+  el.style.setProperty('--fl', (1 + .04 * Math.sin(a * 3) + .025 * (Math.sin(a * 7 + 1.3) - Math.sin(1.3))).toFixed(4));
+  el.style.setProperty('--dy', (-t * 11.5).toFixed(3) + 'cqw');
+};
+const FLAPS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+M.flap = (el, t) => {
+  // each flap shuffles for a while and lands back on its letter; frame 0 is the settled board
+  const f = Math.round(t * 36);
+  el.querySelectorAll('.c[data-ch]').forEach((c, n) => {
+    const start = 1 + (n % 5) * .7, end = Math.min(31, 8 + n * .9);
+    let show = c.dataset.ch, mid = false;
+    if (f >= start && f < end) { const R = rng(el.dataset.key + ':' + n + ':' + f); show = FLAPS[Math.floor(R() * FLAPS.length)]; mid = R() < .5; }
+    if (c.textContent !== show) c.textContent = show;
+    c.classList.toggle('mid', mid);
+  });
+  el.style.setProperty('--pz', (1 + .04 * Math.sin(t * Math.PI) ** 2).toFixed(4));
+};
+M.sticker = (el, t) => {
+  paintSticker(el, t);
+  el.style.setProperty('--wob', (2.5 + .8 * Math.sin(t * Math.PI * 2)).toFixed(3) + 'deg');
+};
+M.slate = (el, t) => {
+  // the sticks open, snap shut a little before halfway, and the board jolts
+  let a = 0;
+  if (t < .42) a = -24 * Math.sin(t / .42 * Math.PI / 2);
+  else if (t < .46) a = -24 * (1 - (t - .42) / .04);
+  el.style.setProperty('--clap', a.toFixed(2) + 'deg');
+  const k = t > .46 && t < .62 ? Math.sin((t - .46) / .16 * Math.PI * 3) * (1 - (t - .46) / .16) : 0;
+  el.style.setProperty('--jolt', (k * .4).toFixed(3) + 'cqw');
+  el.style.setProperty('--pz', (1 + .035 * Math.sin(t * Math.PI) ** 2).toFixed(4));
+};
+
+async function build(root) {
+  await sizeLogos(root);
+  for (const t of root.querySelectorAll('.tile')) {
+    await B[t.dataset.style](t, t.dataset.key);
+    M[t.dataset.style](t, 0);
+  }
+}
+window.setT = t => document.querySelectorAll('#render .tile').forEach(el => M[el.dataset.style](el, t));
+
+const FONTS = ['200 100px "Inter Tight"', '600 100px "Inter Tight"', '750 100px "Inter Tight"', '900 100px "Inter Tight"', 'italic 900 100px Archivo', '800 100px Archivo', '600 100px Fraunces', 'italic 500 100px Fraunces', '400 100px "Lilita One"', '400 100px "Caveat Brush"'];
+const ready = (document.fonts ? Promise.all(FONTS.map(f => document.fonts.load(f))).then(() => document.fonts.ready) : Promise.resolve());
+const rm = location.hash.match(/^#r-(\w+)-([\w-]+)$/);
+if (rm) {
+  document.body.classList.add('render');
+  const r = document.getElementById('render');
+  r.innerHTML = tile(rm[1], rm[2]);
+  ready.then(() => build(r)).then(() => { window.renderReady = true; }, e => { window.renderError = String(e && e.stack || e); });
+} else {
+  const q = new URLSearchParams(location.search), want = q.get('s'), keys = q.get('k');
+  const styles = want ? want.split(',') : Object.keys(STYLES);
+  const rows = keys ? [['Sample', keys.split(',')]] : window.ROWS;
+  document.getElementById('sheet').innerHTML = styles.map(s => `<h1>${esc(STYLES[s])}</h1>` + rows.map(([title, ks]) =>
+    `<h2>${esc(title)}</h2><div class="row">${ks.map(k => tile(s, k)).join('')}</div>`).join('')).join('');
+  ready.then(() => build(document)).then(() => { window.renderReady = true; }, e => { window.renderError = String(e && e.stack || e); });
+}
+</script>

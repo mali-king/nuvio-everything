@@ -1,8 +1,9 @@
-"""Nuvio import files for the four production looks, one per look, beside the Aurora Glass original.
+"""Nuvio import files for the production looks, one per look, beside the Aurora Glass original.
 
-Usage: python3 -I build/style_collections.py RENDER_DIR TAG
+Usage: python3 -I build/style_collections.py RENDER_DIR TAG [look ...]
   RENDER_DIR  export_styles.cjs output (RENDER_DIR/<look>/covers, RENDER_DIR/<look>/anim)
   TAG         git tag the covers are published under, e.g. v2
+  look        only these looks (default: the four v2 looks)
 Each file is everything-collections.json (validated against the addon config by everything.py) with only the
 cover and hover-loop URLs swapped, so every folder, row and source is the same as v1. Covers are served from
 raw.githubusercontent.com/mali-king/nuvio-everything/<TAG>/styles/<look>/. Checks that every URL it writes
@@ -18,9 +19,9 @@ LOOKS = ["polaroid-table", "arcade", "riso-zine", "hype-reel"]
 
 
 def main():
-    render, tag = sys.argv[1], sys.argv[2]
+    render, tag, looks = sys.argv[1], sys.argv[2], sys.argv[3:] or LOOKS
     src = json.load(open(os.path.join(ROOT, "everything-collections.json")))
-    for look in LOOKS:
+    for look in looks:
         base = f"https://raw.githubusercontent.com/mali-king/nuvio-everything/{tag}/styles/{look}/"
         out, missing = json.loads(json.dumps(src)), []
         for coll in out:

@@ -1,5 +1,8 @@
-// Export the four production looks from board/styles.html, every folder.
-// Usage: node export_styles.cjs OUT_DIR [style ...]      styles: pol arc riso hype (default: all four)
+// Export the production looks from a lab page, every folder.
+// Usage: [LAB=styles|looks3] node export_styles.cjs OUT_DIR [style ...]
+//   LAB=styles (default)  board/styles.html, styles pol arc riso hype
+//   LAB=looks3            board/looks3.html, styles mono app (the lab's other styles are unpicked candidates;
+//                         name one to render it)
 //   KEYS=a,b   only these folder keys        NOANIM=1   skip the Top 10 hover loops   ONLYANIM=1   only the loops
 // OUT_DIR/<look>/covers/<collection>/<folder>.webp   1600x900 still (Nuvio's coverImageUrl)
 // OUT_DIR/<look>/anim/<collection>/<folder>.webp     512x288, 36 frames at 10 fps, every frame a keyframe,
@@ -13,12 +16,14 @@ const os = require("os");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const PAGE = path.join(ROOT, "board", "styles.html");
+const LAB = process.env.LAB || "styles";
+const PAGE = path.join(ROOT, "board", `${LAB}.html`);
+const LAB_STYLES = { styles: ["pol", "arc", "riso", "hype"], looks3: ["mono", "app"] };
 const FRAMES = 36;
-const LOOKS = { pol: "polaroid-table", arc: "arcade", riso: "riso-zine", hype: "hype-reel" };
+const LOOKS = { pol: "polaroid-table", arc: "arcade", riso: "riso-zine", hype: "hype-reel", mono: "true-black-mono", app: "showcase", vhs: "vhs-rental", film: "lightbox", gallery: "gallery", cine: "movie-night", flap: "split-flap", sticker: "sticker-pack", slate: "slate" };
 // cwebp / img2webp quality per look: halftone dots and dithered pixels cost far more bytes than photos,
 // so those looks trade a little quality for loops the iPhone can hold in memory.
-const Q = { pol: [82, 70], arc: [80, 66], riso: [78, 58], hype: [82, 70] };
+const Q = { pol: [82, 70], arc: [80, 66], riso: [78, 58], hype: [82, 70], mono: [84, 72], app: [82, 72], vhs: [82, 70], film: [82, 70], gallery: [82, 70], cine: [82, 70], flap: [82, 70], sticker: [84, 72], slate: [82, 70] };
 const js = fs.readFileSync(path.join(ROOT, "board", "folders.js"), "utf8");
 const FOLDERS = JSON.parse(js.match(/window\.FOLDERS = ([\s\S]*?);\nwindow\.ROWS/)[1]);
 
@@ -46,7 +51,7 @@ async function open(ctx, style, key, width, height) {
 
 (async () => {
   const [out, ...only] = process.argv.slice(2);
-  const styles = only.length ? only : Object.keys(LOOKS);
+  const styles = only.length ? only : LAB_STYLES[LAB];
   const keys = process.env.KEYS ? process.env.KEYS.split(",") : Object.keys(FOLDERS);
   const browser = await chromium.launch({ args: ["--allow-file-access-from-files"] });
   const ctx = await browser.newContext({ deviceScaleFactor: 1 });
